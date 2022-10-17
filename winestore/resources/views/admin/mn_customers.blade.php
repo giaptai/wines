@@ -16,7 +16,7 @@
 <body>
     @include('layout.menubar')
     <div class="container" style="width: 80%">
-        
+
         <div class="pt-4 border-top">
             <div class="row row-cols-md-2 row-cols-1 gy-4 justify-content-between">
                 @include('layout.sidebar')
@@ -25,12 +25,15 @@
                         <div class="col-md-auto"><input type="radio" class="btn-check" name="btnradio" id="btnradio1"
                                 autocomplete="off" value="Tổng đơn"><label class="btn btn-outline-primary btn-sm"
                                 for="btnradio1">Tổng tài khoản <span class="badge bg-danger"
-                                    id="badge_tongdon">14</span></label></div>
+                                    id="badge_tongdon"><?= sizeof($accounts) ?></span></label></div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <input type="text" class="form-control form-control-sm" placeholder="Email" id="email">
-                                <input type="tel" class="form-control form-control-sm" placeholder="Số điện thoại" id="phone">
-                                <button class="btn btn-sm btn-primary" type="button" onclick="searchAccounts()">Tìm</button>
+                                <input type="text" class="form-control form-control-sm" placeholder="Email"
+                                    id="email">
+                                <input type="tel" class="form-control form-control-sm"
+                                    placeholder="Số điện thoại" id="phone">
+                                <button class="btn btn-sm btn-primary" type="button"
+                                    onclick="searchAccounts()">Tìm</button>
                             </div>
                         </div>
                     </div>
@@ -46,9 +49,8 @@
                                     <th scope="col">Thao tác</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbody">
                                 @php
-                                    echo ($accounts);
                                     $i = 0;
                                     if (sizeof($accounts) > 0) {
                                         foreach ($accounts as $key => $value) {
@@ -75,16 +77,27 @@
                                 @endphp
                             </tbody>
                         </table>
+
                         <nav aria-label="Page navigation example">
-                            <ul class="pagination pagination-sm justify-content-end">
-                                <li class="page-item disabled"><a class="page-link">Previous</a></li>
+                            <ul class="pagination pagination-sm justify-content-end" id="phantrang">
+                                {{-- <li class="page-item disabled"><a class="page-link">Previous</a></li>
                                 <li class="page-item"><a class="page-link" href="#">1</a></li>
                                 <li class="page-item"><a class="page-link" href="#">2</a></li>
                                 <li class="page-item"><a class="page-link" @disabled(true)>...</a></li>
                                 <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Next</a></li> --}}
+                                <?php
+                                for ($i = 0; $i < ceil($pagin / 10); $i++) {
+                                    if ($i==0) {
+                                        echo '<li class="page-item"><a class="page-link active" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
+                                    } else {
+                                        echo '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
+                                    }
+                                }
+                                ?>
                             </ul>
                         </nav>
+
                     </div>
                 </div>
             </div>
@@ -109,7 +122,11 @@
 
     //tìm kiếm email vaf so dien thoai
     function searchAccounts() {
-        let arr=getAllInput();
+        let arr = getAllInput();
+        // if(arr[0]=='' && arr[1]==''){
+        //     alert('Cần nhập ít nhất 1 trong 2 !');
+        //     return;
+        // }
         // var str = str.children[0].value
         var xhttp = new XMLHttpRequest() || ActiveXObject();
         //Bat su kien thay doi trang thai cuar request
@@ -118,10 +135,35 @@
             if (this.readyState == 4 && this.status == 200) {
                 //In ra data nhan duoc
                 console.log(xhttp.responseText);
+                document.getElementById('tbody').innerHTML = JSON.parse(xhttp.responseText).tbody;
+                document.getElementById('phantrang').innerHTML = JSON.parse(xhttp.responseText).footer;
             }
         }
         //cau hinh request
-        xhttp.open('GET', './search-accounts?email=' + arr[0] +'&phone=' + arr[1]+'&page=' + 1, true);
+        xhttp.open('GET', './search-accounts?email=' + arr[0] + '&phone=' + arr[1] + '&page=' + 1, true);
+        //cau hinh header cho request
+        xhttp.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
+        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        //gui request
+        xhttp.send();
+    }
+
+    function phantrang(id) {
+        let arr = getAllInput();
+        // var str = str.children[0].value
+        var xhttp = new XMLHttpRequest() || ActiveXObject();
+        //Bat su kien thay doi trang thai cuar request
+        xhttp.onreadystatechange = function() {
+            //Kiem tra neu nhu da gui request thanh cong
+            if (this.readyState == 4 && this.status == 200) {
+                //In ra data nhan duoc
+                console.log(JSON.parse(xhttp.responseText));
+                document.getElementById('tbody').innerHTML = JSON.parse(xhttp.responseText).tbody;
+                document.getElementById('phantrang').innerHTML = JSON.parse(xhttp.responseText).footer;
+            }
+        }
+        //cau hinh request
+        xhttp.open('GET', './search-accounts-pagination?email=' + arr[0] + '&phone=' + arr[1] + '&page=' + id, true);
         //cau hinh header cho request
         xhttp.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
         xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
