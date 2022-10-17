@@ -109,7 +109,10 @@
                                 <li class="page-item disabled"><a class="page-link">Previous</a></li>
                                 <?php
                                 for ($i = 0; $i < ceil($pagin / 15); $i++) {
-                                    echo '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
+                                    if($i==0){
+                                        echo '<li class="page-item"><a class="page-link active">' . ($i + 1) . '</a></li>';
+                                    }else echo '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
+                                    
                                 }
                                 ?> 
                                 <li class="page-item"><a class="page-link" >Next</a></li>
