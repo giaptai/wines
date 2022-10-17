@@ -65,7 +65,7 @@
                                     <th scope="col">Thao tác</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbody">
                                 <?php
                                 $i=0;
                                 if(sizeof($orders)>0){
@@ -105,13 +105,14 @@
                             </tbody>
                         </table>
                         <nav aria-label="Page navigation example">
-                            <ul class="pagination pagination-sm justify-content-end">
+                            <ul class="pagination pagination-sm justify-content-end" id="phantrang">
                                 <li class="page-item disabled"><a class="page-link">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#" disabled>...</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                <?php
+                                for ($i = 0; $i < ceil($pagin / 15); $i++) {
+                                    echo '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
+                                }
+                                ?> 
+                                <li class="page-item"><a class="page-link" >Next</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -191,7 +192,9 @@
                 //Kiem tra neu nhu da gui request thanh cong
                 if (this.readyState == 4 && this.status == 200) {
                     //In ra data nhan duoc
-                    console.log(xhttp.responseText);
+                    // console.log(JSON.parse(xhttp.responseText).footer);
+                    document.getElementById('tbody').innerHTML = JSON.parse(xhttp.responseText).tbody;
+                    document.getElementById('phantrang').innerHTML = JSON.parse(xhttp.responseText).footer;
                     // const nextURL = './quanly_donhang.php?trangthai=' + val;
                     // const nextTitle = 'My new page title';
                     // const nextState = {
@@ -212,7 +215,7 @@
             xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             //gui request
             xhttp.send(
-                'page=' + query[1] +
+                'page=1' +
                 '&status=' + query[2]
             );
         })
@@ -220,6 +223,7 @@
 
     //tìm kiếm mã đơn hàng
     function searchOrder(str) {
+        let arr = getAllInput();
         var str = str.children[0].value
         var xhttp = new XMLHttpRequest() || ActiveXObject();
         //Bat su kien thay doi trang thai cuar request
@@ -227,7 +231,9 @@
             //Kiem tra neu nhu da gui request thanh cong
             if (this.readyState == 4 && this.status == 200) {
                 //In ra data nhan duoc
-                console.log(this.responseText);
+                console.log(xhttp.responseText);
+                document.getElementById('tbody').innerHTML = JSON.parse(xhttp.responseText).tbody;
+                document.getElementById('phantrang').innerHTML = JSON.parse(xhttp.responseText).footer;
             }
         }
         //cau hinh request
@@ -236,7 +242,30 @@
         xhttp.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
         xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         //gui request
-        xhttp.send('search=' + str);
+        xhttp.send('search=' + str +'&status=' + arr[2]);
+    }
+
+    function phantrang(id) {
+        let arr = getAllInput();
+        // var str = str.children[0].value
+        var xhttp = new XMLHttpRequest() || ActiveXObject();
+        //Bat su kien thay doi trang thai cuar request
+        xhttp.onreadystatechange = function() {
+            //Kiem tra neu nhu da gui request thanh cong
+            if (this.readyState == 4 && this.status == 200) {
+                //In ra data nhan duoc
+                console.log(xhttp.responseText);
+                document.getElementById('tbody').innerHTML = JSON.parse(xhttp.responseText).tbody;
+                document.getElementById('phantrang').innerHTML = JSON.parse(xhttp.responseText).footer;
+            }
+        }
+        //cau hinh request
+        xhttp.open('GET', './search-orders-pagination?status=' + arr[2] + '&page=' + id, true);
+        //cau hinh header cho request
+        xhttp.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
+        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        //gui request
+        xhttp.send();
     }
 </script>
 

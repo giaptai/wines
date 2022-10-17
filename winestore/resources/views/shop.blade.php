@@ -185,12 +185,15 @@
                         foreach ($products as $key => $value) {
                     ?>
                     <div class="col px-1">
-                        <div class="card rounded rounded-0 h-100 justify-content-center">
+                        <div class="card rounded rounded-0 justify-content-center">
                             <div class="row g-0">
                                 <div class="col-md-5 col-12 m-auto">
-                                    <a href="{{ route('product_details', ['id' => $value->id]) }}">
-                                        <img class="rounded mx-auto d-block" src="{{ $value->image }}" width="150"
-                                            alt="..." style="object-fit: contain" /> </a>
+                                    <div class=""  style="background-image: url('{{ $value->image }}'); background-size: cover; width: 5.5rem; height: 7.5rem;">
+                                        {{-- <a href="{{ route('product_details', ['id' => $value->id]) }}"> --}}
+                                            {{-- <img class="rounded mx-auto d-block" src="{{ $value->image }}" width="115"
+                                                alt="..." style="object-fit: contain" />  --}}
+                                            {{-- </a> --}}
+                                    </div>
                                 </div>
                                 <div class="col-md-7 col-12">
                                     <div class="card-body">

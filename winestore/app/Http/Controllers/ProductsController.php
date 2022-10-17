@@ -23,7 +23,7 @@ class ProductsController extends Controller
         return view('product_details', compact('winedetail'));
     }
 
-    //lấy dữ liệu từ wines cu the
+    //them vao cart
     public function addToCart($id)
     {
         $arr = array('arr1' => '', 'arr2' => 0, 'arr3' => 0);
@@ -36,24 +36,24 @@ class ProductsController extends Controller
         //     return response($arr, 200);
         //     die();
         // } else {
-            if (isset($cart[$id])) {
-                $cart[$id] = [
-                    'id' => $wineArr['id'],
-                    'name' => $wineArr['name'],
-                    'image' => $wineArr['image'],
-                    'quantity' => ++$cart[$id]['quantity'],
-                    'price' => $wineArr['price']
-                ];
-            } else {
-                $cart[$id] = [
-                    'id' => $wineArr['id'],
-                    'name' => $wineArr['name'],
-                    'image' => $wineArr['image'],
-                    'quantity' => 1,
-                    'price' => $wineArr['price']
-                ];
-            }
-            session()->put('cart', $cart);
+        if (isset($cart[$id])) {
+            $cart[$id] = [
+                'id' => $wineArr['id'],
+                'name' => $wineArr['name'],
+                'image' => $wineArr['image'],
+                'quantity' => ++$cart[$id]['quantity'],
+                'price' => $wineArr['price']
+            ];
+        } else {
+            $cart[$id] = [
+                'id' => $wineArr['id'],
+                'name' => $wineArr['name'],
+                'image' => $wineArr['image'],
+                'quantity' => 1,
+                'price' => $wineArr['price']
+            ];
+        }
+        session()->put('cart', $cart);
         // }
         if (session()->has('cart')) {
             foreach (session('cart') as $key => $value) {
@@ -93,7 +93,7 @@ class ProductsController extends Controller
         return response($arr, 200);
     }
 
-    //lấy dữ liệu từ wines cu the
+    //tru so luong cart
     public function minusToCart($id)
     {
         $wineArr = products::find($id);
@@ -110,7 +110,7 @@ class ProductsController extends Controller
         } else session()->pull('cart.' . $id);
 
 
-        $arr = array('arr1' => '', 'arr2' => 0, 'arr3'=>0);
+        $arr = array('arr1' => '', 'arr2' => 0, 'arr3' => 0);
         $sum = 0;
         if (session()->has('cart')) {
             foreach (session('cart') as $key => $value) {
@@ -151,10 +151,10 @@ class ProductsController extends Controller
         return response($arr, 200);
     }
 
-    //lấy dữ liệu từ wines cu the
+    //xoa 1 item trong cart
     public function deletedItemCart($id)
     {
-        $arr = array('arr1' => '', 'arr2' => 0, 'arr3'=>0);
+        $arr = array('arr1' => '', 'arr2' => 0, 'arr3' => 0);
         $sum = 0;
         if (session()->has('cart')) {
             session()->pull('cart.' . $id);
@@ -220,6 +220,7 @@ class ProductsController extends Controller
     {
         return response($request->all(), 200);
         die();
+        $arr = array('tbody' => '', 'footer' => '');
         $arr = $request->all();
         // if (isset($id)) {
         $query = DB::table('wines')->where('id', $arr['id'])->delete();
@@ -285,46 +286,112 @@ class ProductsController extends Controller
         }
     }
 
-    // sửa dữ liệu từ database loi
+    // tìm kiếm từ database loi
     // error thuong gap
     //Cannot use object of type stdClass as array
     //$product["id"] ghi thanh $product->id
     public function searchedProduct(Request $request)
     {
-        $result = '';
+        $arr = array('tbody' => '', 'footer' => '');
+        $count = 0;
+        if ($request->input('search_id') != null && $request->input('search_name') != null) {
+            $query = DB::table('wines')->where('id', $request->input('search_id'))->where('name', 'LIKE', "%{$request->input('search_name')}%")->skip(0)->take(10)->get();
+            $count = DB::table('wines')->where('id', $request->input('search_id'))->where('name', 'LIKE', "%{$request->input('search_name')}%")->count();
+        } else if ($request->input('search_id') != null && $request->input('search_name') == null) {
+            $query = DB::table('wines')->where('id', $request->input('search_id'))->skip(0)->take(10)->get();
+            $count = DB::table('wines')->where('id', $request->input('search_id'))->count();
+        } else if ($request->input('search_id') == null && $request->input('search_name') != null) {
+            $query = DB::table('wines')->where('name', 'LIKE', "%{$request->input('search_name')}%")->skip(0)->take(10)->get();
+            $count = DB::table('wines')->where('name', 'LIKE', "%{$request->input('search_name')}%")->count();
+        } else {
+            $query = DB::table('wines')->skip(0)->take(10)->get();
+            $count = DB::table('wines')->count();
+        }
+    
         $i = 0;
-        $val = request()->all();
-        // return response($request->all(), 200);
-        if($val['search_id']!=NULL || $val['search_name']!=NULL){
-            $wineArray = DB::table('wines')->where('id', $val['search_id'])->where('name', 'LIKE', "%{$val['search_name']}%")->get();
-        }else $wineArray = products::all();
-        // return response($wineArray, 200);
-        if (sizeof($wineArray) > 0) {
-            foreach ($wineArray as $key => $product) {
-                $result .= '<tr>
-                    <th scope="row">' . (++$i) . '</th>
-                    <th scope="row">' . $product->id . '</th>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <img class="img"
-                                src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
-                                width="90">
-                            <span>' . $product->name . '</span>
-                        </div>
-                    </td>
-                    <td>' . $product->quantity . '</td>
-                    <td>' . number_format($product->price) . '</td>
-                    <td>' . number_format($product->price * 6) . '</td>
-                    <td>
-                        <button type="button" class="btn" data-bs-toggle="modal"
-                            data-bs-target="#minhthu' . $product->id . '">
-                            <i class="bi bi-exclamation-circle-fill text-primary"></i>
-                        </button>
-                        <button onclick="deleted(' . $product->id . ')" value="' . $product->id . '" class="delete-btn btn btn-sm bi bi-x-lg text-danger" type="button"></button>
-                    </td>
-                </tr>';
-            };
-        } else $result .= 'Không có kết quả';
-        return response($result, 200); // nếu bên ajax là console.log(xhttp.responseText); thì ra kết quả
+        foreach ($query as $key => $product) {
+            $arr['tbody'] .= '<tr>
+            <th scope="row">' . (++$i) . '</th>
+            <th scope="row">' . $product->id . '</th>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img class="img"
+                        src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
+                        width="90">
+                    <span>' . $product->name . '</span>
+                </div>
+            </td>
+            <td>' . $product->quantity . '</td>
+            <td>' . number_format($product->price) . '</td>
+            <td>' . number_format($product->price * $product->quantity) . '</td>
+            <td>
+                <button type="button" class="btn" data-bs-toggle="modal"
+                    data-bs-target="#minhthu' . $product->id . '">
+                    <i class="bi bi-exclamation-circle-fill text-primary"></i>
+                </button>
+                <button onclick="deleted(' . $product->id . ')" value="' . $product->id . '" class="delete-btn btn btn-sm bi bi-x-lg text-danger" type="button"></button>
+            </td>
+        </tr>';
+        }
+        for ($i = 0; $i < ceil($count / 10); $i++) {
+            if ($request->input('page') - 1 == $i) {
+                $arr['footer'] .=  '<li class="page-item"><a class="page-link active">' . ($i + 1) . '</a></li>';
+            } else $arr['footer'] .=  '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
+        }
+    
+        return response($arr, 200);
+    }
+
+    public function Pagination(Request $request)
+    {
+        $count = 0;
+
+        $arr = array('tbody' => '', 'footer' => '');
+
+        if ($request->input('search_id') != null && $request->input('search_name') != null) {
+            $query = DB::table('wines')->where('id', $request->input('search_id'))->where('name', 'LIKE', "%{$request->input('search_name')}%")->skip(10 * ($request->input('page') - 1))->take(10)->get();
+            $count = DB::table('wines')->where('id', $request->input('search_id'))->where('name', 'LIKE', "%{$request->input('search_name')}%")->count();
+        } else if ($request->input('search_id') != null && $request->input('search_name') == null) {
+            $query = DB::table('wines')->where('id', $request->input('search_id'))->skip(10 * ($request->input('page') - 1))->take(10)->get();
+            $count = DB::table('wines')->where('id', $request->input('search_id'))->skip(10 * ($request->input('page') - 1))->count();
+        } else if ($request->input('search_id') == null && $request->input('search_name') != null) {
+            $query = DB::table('wines')->where('name', 'LIKE', "%{$request->input('search_name')}%")->skip(10 * ($request->input('page') - 1))->take(10)->get();
+            $count = DB::table('wines')->where('name', 'LIKE', "%{$request->input('search_name')}%")->count();
+        } else {
+            $query = DB::table('wines')->skip(10 * ($request->input('page') - 1))->take(10)->get();
+            $count = DB::table('wines')->count();
+        }
+
+        $i = 0;
+        foreach ($query as $key => $product) {
+            $arr['tbody'] .= '<tr>
+            <th scope="row">' . (++$i) . '</th>
+            <th scope="row">' . $product->id . '</th>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img class="img"
+                        src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
+                        width="90">
+                    <span>' . $product->name . '</span>
+                </div>
+            </td>
+            <td>' . $product->quantity . '</td>
+            <td>' . number_format($product->price) . '</td>
+            <td>' . number_format($product->price * $product->quantity) . '</td>
+            <td>
+                <button type="button" class="btn" data-bs-toggle="modal"
+                    data-bs-target="#minhthu' . $product->id . '">
+                    <i class="bi bi-exclamation-circle-fill text-primary"></i>
+                </button>
+                <button onclick="deleted(' . $product->id . ')" value="' . $product->id . '" class="delete-btn btn btn-sm bi bi-x-lg text-danger" type="button"></button>
+            </td>
+        </tr>';
+        }
+        for ($i = 0; $i < ceil($count / 10); $i++) {
+            if ($request->input('page') - 1 == $i) {
+                $arr['footer'] .=  '<li class="page-item"><a class="page-link active">' . ($i + 1) . '</a></li>';
+            } else $arr['footer'] .=  '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
+        }
+        return response($arr, 200);
     }
 }

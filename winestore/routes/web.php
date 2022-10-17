@@ -80,6 +80,8 @@ Route::prefix('admin')->group(function () {
   //tìm sản phẩm
   Route::get('/products/searched', [ProductsController::class, 'searchedProduct'])->name('searched-product');
 
+  Route::get('/search-products-pagination', [ProductsController::class, 'Pagination'])->name('search-products-pagination');
+
   //sửa sản phẩm
   Route::post('/products/edited', [ProductsController::class, 'editedProduct'])->name('edited-product');
 
@@ -93,6 +95,8 @@ Route::prefix('admin')->group(function () {
   //trang quản lý đơn hàng
   Route::get('/orders', [ManageController::class, 'manage_orders'])->name('orders');
 
+  Route::get('/search-orders-pagination', [OrdersController::class, 'OrdersPagination'])->name('search-orders-pagination');
+
   //thay đổi trạng thái đơn hàng
   Route::post('/status-order', [OrdersController::class, 'updateOrder'])->name('status-order');
 
@@ -105,7 +109,9 @@ Route::prefix('admin')->group(function () {
   //trang quản lý khách hàng
   Route::get('/customers', [ManageController::class, 'manage_customers'])->name('customers');
 
-  Route::get('/search-accounts', [AccountsController::class, 'updateAccount'])->name('search-accounts');
+  Route::get('/search-accounts', [AccountsController::class, 'Search'])->name('search-accounts');
+
+  Route::get('/search-accounts-pagination', [AccountsController::class, 'Pagination'])->name('search-accounts-pagination');
   
 });
 

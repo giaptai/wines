@@ -27,8 +27,9 @@ class ManageController extends Controller
     {
         Paginator::useBootstrapFive();
         $wineArray = products::paginate(10);
+        $pagin = products::count();
         // $wineArray=DB::table('wines')-paginate(10);
-        return view('admin/mn_products', compact('wineArray'))->render();
+        return view('admin/mn_products', compact('wineArray', 'pagin'))->render();
     }
 
     //trang quản lý them sản phẩm
@@ -41,13 +42,15 @@ class ManageController extends Controller
     public function manage_orders()
     {
         $orders = orders::paginate(15);
-        return view('admin/mn_orders', compact('orders'));
+        $pagin = orders::count();
+        return view('admin/mn_orders', compact('orders', 'pagin'));
     }
 
     //trang quản lý khách hàng
     public function manage_customers()
     {
-        $accounts = accounts::paginate(15);
-        return view('admin/mn_customers', compact('accounts'));
+        $accounts = accounts::paginate(10);
+        $pagin = accounts::count();
+        return view('admin/mn_customers', compact('accounts', 'pagin'));
     }
 }

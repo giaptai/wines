@@ -92,9 +92,8 @@
                 </div>
             </div>
         </div>
-        @include('layout.footerbar')
     </div>
-
+    @include('layout.footerbar')
 </body>
 
 </html>
