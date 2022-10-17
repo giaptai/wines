@@ -161,7 +161,7 @@ class OrdersController extends Controller
         }
         for ($i = 0; $i < ceil($count / 15); $i++) {
             if($request->input('page')-1==$i){
-                $arr['footer'] .=  '<li class="page-item"><a class="page-link active" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
+                $arr['footer'] .=  '<li class="page-item"><a class="page-link active">' . ($i + 1) . '</a></li>';
             }else $arr['footer'] .=  '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
             
         }
