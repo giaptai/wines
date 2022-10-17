@@ -14,8 +14,8 @@
 </head>
 
 <body>
+    @include('layout.menubar')
     <div class="container" style="width: 80%">
-        @include('layout.menubar')
         <div class="details">
             <h3 class="pt-4 border-bottom">Chi tiết sản phẩm <?php
             if(!isset($winedetail)){
