@@ -20,7 +20,7 @@ class MenuBarController extends Controller
     {
         Paginator::useBootstrapFive();
         $table = products::count();
-        $wineArray = products::paginate(10);
+        $wineArray = products::paginate(12);
         return view('shop',  compact('wineArray', 'table'));
     }
 
