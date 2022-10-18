@@ -30,16 +30,16 @@ function addtocart(id, btn) {
 }
 
 
-function searched(val) {
-    let valuee = val.children[0].value;
-    console.log(valuee);
+function searched() {
+    let valuee = document.getElementById('search_name').value;
+    // console.log(valuee);
     // let arr=getAllInput();
     var xhttp = new XMLHttpRequest() || ActiveXObject();
     xhttp.onreadystatechange = function () {
         //Kiem tra neu nhu da gui request thanh cong
         if (this.readyState == 4 && this.status == 200) {
             console.log(xhttp.responseText);
-            // document.getElementById('show-product').innerHTML = xhttp.responseText;
+            document.getElementById('show-product').innerHTML = JSON.parse(xhttp.responseText).arr1;
         }
     }
     //cau hinh request
