@@ -8,32 +8,32 @@ use Illuminate\Support\Facades\DB;
 class ClientController extends Controller
 {
     //trang quản lý thông tin cá nhân
-    public function my_infor()
+    public function MyInfor()
     {
-        return view('client/my_infor');
+        return view('page/thongtincanhan');
     }
 
     //trang quản lý địa chỉ cá nhân
-    public function my_address()
+    public function MyAddress()
     {
-        return view('client/my_address');
+        return view('page/diachicanhan');
     }
 
     //trang quản lý đơn hàng
-    public function my_order()
+    public function MyOrder()
     {
-        return view('client/my_order');
+        return view('page/donhangcanhan');
     }
 
-    //trang quản lý đơn hàng
-    public function updateInfo(Request $request)
-    {
-        $val = $request->all();
-        $query = DB::table('account')->where('email', $val['email'])->update(
-            [
-                'phone' => $val['phone'],
-            ]
-        );
-        return response($query, 200);
-    }
+    // //trang quản lý đơn hàng
+    // public function updateInfo(Request $request)
+    // {
+    //     $val = $request->all();
+    //     $query = DB::table('account')->where('email', $val['email'])->update(
+    //         [
+    //             'phone' => $val['phone'],
+    //         ]
+    //     );
+    //     return response($query, 200);
+    // }
 }

@@ -1,4 +1,4 @@
-<div class="col-12 col-md-3 bg-light mb-auto p-4 rounded-4 sticky-md-top">
+<div class="col-12 col-md-3 bg-light mb-auto p-4 rounded-0 sticky-md-top">
     <span class="fs-4">Quản lý  @php echo Route::currentRouteName(); @endphp</span>
     <hr>
     <ul class="nav nav-pills flex-column">
@@ -15,8 +15,16 @@
                 <i class="bi bi-receipt"> </i>Đơn hàng</a>
         </li>
         <li>
-            <a class="nav-link @php echo Route::currentRouteName()=='customers' ? 'link-light bg-dark':'link-dark' @endphp" href="{{ route('customers') }}">
+            <a class="nav-link @php echo Route::currentRouteName()=='accounts' ? 'link-light bg-dark':'link-dark' @endphp" href="{{ route('accounts') }}">
                 <i class="bi bi-file-earmark-person"> </i>Khách hàng</a>
+        </li>
+        <li>
+            <a class="nav-link @php echo Route::currentRouteName()=='categories' ? 'link-light bg-dark':'link-dark' @endphp" href="{{ route('categories') }}">
+                <i class="bi bi-tags"> </i>Thể loại</a>
+        </li>
+        <li>
+            <a class="nav-link @php echo Route::currentRouteName()=='brands' ? 'link-light bg-dark':'link-dark' @endphp" href="{{ route('brands') }}">
+                <i class="bi bi-alipay"> </i>Thương hiệu</a>
         </li>
     </ul>
     <hr>
