@@ -66,12 +66,23 @@ class ShopController extends Controller
 
     public function filteredShop(Request $request)
     {
+        $arrcategory=array();
 
-        $checkbox = ($request->input('search_checkbox') == '' ? array('Vang trắng', 'Vang đỏ', 'Vang ngọt') : explode(",", $request->input('search_checkbox')));
+        foreach(DB::table('category')->get('name') as $val){
+            array_push($arrcategory, $val->name);
+        }
+
+        $arrbrand=array();
+
+        foreach(DB::table('brand')->get('name') as $val){
+            array_push($arrbrand, $val->name);
+        }
+
+        $checkbox = ($request->input('search_checkbox') == '' ? $arrcategory : explode(",", $request->input('search_checkbox')));
 
         $country = ($request->input('search_country') == '' ? array('Pháp', 'Ý', 'Chile') : explode(",", $request->input('search_country')));
 
-        $brand = ($request->input('search_brand') == '' ? array('Gruaud-Larose', 'Lucente', 'Concha Y Toro', 'Urbina') : explode(",", $request->input('search_brand')));
+        $brand = ($request->input('search_brand') == '' ? $arrbrand : explode(",", $request->input('search_brand')));
 
         $tone = explode("-", $request->input('search_tone'));
 
@@ -132,6 +143,6 @@ class ShopController extends Controller
 </div>';
             }
         } else $arr['arr1'] .= 'Không tìm thấy !';
-        return response($arr, 200);
+        return response($arr , 200);
     }
 }

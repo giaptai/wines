@@ -9,9 +9,10 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PayController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\ShopController;
-
-
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoriesController;
 use Illuminate\Http\Request;
 
 
@@ -26,14 +27,15 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//trang home
+
 
 // giao dien
 Route::prefix('/')->group(function () {
-
-  //trang quản lý thống kê
+  //trang chủ
   Route::get('/home', [MenuBarController::class, 'home'])->name('home');
 
-  //trang quản lý sản phẩm
+  //trang cửa hàng
   Route::get('/shop', [MenuBarController::class, 'shop'])->name('shop');
 
   Route::get('/shop/details/{id}', [ProductsController::class, 'getWines'])->name('product_details');
@@ -51,9 +53,12 @@ Route::prefix('/')->group(function () {
   //trang quản lý đơn hàng
   Route::get('/cart', [MenuBarController::class, 'cart'])->name('cart');
 
+  Route::get('/cart/distric', [CartController::class, 'getDistric'])->name('get-distric');
+  Route::get('/cart/block', [CartController::class, 'getBlock'])->name('get-block');
+
   Route::post('/pay-cod', [PayController::class, 'addOrder'])->name('pay-cod');
 
-  //trang quản lý khách hàng
+  //trang tài khoản cá nhân
   Route::get('/account', [MenuBarController::class, 'account'])->name('account');
 
   //trang login
@@ -64,12 +69,20 @@ Route::prefix('/')->group(function () {
 
 
 Route::prefix('admin')->group(function () {
-
+  // Controller điều hương vô trang quản lý
   //trang quản lý thống kê
-  Route::get('/statistic', [ManageController::class, 'manage_statistic'])->name('statistic');
-
+  Route::get('/statistic', [ManageController::class, 'Statistic'])->name('statistic');
   //trang quản lý sản phẩm
-  Route::get('/products', [ManageController::class, 'manage_product'])->name('products');
+  Route::get('/products', [ManageController::class, 'Products'])->name('products');
+  //trang quản lý đơn hàng
+  Route::get('/orders', [ManageController::class, 'Orders'])->name('orders');
+  //trang quản lý tài khoản
+  Route::get('/accounts', [ManageController::class, 'Accounts'])->name('accounts');
+  //trang quản lý thể loại
+  Route::get('/categories', [ManageController::class, 'Categories'])->name('categories');
+  //trang quản lý thương hiệu
+  Route::get('/brands', [ManageController::class, 'Brands'])->name('brands');
+  // Controller điều hương vô trang quản lý
 
   //thêm sản phẩm
   Route::get('/products/add-product', [ManageController::class, 'manage_product_add'])->name('add-product');
@@ -92,9 +105,6 @@ Route::prefix('admin')->group(function () {
   // thêm dữ liệu vào database
   Route::get('/products/add-product/add', [ProductsController::class, 'addProduct'])->name('add-product-add');
 
-  //trang quản lý đơn hàng
-  Route::get('/orders', [ManageController::class, 'manage_orders'])->name('orders');
-
   Route::get('/search-orders-pagination', [OrdersController::class, 'OrdersPagination'])->name('search-orders-pagination');
 
   //thay đổi trạng thái đơn hàng
@@ -106,23 +116,29 @@ Route::prefix('admin')->group(function () {
   //lọc đơn hàng
   Route::post('/search-order', [OrdersController::class, 'searchOrder'])->name('search-order');
 
-  //trang quản lý khách hàng
-  Route::get('/customers', [ManageController::class, 'manage_customers'])->name('customers');
-
   Route::get('/search-accounts', [AccountsController::class, 'Search'])->name('search-accounts');
 
   Route::get('/search-accounts-pagination', [AccountsController::class, 'Pagination'])->name('search-accounts-pagination');
-  
+
+  Route::get('/customers', [ManageController::class, 'Accounts'])->name('customers');
+
+  Route::delete('/categories/{id}', [CategoriesController::class, 'delete'])->name('categories-delete');
+
+  Route::put('/categories/{id}', [CategoriesController::class, 'update'])->name('categories-edit');
+
+  Route::delete('/brands/{id}', [BrandsController::class, 'delete'])->name('brands-delete');
+
+  Route::put('/brands/{id}', [BrandsController::class, 'update'])->name('brands-edit');
 });
 
 
 Route::prefix('account')->group(function () {
+  
+  Route::get('/my-account', [ClientController::class, 'MyInfor'])->name('my-account');
 
-  Route::get('/my-account', [ClientController::class, 'my_infor'])->name('my-account');
+  Route::get('/my-address', [ClientController::class, 'MyAddress'])->name('my-address');
+
+  Route::get('/my-order', [ClientController::class, 'MyOrder'])->name('my-order');
 
   Route::post('/my-account/update', [ClientController::class, 'updateInfo'])->name('my-infor-update');
-
-  Route::get('/my-address', [ClientController::class, 'my_address'])->name('my-address');
-
-  Route::get('/my-order', [ClientController::class, 'my_order'])->name('my-order');
 });

@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\products;
+use App\Models\Product;
 
 class ProductsController extends Controller
 {
     //lấy dữ liệu từ wines cu the
     public function getAll()
     {
-        $winedetail = DB::table('wines')->get();
+        $winedetail = DB::table('products')->get();
         return view('product_details', ["winedetail" => $winedetail]);
     }
 
@@ -19,8 +19,8 @@ class ProductsController extends Controller
     //lấy dữ liệu từ wines cu the
     public function getWines($id)
     {
-        $winedetail = DB::table('wines')->where('id', $id)->first();
-        return view('product_details', compact('winedetail'));
+        $winedetail = DB::table('products')->where('id', $id)->first();
+        return view('page/product_details', compact('winedetail'));
     }
 
     //them vao cart
@@ -28,7 +28,7 @@ class ProductsController extends Controller
     {
         $arr = array('arr1' => '', 'arr2' => 0, 'arr3' => 0);
         $sum = 0;
-        $wineArr = products::find($id);
+        $wineArr = Product::find($id);
         $cart = session('cart'); //tao session cart
 
         // if (count($cart) > 10) {
@@ -96,7 +96,7 @@ class ProductsController extends Controller
     //tru so luong cart
     public function minusToCart($id)
     {
-        $wineArr = products::find($id);
+        $wineArr = Product::find($id);
         $cart = session()->get('cart');
         if ($cart[$id]['quantity'] > 1) {
             $cart[$id] = [
