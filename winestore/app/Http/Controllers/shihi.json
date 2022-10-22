@@ -1,32 +1,15 @@
-[
-    {
-        "id": 2,
-        "image": "0",
-        "name": "Baylee Ferry",
-        "country": 2,
-        "brand": 1,
-        "category": 1,
-        "tone": 14,
-        "year": 2022,
-        "description": "Ut ut minima unde repudiandae sunt accusantium et. Velit doloremque pariatur quia harum accusamus architecto atque. Quis et harum repellat necessitatibus veniam rem nisi.",
-        "quantity": 16,
-        "price": 1500000,
-        "created_at": "2022-10-21 10:31:38",
-        "updated_at": "2022-10-21 10:31:38"
-    },
-    {
-        "id": 15,
-        "image": "0",
-        "name": "Katrina Roob",
-        "country": 2,
-        "brand": 1,
-        "category": 1,
-        "tone": 23,
-        "year": 1977,
-        "description": "Veritatis molestiae nihil consequatur odit. Et ab adipisci et. Excepturi vero rerum cum illum aut placeat. Quae eligendi ea non soluta aut voluptatem.",
-        "quantity": 17,
-        "price": 1500000,
-        "created_at": "2022-10-21 10:31:38",
-        "updated_at": "2022-10-21 10:31:38"
-    }
-]
+{
+    "id": 2,
+    "image": "https:\/\/random.imagecdn.app\/90\/120",
+    "name": "Baylee Ferry",
+    "country": "Y\u0301",
+    "brand": "Gruaud-Larose",
+    "category": "Vang \u0111o\u0309",
+    "tone": 14,
+    "year": 2022,
+    "description": "Ut ut minima unde repudiandae sunt accusantium et. Velit doloremque pariatur quia harum accusamus architecto atque. Quis et harum repellat necessitatibus veniam rem nisi.",
+    "quantity": 16,
+    "price": 1500000,
+    "created_at": "2022-10-21T10:31:38.000000Z",
+    "updated_at": "2022-10-21T10:31:38.000000Z"
+}

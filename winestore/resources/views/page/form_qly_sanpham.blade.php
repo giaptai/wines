@@ -33,7 +33,7 @@
         </thead>
         <tbody id="show-product">
             <?php
-            $i=$wineArray->currentPage();
+            $i=10*($wineArray->currentPage()-1)+1;
             $productArr = $wineArray;
             //  die();
             if (sizeof($productArr) > 0) {
@@ -125,49 +125,30 @@
                                             <div class="mb-3">
                                                 <label for="exampleInputPassword1"
                                                     class="form-label">Loại rượu:</label>
-                                                <select class="form-select"
-                                                    id="category-product-modal-<?php echo $value['id']; ?>">
-                                                    <option value="Zippo Armor"
-                                                        <?php echo $value['category'] == 'Vang đỏ' ? 'selected' : ''; ?>>Vang đỏ</option>
-                                                    <option value="Zippo Armor"
-                                                        <?php echo $value['category'] == 'Vang trắng' ? 'selected' : ''; ?>>Vang trắng</option>
-                                                    <option value="Zippo Armor"
-                                                        <?php echo $value['category'] == 'Champange' ? 'selected' : ''; ?>>Champange</option>
+                                                <select class="form-select" id="category-product-modal-<?php echo $value['id']; ?>">
+                                                    @foreach ($categoryArray as $item)
+                                                        <option value="{!! $item->id !!}" {!! $item->id == $value->id  ? 'selected' : ''; !!}>{!! $item->name!!}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
                                             <div class="mb-3">
-                                                <label for="exampleInputPassword1"
-                                                    class="form-label">Thương hiệu:</label>
-                                                <select class="form-select"
-                                                    id="brand-product-modal-<?php echo $value['id']; ?>">
-                                                    <option value="Đồng" <?php echo $value['category'] == 'Vang đỏ' ? 'selected' : ''; ?>>
-                                                        Château Gruaud-Larose</option>
-                                                    <option value="Bạc" <?php echo $value['category'] == 'Vang đỏ' ? 'selected' : ''; ?>>
-                                                        Hennessy</option>
-                                                    <option value="Vàng" <?php echo $value['category'] == 'Vang đỏ' ? 'selected' : ''; ?>>
-                                                        Lucente</option>
-                                                    <option value="Vàng" <?php echo $value['category'] == 'Vang đỏ' ? 'selected' : ''; ?>>
-                                                        Urbina</option>
-                                                    <option value="Vàng" <?php echo $value['category'] == 'Vang đỏ' ? 'selected' : ''; ?>>San
-                                                        Marzano</option>
+                                                <label for="exampleInputPassword1" class="form-label">Thương hiệu:</label>
+                                                <select class="form-select" id="brand-product-modal-<?php echo $value['id']; ?>">
+                                                    @foreach ($brandArray as $item)
+                                                        <option value="{!!$item->id!!}" {!! $item->id == $value->id  ? 'selected' : ''; !!}>{!! $item->name!!}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="mb-3">
-                                                <label for="exampleInputPassword1"
-                                                    class="form-label">Quốc gia:</label>
-                                                <select class="form-select"
-                                                    id="country-product-modal-<?php echo $value['id']; ?>">
-                                                    <option value="Nhật Bản"
-                                                        <?php echo $value['category'] == 'Vang đỏ' ? 'selected' : ''; ?>>Pháp</option>
-                                                    <option value="Hàn Quốc"
-                                                        <?php echo $value['category'] == 'Vang đỏ' ? 'selected' : ''; ?>>Ý</option>
-                                                    <option value="Hàn Quốc"
-                                                        <?php echo $value['category'] == 'Vang đỏ' ? 'selected' : ''; ?>>Tây Ban Nha
-                                                    </option>
+                                                <label for="exampleInputPassword1" class="form-label">Quốc gia:</label>
+                                                <select class="form-select" id="country-product-modal-<?php echo $value['id']; ?>">
+                                                    @foreach ($countryArray as $item)
+                                                        <option value="{!!$item->id!!}" {!! $item->id == $value->id  ? 'selected' : ''; !!}>{!! $item->name!!}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

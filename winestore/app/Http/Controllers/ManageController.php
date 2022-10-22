@@ -31,7 +31,11 @@ class ManageController extends Controller
         Paginator::useBootstrapFive();
         $wineArray = Product::paginate(10);
         $pagin = Product::count();
-        return view('page/quanly_sanpham', compact('wineArray', 'pagin'))->render();
+
+        $countryArray = Country::all();
+        $categoryArray = Category::all();
+        $brandArray = Brand::all();
+        return view('page/quanly_sanpham', compact('wineArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray',));
     }
 
     //trang quản lý đơn hàng
@@ -82,6 +86,27 @@ class ManageController extends Controller
     //trang quản lý them sản phẩm
     public function manage_product_add()
     {
-        return view('admin/mn_product_add');
+        $countryArray = Country::all();
+        $categoryArray = Category::all();
+        $brandArray = Brand::all();
+        return view('page/quanly_sanpham_them', compact('countryArray',  'categoryArray', 'brandArray'));
+    }
+
+    //trang quản lý them thể loại
+    public function manage_category_add()
+    {
+        return view('page/quanly_theloai_them');
+    }
+
+    //trang quản lý them thuong hieu
+    public function manage_brand_add()
+    {
+        return view('page/quanly_thuonghieu_them');
+    }
+
+    //trang quản lý them quốc gia
+    public function manage_country_add()
+    {
+        return view('page/quanly_quocgia_them');
     }
 }

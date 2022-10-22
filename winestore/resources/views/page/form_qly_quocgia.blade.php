@@ -6,7 +6,7 @@
                     class="badge bg-danger" id="badge_tongdon"> <?php echo $pagin; ?></span></label>
         </div>
         <div class="col-md-auto">
-            <a class="btn btn-primary btn-sm" href="{{ route('add-product') }}">Thêm quốc gia </a>
+            <a class="btn btn-primary btn-sm" href="{{ route('add-country') }}">Thêm quốc gia </a>
         </div>
     </div>
 
@@ -23,6 +23,7 @@
 
 <div class="table-responsive">
     <table class="table align-middle table table-hover table-sm">
+
         <thead class="table">
             <tr>
                 <th scope="col">#</th>
@@ -31,6 +32,7 @@
                 <th scope="col">Thao tác</th>
             </tr>
         </thead>
+
         <tbody id="show-product">
             @foreach ($countryArray as $item)
             <tr>
