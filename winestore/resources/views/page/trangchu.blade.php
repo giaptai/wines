@@ -1,6 +1,7 @@
 @extends('home')
 @section('content')
     <div class="CarouselFade">
+       
         <div class="carousel slide carousel-fade carousel-dark">
             <div class="carousel-indicators"><button type="button" data-bs-target="" aria-label="Slide 1" aria-current="true"
                     class="active"></button><button type="button" data-bs-target="" aria-label="Slide 2"
@@ -43,7 +44,7 @@
                         <div class="card card-cover h-100  text-bg-dark rounded-4 shadow-lg"
                             style="background-image: url('https://www.foodandwine.com/thmb/08KJJcjBuKyllCFFY7hDwvq9Z6w=/2000x1125/filters:fill(auto,1)/red-wine-blends-FT-MAG1116-2000-4f3c3e91bcd646ea8a21f2152746ef53.jpg');background-size: cover; background-position: center; min-height: 234px;">
                             <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
-                                <h3 class="display-6 lh-1 fw-bold">Vang đỏ</h3>
+                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[0]->name!!}</h3>
                             </div>
                         </div>
                     </div>
@@ -52,7 +53,7 @@
                         <div class="card card-cover h-100  text-bg-dark rounded-4 shadow-lg"
                             style="background-image: url('https://i.pinimg.com/736x/99/78/6f/99786f008c01c25bda4b744873fdb456.jpg'); background-size: cover;min-height: 234px;">
                             <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
-                                <h3 class="display-6 lh-1 fw-bold">Vang trắng</h3>
+                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[1]['name']!!}</h3>
                             </div>
                         </div>
                     </div>
@@ -60,7 +61,7 @@
                         <div class="card card-cover h-100  text-bg-dark rounded-4 shadow-lg"
                             style="background-image: url('https://us.123rf.com/450wm/alfastudio/alfastudio1708/alfastudio170800724/83369587-a-glass-of-red-wine-and-cut-ham-with-basil-and-pepper-on-a-black-background-tasty-healthy-delicious-.jpg?ver=6');background-size: cover;min-height: 234px;">
                             <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
-                                <h3 class="display-6 lh-1 fw-bold">Vang ngọt</h3>
+                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[2]['name']!!}</h3>
                             </div>
                         </div>
                     </div>
@@ -95,46 +96,39 @@
             @endphp --}}
 
                 <div class="col col-md-6 bg-dark pt-3 pt-md-5 px-md-5 text-center text-white"
-                    style="
+                    style="background-size: cover;
 background-image: url('https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/red-wine-on-a-dark-background-maryana-kankulova.jpg');
 ">
                     <div class="my-3 py-3">
-                        <h2 class="display-5">Screaming Eagle Cabernet 1992</h2>
-                        <p class="lead">Đây là một trong những loại rượu đắt nhất thế giới nhưng được làm từ giống nho
-                            phổ biến Cabernet Sauvignon năm 1992. Người thưởng thức sẽ bị ấn tượng ngay bởi mùi hương
-                            phong phú và nồng nàn từ vị của quả mọng, vani và quả lý chua đen. Chua chát cân bằng đến
-                            tuyệt hảo trong một trong những chai rượu vang đắt nhất thế giới. </p>
+                        <h2 class="display-5">{!! $brandArray[0]->name!!}</h2>
+                        <p class="lead">{!! $brandArray[0]->description !!}</p>
                     </div>
-                    <div class="shadow-sm mx-auto" style="width: 80%; height: 180px; border-radius: 21px 21px 0 0;">
+                    <div class="shadow-sm mx-auto" style="width: 80%; height: 15rem; border-radius: 21px 21px 0 0;">
                         <button class="btn btn-outline-light">Tìm hiểu thêm</button>
                     </div>
                 </div>
                 <div class="col col-md-6 bg-dark pt-3 pt-md-5 px-md-5 text-center text-white "
-                    style="
+                    style="background-size: cover;
 background-image: url('https://images.unsplash.com/photo-1606767208159-1a5fb0a87841?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8d2hpdGUlMjB3aW5lfGVufDB8fDB8fA%3D%3D&w=1000&q=80');
 ">
                     <div class="my-3 py-3">
-                        <h2 class="display-5">1811 Chateau d’Yquem</h2>
-                        <p class="lead">Với Chateau d’Yguem năm 1811 lại là một trường hợp khác. Loại rượu này chứa
-                            lượng đường dư thừa cao, làm cho nó tồn tại trong nhiều thế kỷ. Nó chứa Semillon (80%) và
-                            Sauvignon Blanc (20%), giúp rượu vang tốt và giữ cho nó không bị hư hỏng qua nhiều năm.</p>
+                        <h2 class="display-5">{!! $brandArray[1]->name!!}</h2>
+                        <p class="lead">{!! $brandArray[1]->description !!}</p>
                     </div>
-                    <div class="shadow-sm mx-auto" style="width: 80%; height: 180px; border-radius: 21px 21px 0 0;">
+                    <div class="shadow-sm mx-auto" style="width: 80%; height: 15rem; border-radius: 21px 21px 0 0;">
                         <button class="btn btn-outline-light">Tìm hiểu thêm</button>
 
                     </div>
                 </div>
                 <div class="col col-md-12 bg-dark pt-3 pt-md-5 px-md-5 text-center text-white "
-                    style="background-size: cover;
+                    style="background-size: cover; background-repeat: no-repeat;
 background-image: url('https://cdn.shopify.com/s/files/1/1503/3114/articles/fixed_1_of_1_-3_960x.jpg?v=1600956950');
 ">
                     <div class="my-3 py-3">
-                        <h2 class="display-5">1811 Chateau d’Yquem</h2>
-                        <p class="lead">Với Chateau d’Yguem năm 1811 lại là một trường hợp khác. Loại rượu này chứa
-                            lượng đường dư thừa cao, làm cho nó tồn tại trong nhiều thế kỷ. Nó chứa Semillon (80%) và
-                            Sauvignon Blanc (20%), giúp rượu vang tốt và giữ cho nó không bị hư hỏng qua nhiều năm.</p>
+                        <h2 class="display-5">{!! $brandArray[2]->name !!}</h2>
+                        <p class="lead">{!! $brandArray[2]->description !!}</p>
                     </div>
-                    <div class="shadow-sm mx-auto" style="width: 80%; height: 180px; border-radius: 21px 21px 0 0;">
+                    <div class="shadow-sm mx-auto" style="width: 80%; height: 8em; border-radius: 21px 21px 0 0;">
                         <button class="btn btn-outline-light">Tìm hiểu thêm</button>
 
                     </div>

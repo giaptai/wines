@@ -28,7 +28,7 @@ class BrandsController extends Controller
     {
         $Brand = Brand::findOrFail($id);
         $Brand->update($request->all());
-        return $Brand;
+        return response($Brand, 200);
     }
 
     public function delete(Request $request, $id)

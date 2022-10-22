@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\Account;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Country;
+
 use Illuminate\Pagination\Paginator;
 
 
@@ -20,7 +22,7 @@ class ManageController extends Controller
         $accounts = Account::all();
         $orders = Order::all();
 
-        return view('page/quanly', compact('wines', 'accounts', 'orders'));
+        return view('page/quanly_thongke', compact('wines', 'accounts', 'orders'));
     }
 
     //trang quản lý sản phẩm, lấy dữ liệu từ wines
@@ -66,6 +68,15 @@ class ManageController extends Controller
         $brandArray = Brand::paginate(10);
         $pagin = Brand::count();
         return view('page/quanly_thuonghieu', compact('brandArray', 'pagin'))->render();
+    }
+
+    //trang quản lý quốc gia
+    public function Countries()
+    {
+        Paginator::useBootstrapFive();
+        $countryArray = Country::paginate(10);
+        $pagin = Country::count();
+        return view('page/quanly_quocgia', compact('countryArray', 'pagin'))->render();
     }
 
     //trang quản lý them sản phẩm

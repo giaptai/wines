@@ -2,11 +2,11 @@
     <div class="col-md-auto d-flex">
         <div class="col-md-auto">
             <input type="radio" class="btn-check" autocomplete="off" value="Tổng đơn">
-            <label class="btn btn-outline-primary btn-sm" for="btnradio1">Tổng thương hiệu <span
+            <label class="btn btn-outline-primary btn-sm" for="btnradio1">Tổng quốc gia <span
                     class="badge bg-danger" id="badge_tongdon"> <?php echo $pagin; ?></span></label>
         </div>
         <div class="col-md-auto">
-            <a class="btn btn-primary btn-sm" href="{{ route('add-product') }}">Thêm thương hiệu </a>
+            <a class="btn btn-primary btn-sm" href="{{ route('add-product') }}">Thêm quốc gia </a>
         </div>
     </div>
 
@@ -22,7 +22,7 @@
 </div>
 
 <div class="table-responsive">
-    <table class="table align-middle table-hover table-sm">
+    <table class="table align-middle table table-hover table-sm">
         <thead class="table">
             <tr>
                 <th scope="col">#</th>
@@ -32,7 +32,7 @@
             </tr>
         </thead>
         <tbody id="show-product">
-            @foreach ($brandArray as $item)
+            @foreach ($countryArray as $item)
             <tr>
                 <th scope="row"><?php echo $item->id; ?></th>
                 <th scope="row"><?php echo $item->name; ?></th>
@@ -53,7 +53,7 @@
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Sửa thương hiệu</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Sửa quốc gia</h5>
                             <button type="lbutton" class="btn-close" data-bs-dismiss="modal"
                                 aria-labe="Close">
                             </button>
@@ -72,16 +72,16 @@
                                         <div class="col-md-9">
                                             <div class="form-floating mb-3">
                                                 <input
-                                                    name="name-brand-modal-<?php echo $item->id; ?>"
-                                                    id="name-brand-modal-<?php echo $item->id; ?>"
+                                                    name="name-country-modal-<?php echo $item->id; ?>"
+                                                    id="name-country-modal-<?php echo $item->id; ?>"
                                                     class="form-control"
                                                     value="<?php echo $item->name; ?>">
-                                                <label for="floatingInput">Tên thương hiệu</label>
+                                                <label for="floatingInput">Tên quốc gia</label>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-floating mb-3">
-                                                <textarea class="form-control" id="desc-brand-modal-{{$item->id}}" placeholder="Mô tả gì đó"
+                                                <textarea class="form-control" id="desc-country-modal-{{$item->id}}" placeholder="Mô tả gì đó"
                                                 style="height: 12rem">{{$item->description}}</textarea>
                                                 <label for="floatingInput">Mô tả</label>
                                             </div>
@@ -105,7 +105,7 @@
             @endforeach
         </tbody>
     </table>
-    {!! $brandArray !!}
+    {!! $countryArray !!}
 </div>
 {{-- <nav aria-label="Page navigation example">
     <ul class="pagination pagination-sm justify-content-end" id="phantrang">
@@ -132,15 +132,15 @@
             }
         };
 
-        xhttp.open("DELETE", '/admin/brands/' + ele, true);
+        xhttp.open("DELETE", '/admin/countries/' + ele, true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
         xhttp.send();
     }
 
     function edit(ele) {
-        var name =document.getElementById('name-brand-modal-'+ele).value;
-        var desc =document.getElementById('desc-brand-modal-'+ele).value;
+        var name =document.getElementById('name-country-modal-'+ele).value;
+        var desc =document.getElementById('desc-country-modal-'+ele).value;
 
         var ss1 =document.getElementById(ele).parentElement.parentElement;
         console.log(ele, name, desc, ss1);
@@ -153,14 +153,14 @@
                 ss1.children[2].innerHTML=desc;
             }
         };
-        xhttp.open("PUT", '/admin/brands/' + ele+'?name='+name+'&description='+desc, true);
+        xhttp.open("PUT", '/admin/countries/' + ele+'?name='+name+'&description='+desc, true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
         xhttp.send();
     }
 
     function search(ele) {
-        var newval =document.getElementById('name-category-modal-'+ele).value;
+        var newval =document.getElementById('desc-country-modal-'+ele).value;
         var ss1 =document.getElementById(ele).parentElement.parentElement;
         console.log(ss1);
         var xhttp = new XMLHttpRequest();
@@ -170,7 +170,7 @@
                 ss1.children[1].innerHTML=newval;
             }
         };
-        xhttp.open("PUT", '/admin/brands/' + ele+'?name='+newval, true);
+        xhttp.open("PUT", '/admin/countries/' + ele+'?name='+newval, true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
         xhttp.send();

@@ -1,11 +1,8 @@
-@extends('home')
-@section('content')
-<div class="container-md my-4" style="width: 80%">
-    <div class="row row-cols-md-2 row-cols-1 gy-4 justify-content-between">
-        @include('layout.sidebar')
-        <div class="col-md-9 col-12">
+@extends('page.quanly')
+@section('content_quanly')
+    <div class="col-md-9 col-lg-10">
+        <div class="container-md">
             @include('page.form_qly_theloai')
         </div>
     </div>
-</div>
 @endsection

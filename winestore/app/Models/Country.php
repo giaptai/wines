@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Brand extends Model
+class Country extends Model
 {
     use HasFactory;
-    protected $table="brands";
+    protected $table="countries";
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -18,5 +18,6 @@ class Brand extends Model
     protected $fillable = [
         'name',
         'description',
+        'updated_at'
     ];
 }

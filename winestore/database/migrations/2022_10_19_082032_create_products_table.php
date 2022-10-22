@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('image');
             $table->string('name');
-            $table->string('country');
-            $table->string('brand');
-            $table->string('category');
-            $table->integer('tone');
+            $table->tinyInteger('country',false, true);
+            $table->tinyInteger('brand',false, true);
+            $table->tinyInteger('category',false, true);
+            $table->tinyInteger('tone');
             $table->year('year');
             $table->string('description');
             $table->tinyInteger('quantity');

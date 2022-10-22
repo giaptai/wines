@@ -19,8 +19,8 @@
 </div>
 
 <div class="table-responsive">
-    <table class="table align-middle ">
-        <thead class="table-dark">
+    <table class="table align-middle table-hover table-sm">
+        <thead class="table">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Mã</th>

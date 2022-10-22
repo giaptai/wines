@@ -28,8 +28,8 @@
     </div>
 </div>
 <div class="table-responsive">
-    <table class="table align-middle ">
-        <thead class="table-dark">
+    <table class="table table-hover table-sm">
+        <thead class="table table-striped table-sm">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Mã đơn</th>
