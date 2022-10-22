@@ -2,12 +2,9 @@
 @section('content')
     <div class="container-md mt-4 mb-4" style="width: 80%">
         <div class="details">
-            <h3 class="border-bottom">Chi tiết sản phẩm <?php
-            if (!isset($winedetail)) {
-                die();
-            }
-            ?>
+            <h3 class="border-bottom">Chi tiết sản phẩm 
             </h3>
+            {!! $winedetail !!}
             <div class="row row-cols-md-3 row-cols-1 g-3 border-bottom">
                 <div class="col-md-3">
                     <span class="fw-bold">Quốc gia: </span>

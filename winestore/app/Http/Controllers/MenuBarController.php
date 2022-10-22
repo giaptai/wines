@@ -19,7 +19,7 @@ class MenuBarController extends Controller
     {
         $categoryArray = Category::get('name');
         $brandArray = Brand::all();
-        return view('page.trangchu',compact('categoryArray', 'brandArray'));
+        return view('page.trangchu',compact('categoryArray','brandArray' ));
     }
 
     //trang sản phẩm

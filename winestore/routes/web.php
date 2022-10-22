@@ -88,11 +88,11 @@ Route::prefix('admin')->group(function () {
   //trang quản lý thương hiệu
   Route::get('/brands', [ManageController::class, 'Brands'])->name('brands');
   //trang quản lý quốc gia
-   Route::get('/countries', [ManageController::class, 'Countries'])->name('countries');
+  Route::get('/countries', [ManageController::class, 'Countries'])->name('countries');
   // Controller điều hương vô trang quản lý
 
   //thêm sản phẩm
-  Route::get('/products/add-product', [ManageController::class, 'manage_product_add'])->name('add-product');
+  Route::get('/products-add', [ManageController::class, 'manage_product_add'])->name('add-product');
 
   //xóa sản phẩm
   Route::get('/products/deleted', [ProductsController::class, 'deletedProduct'])->name('deleted-product');
@@ -129,22 +129,25 @@ Route::prefix('admin')->group(function () {
 
   Route::get('/customers', [ManageController::class, 'Accounts'])->name('customers');
 
-  Route::delete('/categories/{id}', [CategoriesController::class, 'delete'])->name('categories-delete');
 
+
+  Route::delete('/categories/{id}', [CategoriesController::class, 'delete'])->name('categories-delete');
   Route::put('/categories/{id}', [CategoriesController::class, 'update'])->name('categories-edit');
+  Route::get('/add-category', [ManageController::class, 'manage_category_add'])->name('add-category');
 
   Route::delete('/brands/{id}', [BrandsController::class, 'delete'])->name('brands-delete');
-
   Route::put('/brands/{id}', [BrandsController::class, 'update'])->name('brands-edit');
+  Route::get('/add-brand', [ManageController::class, 'manage_brand_add'])->name('add-brand');
 
-  Route::delete('/countries/{id}', [CountriesController::class, 'delete'])->name('brands-delete');
+  Route::delete('/countries/{id}', [CountriesController::class, 'delete'])->name('countries-delete');
+  Route::put('/countries/{id}', [CountriesController::class, 'update'])->name('countries-edit');
+  Route::get('/add-country', [ManageController::class, 'manage_country_add'])->name('add-country');
 
-  Route::put('/countries/{id}', [CountriesController::class, 'update'])->name('brands-edit');
 });
 
 
 Route::prefix('account')->group(function () {
-  
+
   Route::get('/my-account', [ClientController::class, 'MyInfor'])->name('my-account');
 
   Route::get('/my-address', [ClientController::class, 'MyAddress'])->name('my-address');

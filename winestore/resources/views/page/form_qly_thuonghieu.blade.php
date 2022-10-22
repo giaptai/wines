@@ -6,7 +6,7 @@
                     class="badge bg-danger" id="badge_tongdon"> <?php echo $pagin; ?></span></label>
         </div>
         <div class="col-md-auto">
-            <a class="btn btn-primary btn-sm" href="{{ route('add-product') }}">Thêm thương hiệu </a>
+            <a class="btn btn-primary btn-sm" href="{{ route('add-brand') }}">Thêm thương hiệu </a>
         </div>
     </div>
 

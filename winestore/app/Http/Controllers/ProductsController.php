@@ -19,7 +19,21 @@ class ProductsController extends Controller
     //lấy dữ liệu từ wines cu the
     public function getWines($id)
     {
-        $winedetail = DB::table('products')->where('id', $id)->first();
+        // $winedetail = DB::table('products')->where('id', $id)->first();
+
+        $winedetail =Product::
+            select(
+                'products.*',
+                'categories.name as category',
+                'countries.name as country',
+                'brands.name as brand'
+            )
+            ->join('categories', 'categories.id','products.category')
+            ->join('brands', 'brands.id', 'products.brand')
+            ->join('countries', 'countries.id', 'products.country')
+            ->where('products.id', $id)
+            ->first();
+
         return view('page/product_details', compact('winedetail'));
     }
 
