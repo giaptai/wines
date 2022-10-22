@@ -37,10 +37,10 @@
                                     </td>
                                     <td>
                                         <div class="d-flex">
-                                            <button class="btn bi bi-dash-circle"
+                                            <button class="btn bi bi-dash-circle" id="btndel<?php echo $value['id']; ?>"
                                                 onclick="minustocart(<?php echo $value['id']; ?>)"></button>
-                                            <input type="text" min="1" max="99" step="1" disabled
-                                                class="btn" value="<?php echo $value['quantity']; ?>"
+                                            <input id="inp<?php echo $value['id']; ?>" type="number" min="1" max="99"
+                                                step="1" disabled value="<?php echo $value['quantity']; ?>"
                                                 style="text-align: center; width: 3rem;">
                                             <button class="btn bi bi-plus-circle"
                                                 onclick="addtocart(<?php echo $value['id']; ?>)"></button>
@@ -51,7 +51,7 @@
                                         <div class="row">
                                             <span class="col-12"><?php echo number_format($value['price'] * $value['quantity']); ?></span>
                                             <span class="col-12 text-decoration-underline text-danger"
-                                                onclick="deletedItem(<?php echo $value['id']; ?>)">Xóa</span>
+                                                onclick="removeItemCart(<?php echo $value['id']; ?>)">Xóa</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -65,8 +65,7 @@
                                 <tr>
                                     <td colspan="2" class="fw-bolder fs-5" style="text-align: right;">Tổng:</td>
                                     <td class="fs-5" id="tongtien"><?php echo number_format($sum); ?></td>
-                                    <td><a class="btn btn-outline-warning btn-sm" id="deletedall"
-                                            href="{{ route('add_to_cart', ['id' => 74]) }}">Xóa tất cả</a></td>
+                                    <td><a class="btn btn-outline-warning btn-sm" id="deletedall">Xóa tất cả</a></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -96,7 +95,7 @@
                         <div class="row mb-3">
                             <label for="inputPassword3" class="col-sm-4 col-form-label">Địa chỉ</label>
                             <div class="col-sm-8">
-                                <select class="form-select mb-2" aria-label="Default select example"
+                                <select class="form-select mb-2" aria-label="Default select example" id="thanhpho"
                                     onchange="getDistric(this)">
                                     <option selected class="text-center">------Thành phố------</option>
                                     <?php
@@ -182,6 +181,56 @@
             };
 
             xhttp.open("GET", "/cart/block?id=" + ele.value, true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
+            xhttp.send();
+        }
+
+        function minustocart(id) {
+            console.log(id);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('inp' + id).stepDown(1);
+
+                    console.log(this.responseText);
+                    // console.log(document.getElementById('btndel'+id).parentElement.parentElement.);
+                }
+            };
+
+            xhttp.open("GET", "/minus-to-cart/" + id, true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
+            xhttp.send();
+        }
+
+        function addtocart(id) {
+           
+            console.log(id);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('inp' + id).stepUp(1);
+                    console.log(this.responseText);
+                }
+            };
+
+            xhttp.open("GET", "/add-to-cart/" + id, true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
+            xhttp.send();
+        }
+
+        function removeItemCart(id) {
+            console.log(id);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText);
+                }
+            };
+
+            xhttp.open("GET", "/del-item-cart/" + id, true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
             xhttp.send();

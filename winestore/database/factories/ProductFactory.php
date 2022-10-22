@@ -22,14 +22,14 @@ class ProductFactory extends Factory
         return [
             'image' => fake()->image(),
             'name' => fake()->name(),
-            'country' => fake()->country(),
-            'brand' => fake()->name(),
-            'category' => fake()->name(),
-            'tone' => 10,
+            'country' => rand(1,3),
+            'brand' => rand(1,3),
+            'category' => rand(1,3),
+            'tone' => rand(10,25),
             'year' => fake()->year(),
-            'description' => fake()->text(150),
-            'quantity' => 10,
-            'price' => 1500000
+            'description' => fake()->text(180),
+            'quantity' => rand(1,30),
+            'price' => rand(100000, 200000000)
         ];
     }
 }

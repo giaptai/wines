@@ -23,133 +23,6 @@ class ProductsController extends Controller
         return view('page/product_details', compact('winedetail'));
     }
 
-    //them vao cart
-    public function addToCart($id)
-    {
-        $arr = array('arr1' => '', 'arr2' => 0, 'arr3' => 0);
-        $sum = 0;
-        $wineArr = Product::find($id);
-        $cart = session('cart'); //tao session cart
-
-        // if (count($cart) > 10) {
-        //     $arr['arr1'] = 'Tối đa 10 sản phẩm';
-        //     return response($arr, 200);
-        //     die();
-        // } else {
-        if (isset($cart[$id])) {
-            $cart[$id] = [
-                'id' => $wineArr['id'],
-                'name' => $wineArr['name'],
-                'image' => $wineArr['image'],
-                'quantity' => ++$cart[$id]['quantity'],
-                'price' => $wineArr['price']
-            ];
-        } else {
-            $cart[$id] = [
-                'id' => $wineArr['id'],
-                'name' => $wineArr['name'],
-                'image' => $wineArr['image'],
-                'quantity' => 1,
-                'price' => $wineArr['price']
-            ];
-        }
-        session()->put('cart', $cart);
-        // }
-        if (session()->has('cart')) {
-            foreach (session('cart') as $key => $value) {
-                $sum += $value['price'] * $value['quantity'];
-                $arr['arr1'] .= '<tr>
-            <td>
-                <div class="d-flex flex-column align-items-center">
-                    <img class="img"
-                        src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
-                        width="82"><span class="">' . $value['name'] . '</span>
-                </div>
-            </td>
-            <td>
-                <div class="d-flex">
-                    <button class="btn bi bi-dash-circle"
-                        onclick="minustocart(' . $value['id'] . ')"></button>
-                    <input type="text" min="1" max="99" step="1" disabled
-                        class="btn" value="' . $value['quantity'] . '"
-                        style="text-align: center; width: 3rem;">
-                    <button class="btn bi bi-plus-circle"
-                        onclick="addtocart(' . $value['id'] . ')"></button>
-                </div>
-            </td>
-            <td>' . number_format($value['price']) . '</td>
-            <td>
-                <div class="row">
-                    <span class="col-12">' . number_format($value['price'] * $value['quantity']) . '</span>
-                    <span class="col-12 text-decoration-underline text-danger"
-                        onclick="deletedItem(' . $value['id'] . ')">Xóa</span>
-                </div>
-            </td>
-        </tr>';
-            }
-            $arr['arr2'] = number_format($sum);
-            $arr['arr3'] = $sum;
-        }
-        return response($arr, 200);
-    }
-
-    //tru so luong cart
-    public function minusToCart($id)
-    {
-        $wineArr = Product::find($id);
-        $cart = session()->get('cart');
-        if ($cart[$id]['quantity'] > 1) {
-            $cart[$id] = [
-                'id' => $wineArr['id'],
-                'name' => $wineArr['name'],
-                'image' => $wineArr['image'],
-                'quantity' => --$cart[$id]['quantity'],
-                'price' => $wineArr['price']
-            ];
-            session()->put('cart', $cart);
-        } else session()->pull('cart.' . $id);
-
-
-        $arr = array('arr1' => '', 'arr2' => 0, 'arr3' => 0);
-        $sum = 0;
-        if (session()->has('cart')) {
-            foreach (session('cart') as $key => $value) {
-                $sum += $value['price'] * $value['quantity'];
-                $arr['arr1'] .= '<tr>
-            <td>
-                <div class="d-flex flex-column align-items-center">
-                    <img class="img"
-                        src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
-                        width="82"><span class="">' . $value['name'] . '</span>
-                </div>
-            </td>
-            <td>
-                <div class="d-flex">
-                    <button class="btn bi bi-dash-circle"
-                        onclick="minustocart(' . $value['id'] . ')"></button>
-                    <input type="text" min="1" max="99" step="1" disabled
-                        class="btn" value="' . $value['quantity'] . '"
-                        style="text-align: center; width: 3rem;">
-                    <button class="btn bi bi-plus-circle"
-                        onclick="addtocart(' . $value['id'] . ')"></button>
-                </div>
-            </td>
-            <td>' . number_format($value['price']) . '</td>
-            <td>
-                <div class="row">
-                    <span class="col-12">' . number_format($value['price'] * $value['quantity']) . '</span>
-                    <span class="col-12 text-decoration-underline text-danger"
-                        onclick="deletedItem(' . $value['id'] . ')">Xóa</span>
-                </div>
-            </td>
-        </tr>';
-            }
-            $arr['arr2'] = number_format($sum);
-            $arr['arr3'] = $sum;
-        }
-
-        return response($arr, 200);
-    }
 
     //xoa 1 item trong cart
     public function deletedItemCart($id)
@@ -307,7 +180,7 @@ class ProductsController extends Controller
             $query = DB::table('wines')->skip(0)->take(10)->get();
             $count = DB::table('wines')->count();
         }
-    
+
         $i = 0;
         foreach ($query as $key => $product) {
             $arr['tbody'] .= '<tr>
@@ -338,7 +211,7 @@ class ProductsController extends Controller
                 $arr['footer'] .=  '<li class="page-item"><a class="page-link active">' . ($i + 1) . '</a></li>';
             } else $arr['footer'] .=  '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
         }
-    
+
         return response($arr, 200);
     }
 

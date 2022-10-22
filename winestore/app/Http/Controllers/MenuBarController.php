@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Country;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\Paginator;
@@ -16,18 +17,21 @@ class MenuBarController extends Controller
     //trang home
     public function home()
     {
-        return view('page.trangchu');
+        $categoryArray = Category::get('name');
+        $brandArray = Brand::all();
+        return view('page.trangchu',compact('categoryArray', 'brandArray'));
     }
 
     //trang sản phẩm
     public function shop()
     {
         Paginator::useBootstrapFive();
-        $table = Product::count();
+        $paginate = Product::count();
         $wineArray = Product::paginate(12);
+        $countryArray = Country::all();
         $categoryArray = Category::all();
         $brandArray = Brand::all();
-        return view('page.cuahang',  compact('wineArray','categoryArray','brandArray','table'));
+        return view('page.cuahang',  compact('wineArray', 'countryArray', 'categoryArray', 'brandArray', 'paginate'));
     }
 
     //trang quản lý sản phẩm

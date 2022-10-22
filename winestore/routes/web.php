@@ -13,6 +13,9 @@ use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CountriesController;
+use App\Http\Controllers\SessionController;
+
 use Illuminate\Http\Request;
 
 
@@ -42,13 +45,15 @@ Route::prefix('/')->group(function () {
 
   Route::get('/shop/search', [ShopController::class, 'searchedShop'])->name('searched_shop');
 
-  Route::get('/shop/filter', [ShopController::class, 'filteredShop'])->name('filtered_shop');
+  Route::get('/shop/filter', [ShopController::class, 'FilterShop'])->name('filter_shop');
 
-  Route::get('/add-to-cart/{id}', [ProductsController::class, 'addToCart'])->name('add_to_cart');
+  Route::post('/store-to-cart/{id}', [SessionController::class, 'store'])->name('store_to_cart');
 
-  Route::get('/minus-to-cart/{id}', [ProductsController::class, 'minusToCart'])->name('minus_to_cart');
+  Route::get('/minus-to-cart/{id}', [SessionController::class, 'minus'])->name('minus_to_cart');
 
-  Route::get('/del-item-cart/{id}', [ProductsController::class, 'deletedItemCart'])->name('del-item-cart');
+  Route::get('/add-to-cart/{id}', [SessionController::class, 'add'])->name('add_to_cart');
+
+  Route::get('/del-item-cart/{id}', [SessionController::class, 'delete'])->name('del-item-cart');
 
   //trang quản lý đơn hàng
   Route::get('/cart', [MenuBarController::class, 'cart'])->name('cart');
@@ -82,6 +87,8 @@ Route::prefix('admin')->group(function () {
   Route::get('/categories', [ManageController::class, 'Categories'])->name('categories');
   //trang quản lý thương hiệu
   Route::get('/brands', [ManageController::class, 'Brands'])->name('brands');
+  //trang quản lý quốc gia
+   Route::get('/countries', [ManageController::class, 'Countries'])->name('countries');
   // Controller điều hương vô trang quản lý
 
   //thêm sản phẩm
@@ -129,6 +136,10 @@ Route::prefix('admin')->group(function () {
   Route::delete('/brands/{id}', [BrandsController::class, 'delete'])->name('brands-delete');
 
   Route::put('/brands/{id}', [BrandsController::class, 'update'])->name('brands-edit');
+
+  Route::delete('/countries/{id}', [CountriesController::class, 'delete'])->name('brands-delete');
+
+  Route::put('/countries/{id}', [CountriesController::class, 'update'])->name('brands-edit');
 });
 
 

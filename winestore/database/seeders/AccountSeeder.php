@@ -18,15 +18,15 @@ class AccountSeeder extends Seeder
     public function run()
     {
         //
-        Account::factory()->count(1)->create();
+        Account::factory()->count(5)->create();
 
-        Account::factory()->create([
-            'name' => 'Nguyễn Thị Minh Thư',
-            'email' => 'minhthu@gmail.com',
-            'phone' => fake()->unique()->phoneNumber(),
-            'email_verified_at' => now(),
-            'password' => 122332, // password
-            'remember_token' => Str::random(8),
-        ]);
+        // Account::factory()->create([
+        //     'name' => 'Nguyễn Thị Minh Thư',
+        //     'email' => 'minhthu@gmail.com',
+        //     'phone' => fake()->unique()->phoneNumber(),
+        //     'email_verified_at' => now(),
+        //     'password' => 122332, // password
+        //     'remember_token' => Str::random(8),
+        // ]);
     }
 }

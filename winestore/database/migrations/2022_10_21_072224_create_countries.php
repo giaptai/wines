@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('brands', function (Blueprint $table) {
-            $table->tinyIncrements('id');;
-            $table->string('name', 30)->unique();
+        Schema::create('countries', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
             $table->text('description');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('countries');
     }
 };
