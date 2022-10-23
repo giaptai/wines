@@ -9,7 +9,7 @@
         ?>
         <div class="pt-4 border-top">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="">
                         <table class="table table-sm align-middle">
                             <thead class="table-dark">
@@ -29,10 +29,10 @@
                             ?>
                                 <tr>
                                     <td>
-                                        <div class="d-flex flex-column align-items-center">
+                                        <div class="d-flex">
                                             <img class="img"
                                                 src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
-                                                width="82"><span class=""><?php echo $value['name']; ?></span>
+                                                width="120"><span class=""><?php echo $value['name']; ?></span>
                                         </div>
                                     </td>
                                     <td>
@@ -40,8 +40,8 @@
                                             <button class="btn bi bi-dash-circle" id="btndel<?php echo $value['id']; ?>"
                                                 onclick="minustocart(<?php echo $value['id']; ?>)"></button>
                                             <input id="inp<?php echo $value['id']; ?>" type="number" min="1" max="99"
-                                                step="1" disabled value="<?php echo $value['quantity']; ?>"
-                                                style="text-align: center; width: 3rem;">
+                                                class="bg-white border-0 text-center" step="1" disabled
+                                                value="<?php echo $value['quantity']; ?>" size="1">
                                             <button class="btn bi bi-plus-circle"
                                                 onclick="addtocart(<?php echo $value['id']; ?>)"></button>
                                         </div>
@@ -51,7 +51,8 @@
                                         <div class="row">
                                             <span class="col-12"><?php echo number_format($value['price'] * $value['quantity']); ?></span>
                                             <span class="col-12 text-decoration-underline text-danger"
-                                                onclick="removeItemCart(<?php echo $value['id']; ?>)">Xóa</span>
+                                                onclick="removeItemCart(<?php echo $value['id']; ?>)"><i class="bi bi-trash3">
+                                                </i></span>
                                         </div>
                                     </td>
                                 </tr>
@@ -61,17 +62,17 @@
                             }else echo '<tr><td colspan="4">Không có sản phẩm nào trong giỏ hàng</td></tr>';
                             ?>
                             </tbody>
-                            <tfoot>
+                            {{-- <tfoot>
                                 <tr>
                                     <td colspan="2" class="fw-bolder fs-5" style="text-align: right;">Tổng:</td>
                                     <td class="fs-5" id="tongtien"><?php echo number_format($sum); ?></td>
                                     <td><a class="btn btn-outline-warning btn-sm" id="deletedall">Xóa tất cả</a></td>
                                 </tr>
-                            </tfoot>
+                            </tfoot> --}}
                         </table>
                     </div>
                 </div>
-                <div class="col-md-4" style="">
+                <div class="col-md-5" style="">
                     <form class="p-3 mb-3 border">
                         <h4>THÔNG TIN KHÁCH HÀNG</h4>
                         <div class="row mb-3">
@@ -88,10 +89,12 @@
                                     value="0921123435">
                             </div>
                         </div>
+
                         <div class="row mb-3"><label for="inputPassword3" class="col-sm-4 col-form-label">Email</label>
                             <div class="col-sm-8"><input type="email" class="form-control" id="pay-email" name="pay-email"
                                     value="minhthu@gmail.com"></div>
                         </div>
+                        <hr>
                         <div class="row mb-3">
                             <label for="inputPassword3" class="col-sm-4 col-form-label">Địa chỉ</label>
                             <div class="col-sm-8">
@@ -117,6 +120,7 @@
                             </div>
 
                         </div>
+                        <hr>
                         <div class="row mb-3">
                             <label for="inputPassword3" class="col-sm-4 col-form-label fw-semibold">Thanh toán</label>
                             <div class="col-sm-8">
@@ -191,10 +195,9 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById('inp' + id).stepDown(1);
-
                     console.log(this.responseText);
-                    // console.log(document.getElementById('btndel'+id).parentElement.parentElement.);
+                    document.getElementById('cart-table').innerHTML = JSON.parse(this.responseText).arr1
+                    document.getElementById('pay-sum').innerHTML = JSON.parse(this.responseText).paysum;
                 }
             };
 
@@ -205,13 +208,18 @@
         }
 
         function addtocart(id) {
-           
             console.log(id);
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById('inp' + id).stepUp(1);
-                    console.log(this.responseText);
+                    if (this.responseText == 'Vượt số lượng kho !') {
+                        alert('Vượt số lượng kho !')
+                    } else {
+                        document.getElementById('cart-table').innerHTML = JSON.parse(this.responseText).arr1
+                        document.getElementById('pay-sum').innerHTML = JSON.parse(this.responseText).paysum;
+                    }
+
+
                 }
             };
 
@@ -227,6 +235,8 @@
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(this.responseText);
+                    document.getElementById('cart-table').innerHTML = JSON.parse(this.responseText).arr1
+                    document.getElementById('pay-sum').innerHTML = JSON.parse(this.responseText).paysum;
                 }
             };
 

@@ -24,7 +24,9 @@
 
                 </div>
                 <div class="col-md-4 text-center">
-                    <img class="img-thumbnail p-4" src="<?php echo $winedetail->image; ?>" alt="description of image">
+                    <img class="img-thumbnail p-3" src="https://random.imagecdn.app/330/360
+                    {{-- <?php echo $winedetail->image; ?> --}}
+                    " alt="description of image">
                 </div>
                 <div class="col-md-5">
                     <div class="mota">

@@ -7,13 +7,14 @@
             <div class="row justify-content-between">
                 <div class="col-md-5 ">
                     <div class="d-flex align-items-center">
-                        <select class="form-select text-center" aria-label="Default select example" style="width: 11rem">
-                            <option selected>-----Xếp theo------</option>
-                            <option value="1">Giá thấp đến cao</option>
-                            <option value="2">Giá cao đến thấp</option>
+                        <select id="dispose" class="form-select text-center" aria-label="Default select example"
+                            style="width: 11rem">
+                            <option selected value="">-----Xếp theo------</option>
+                            <option value="ASC">Giá thấp đến cao</option>
+                            <option value="DESC">Giá cao đến thấp</option>
                         </select>
-                        <span class="fw-semibold text-danger mx-2" id="soluong"> (Có <?php echo $paginate; ?> sản phẩm)
-                        </span>
+                        <span class="fw-semibold text-danger mx-2" id="soluong"> (Có <?php echo $paginate; ?> sản
+                            phẩm)</span>
                     </div>
 
                 </div>
@@ -261,10 +262,16 @@
             xhttp.send();
         }
 
-        // document.querySelector('.btn-submit').addEventListener("click",(event)=>{
-        //     event.preventDefault();
-        //     console.log(formOk.submit());
-        // });
+        // unchekc()
+
+        // function unchekc() {
+        //     var chbox = document.querySelectorAll('.input-checkbox');
+        //     for (var i = 0; i < chbox.length; i++) {
+        //         if (i != 0) {
+        //             chbox[0].checked = false;
+        //         }
+        //     }
+        // }
 
         function filter(id) {
             let btn = document.getElementById('btn' + id);
@@ -280,13 +287,12 @@
 
             var firstprice = document.getElementById('first-price').value;
             var lastprice = document.getElementById('last-price').value;
-
+            var dispose = document.getElementById('dispose').value;
 
             for (var i = 0; i < chbox.length; i++) {
                 if (chbox[i].checked) {
                     // arr.push(chbox[i].id.replace('wine', ''));
                     arr.push(chbox[i].value);
-
                 }
             }
 
@@ -316,10 +322,10 @@
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(JSON.parse(this.responseText));
                     // console.log(this.responseText);
-
                     document.getElementById('show-product').innerHTML = JSON.parse(this.responseText).showproduct;
                     document.getElementById('phantrang').innerHTML = JSON.parse(this.responseText).pagin;
-
+                    document.getElementById('soluong').innerText = '(Có ' + JSON.parse(this.responseText).soluong +
+                        ' sản phẩm)';
                 }
             };
             xhttp.open(formOk.method, '/shop/filter?arr=' + arr +
@@ -327,7 +333,73 @@
                 '&arr3=' + arr3 +
                 '&arr4=' + arr4 +
                 '&firstprice=' + firstprice +
-                '&lastprice=' + lastprice,
+                '&lastprice=' + lastprice +
+                '&dispose=' + dispose,
+                true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
+            xhttp.send();
+        }
+
+        function phantrang(page) {
+            let arr = [];
+            let arr2 = [];
+            let arr3 = [];
+            let arr4 = [];
+
+            var chbox = document.querySelectorAll('.input-checkbox');
+            var country = document.querySelectorAll('.input-country');
+            var brand = document.querySelectorAll('.input-brand');
+            var tone = document.querySelectorAll('.input-tone');
+
+            var firstprice = document.getElementById('first-price').value;
+            var lastprice = document.getElementById('last-price').value;
+            var dispose = document.getElementById('dispose').value;
+
+            for (var i = 0; i < chbox.length; i++) {
+                if (chbox[i].checked) {
+                    // arr.push(chbox[i].id.replace('wine', ''));
+                    arr.push(chbox[i].value);
+                }
+            }
+
+            for (var i = 0; i < country.length; i++) {
+                if (country[i].checked) {
+                    arr2.push(country[i].value);
+                }
+            }
+
+            for (var i = 0; i < brand.length; i++) {
+                if (brand[i].checked) {
+                    arr3.push(brand[i].value);
+                }
+            }
+
+            for (var i = 0; i < tone.length; i++) {
+                if (tone[i].checked) {
+                    arr4.push(tone[i].value);
+                }
+            }
+            console.log('ok:=' + arr4);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(JSON.parse(this.responseText));
+                    console.log(document.getElementById('soluong'));
+                    document.getElementById('show-product').innerHTML = JSON.parse(this.responseText).showproduct;
+                    document.getElementById('phantrang').innerHTML = JSON.parse(this.responseText).pagin;
+                    document.getElementById('soluong').innerText = '(Có ' + JSON.parse(this.responseText).soluong +
+                        ' sản phẩm)';
+                }
+            };
+            xhttp.open(formOk.method, '/shop/filter?arr=' + arr +
+                '&arr2=' + arr2 +
+                '&arr3=' + arr3 +
+                '&arr4=' + arr4 +
+                '&firstprice=' + firstprice +
+                '&lastprice=' + lastprice +
+                '&page=' + page +
+                '&dispose=' + dispose,
                 true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
