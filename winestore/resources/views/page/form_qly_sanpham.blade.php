@@ -1,19 +1,17 @@
 <div class="p-3 row row-cols-1 row-cols-md-3 sticky-top bg-light">
     <div class="col-md-auto">
         <input type="radio" class="btn-check" autocomplete="off" value="Tổng đơn">
-        <label class="btn btn-outline-primary btn-sm" for="btnradio1">Tổng sản phẩm <span
-                class="badge bg-danger" id="badge_tongdon"> <?php echo ($pagin); ?></span></label>
+        <label class="btn btn-outline-primary btn-sm" for="btnradio1">Tổng sản phẩm <span class="badge bg-danger"
+                id="badge_tongdon"> <?php echo $pagin; ?></span></label>
     </div>
     <div class="col-md-auto"><a class="btn btn-primary btn-sm" href="{{ route('add-product') }}">
             Thêm sản phẩm </a></div>
     <div class="col-md-auto">
         <div class="input-group">
-            <input type="text" class="form-control form-control-sm" value=""
-                placeholder="Mã" id="search_id">
-            <input type="text" class="form-control form-control-sm" value=""
-                placeholder="Tên" id="search_name">
-            <button class="btn btn-sm btn-primary" onclick="searched(this.parentElement)"
-                type="button">Search</button>
+            <input type="text" class="form-control form-control-sm" value="" placeholder="Mã" id="search_id">
+            <input type="text" class="form-control form-control-sm" value="" placeholder="Tên"
+                id="search_name">
+            <button class="btn btn-sm btn-primary" onclick="searched(this.parentElement)" type="button">Search</button>
         </div>
     </div>
 </div>
@@ -47,7 +45,7 @@
                     <div class="d-flex align-items-center">
                         <img class="img"
                             src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
-                            width="90">
+                            width="68">
                         <span><?php echo $value['name']; ?></span>
                     </div>
                 </td>
@@ -59,9 +57,8 @@
                         data-bs-target="#minhthu<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>">
                         <i class="bi bi-eye-fill text-primary"></i>
                     </button>
-                    <button value="<?php echo $value['id']; ?>"
-                        class="delete-btn btn btn-sm bi bi-x-lg text-danger" type="button"
-                        onclick="deleted(<?php echo $value['id']; ?>)">
+                    <button value="<?php echo $value['id']; ?>" class="delete-btn btn btn-sm bi bi-x-lg text-danger"
+                        type="button" onclick="deleted(<?php echo $value['id']; ?>)">
                     </button>
                 </td>
             </tr>
@@ -72,8 +69,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="staticBackdropLabel">Sửa sản phẩm</h5>
-                            <button type="lbutton" class="btn-close" data-bs-dismiss="modal"
-                                aria-labe="Close">
+                            <button type="lbutton" class="btn-close" data-bs-dismiss="modal" aria-labe="Close">
                             </button>
                         </div>
                         <div class="modal-body">
@@ -81,15 +77,13 @@
                                 <div class="col-md-4">
                                     <div class="col-md-auto border" style="height: 24rem;">
                                         <img src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
-                                            class="rounded mx-auto d-block m-5" alt="..."
-                                            width="auto" height="200"
-                                            style="object-fit: cover;">
+                                            class="rounded mx-auto d-block m-5" alt="..." width="auto"
+                                            height="200" style="object-fit: cover;">
                                     </div>
                                     <div class="col-md-auto">
                                         <div class="input-group mb-3">
                                             <input type="file" class="form-control">
-                                            <button class="btn btn-outline-secondary"
-                                                type="button">Upload</button>
+                                            <button class="btn btn-outline-secondary" type="button">Upload</button>
                                         </div>
                                     </div>
                                 </div>
@@ -97,17 +91,15 @@
                                     <div class="row col-md-auto">
                                         <div class="col-md-4">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control"
-                                                    disabled value="<?php echo $value['id']; ?>">
+                                                <input type="text" class="form-control" disabled
+                                                    value="<?php echo $value['id']; ?>">
                                                 <label for="floatingInput">Mã sản phẩm</label>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-floating mb-3">
-                                                <input
-                                                    name="name-product-modal-<?php echo $value['id']; ?>"
-                                                    id="name-product-modal-<?php echo $value['id']; ?>"
-                                                    class="form-control"
+                                                <input name="name-product-modal-<?php echo $value['id']; ?>"
+                                                    id="name-product-modal-<?php echo $value['id']; ?>" class="form-control"
                                                     value="<?php echo $value['name']; ?>">
                                                 <label for="floatingInput">Tên sản phẩm</label>
                                             </div>
@@ -123,31 +115,39 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="mb-3">
-                                                <label for="exampleInputPassword1"
-                                                    class="form-label">Loại rượu:</label>
-                                                <select class="form-select" id="category-product-modal-<?php echo $value['id']; ?>">
+                                                <label for="exampleInputPassword1" class="form-label">Loại
+                                                    rượu:</label>
+                                                <select class="form-select"
+                                                    id="category-product-modal-<?php echo $value['id']; ?>">
                                                     @foreach ($categoryArray as $item)
-                                                        <option value="{!! $item->id !!}" {!! $item->id == $value->id  ? 'selected' : ''; !!}>{!! $item->name!!}</option>
+                                                        <option value="{!! $item->id !!}"
+                                                            {!! $item->id == $value->id ? 'selected' : '' !!}>{!! $item->name !!}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
                                             <div class="mb-3">
-                                                <label for="exampleInputPassword1" class="form-label">Thương hiệu:</label>
-                                                <select class="form-select" id="brand-product-modal-<?php echo $value['id']; ?>">
+                                                <label for="exampleInputPassword1" class="form-label">Thương
+                                                    hiệu:</label>
+                                                <select class="form-select"
+                                                    id="brand-product-modal-<?php echo $value['id']; ?>">
                                                     @foreach ($brandArray as $item)
-                                                        <option value="{!!$item->id!!}" {!! $item->id == $value->id  ? 'selected' : ''; !!}>{!! $item->name!!}</option>
+                                                        <option value="{!! $item->id !!}"
+                                                            {!! $item->id == $value->id ? 'selected' : '' !!}>{!! $item->name !!}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="mb-3">
-                                                <label for="exampleInputPassword1" class="form-label">Quốc gia:</label>
-                                                <select class="form-select" id="country-product-modal-<?php echo $value['id']; ?>">
+                                                <label for="exampleInputPassword1" class="form-label">Quốc
+                                                    gia:</label>
+                                                <select class="form-select"
+                                                    id="country-product-modal-<?php echo $value['id']; ?>">
                                                     @foreach ($countryArray as $item)
-                                                        <option value="{!!$item->id!!}" {!! $item->id == $value->id  ? 'selected' : ''; !!}>{!! $item->name!!}</option>
+                                                        <option value="{!! $item->id !!}"
+                                                            {!! $item->id == $value->id ? 'selected' : '' !!}>{!! $item->name !!}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -174,8 +174,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class=" mb-3">
-                                                <label for=""
-                                                    class="form-label">Năm:</label>
+                                                <label for="" class="form-label">Năm:</label>
                                                 <input type="number" class="form-control"
                                                     id="year-product-modal-<?php echo $value['id']; ?>"
                                                     value="<?php echo $value['year']; ?>">
@@ -195,10 +194,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary"
-                                data-bs-dismiss="modal"
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
                                 onclick="edit(<?php echo $value['id']; ?>)">Sửa</button>
                         </div>
 
@@ -211,22 +208,20 @@
     ?>
         </tbody>
     </table>
-
-
+    {{-- {!! $wineArray !!} --}}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-sm justify-content-end" id="phantrang">
+            {{-- <li class="page-item disabled"><a class="page-link">Previous</a></li> --}}
+            <?php
+            for ($i = 0; $i < ceil($pagin / 10); $i++) {
+                if ($i == 0) {
+                    echo '<li class="page-item"><a class="page-link active">' . ($i + 1) . '</a></li>';
+                } else {
+                    echo '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
+                }
+            }
+            ?>
+            {{-- <li class="page-item"><a class="page-link">Next</a></li> --}}
+        </ul>
+    </nav>
 </div>
-{!! $wineArray !!}
-{{-- <nav aria-label="Page navigation example">
-    <ul class="pagination pagination-sm justify-content-end" id="phantrang">
-        <li class="page-item disabled"><a class="page-link">Previous</a></li> --}}
-        <?php
-        // for ($i = 0; $i < ceil($pagin / 10); $i++) {
-        //     if ($i==0) {
-        //        echo '<li class="page-item"><a class="page-link active">' . ($i + 1) . '</a></li>';
-        //     } else {
-        //         echo '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
-        //     }
-        // }
-        ?>
-        {{-- <li class="page-item"><a class="page-link">Next</a></li>
-    </ul>
-</nav> --}}

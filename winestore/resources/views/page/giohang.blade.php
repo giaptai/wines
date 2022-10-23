@@ -9,7 +9,7 @@
         ?>
         <div class="pt-4 border-top">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <div class="">
                         <table class="table table-sm align-middle">
                             <thead class="table-dark">
@@ -23,16 +23,16 @@
                             <tbody id="cart-table">
                                 <?php
                             $sum=0;
-                            if(session()->has('cart')){ $vart = session('cart');
+                            if(session()->has('cart')){ 
+                                $vart = session('cart');
                                 foreach (session('cart') as $key => $value) {
                                     $sum+=$value['price']*$value['quantity'];
                             ?>
                                 <tr>
                                     <td>
                                         <div class="d-flex">
-                                            <img class="img"
-                                                src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
-                                                width="120"><span class=""><?php echo $value['name']; ?></span>
+                                            <img class="img" src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg" width="90">
+                                            <span class=""><?php echo $value['name']; ?></span>
                                         </div>
                                     </td>
                                     <td>
@@ -72,7 +72,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-md-5" style="">
+                <div class="col-md-4" style="">
                     <form class="p-3 mb-3 border">
                         <h4>THÔNG TIN KHÁCH HÀNG</h4>
                         <div class="row mb-3">
@@ -196,8 +196,8 @@
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(this.responseText);
-                    document.getElementById('cart-table').innerHTML = JSON.parse(this.responseText).arr1
-                    document.getElementById('pay-sum').innerHTML = JSON.parse(this.responseText).paysum;
+                    document.getElementById('cart-table').innerHTML = this.responseText;
+                    // document.getElementById('pay-sum').innerHTML = JSON.parse(this.responseText).paysum;
                 }
             };
 
@@ -212,14 +212,14 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText);
                     if (this.responseText == 'Vượt số lượng kho !') {
                         alert('Vượt số lượng kho !')
                     } else {
-                        document.getElementById('cart-table').innerHTML = JSON.parse(this.responseText).arr1
-                        document.getElementById('pay-sum').innerHTML = JSON.parse(this.responseText).paysum;
+                        document.getElementById('cart-table').innerHTML = this.responseText;
+                        // document.getElementById('cart-table').innerHTML = JSON.parse(this.responseText).arr1
+                        // document.getElementById('pay-sum').innerHTML = JSON.parse(this.responseText).paysum;
                     }
-
-
                 }
             };
 
@@ -235,8 +235,9 @@
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(this.responseText);
-                    document.getElementById('cart-table').innerHTML = JSON.parse(this.responseText).arr1
-                    document.getElementById('pay-sum').innerHTML = JSON.parse(this.responseText).paysum;
+                    // document.getElementById('cart-table').innerHTML = JSON.parse(this.responseText).arr1
+                    // document.getElementById('pay-sum').innerHTML = JSON.parse(this.responseText).paysum;
+                    document.getElementById('cart-table').innerHTML = this.responseText;
                 }
             };
 
