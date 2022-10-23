@@ -36,22 +36,36 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const labels = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
+        'Tháng 1',
+        'Tháng 2',
+        'Tháng 3',
+        'Tháng 4',
+        'Tháng 5',
+        'Tháng 6',
+        'Tháng 7',
+        'Tháng 8',
+        'Tháng 9',
+        'Tháng 10',
+        'Tháng 11',
+        'Tháng 12',
     ];
 
     const data = {
         labels: labels,
-        datasets: [{
-            label: 'My First dataset',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45],
-        }]
+        datasets: [
+            {
+            label: 'Doanh thu',
+            backgroundColor: 'rgb(11, 132, 165)',
+            borderColor: 'rgb(11, 132, 165)',
+            data: [0, 100, 50, 20, 200, 300, 450, 90, 100, 300, 400, 500],
+            },
+            {
+            label: 'Đơn hàng',
+            backgroundColor: 'rgb(246, 200, 95)',
+            borderColor: 'rgb(246, 200, 95)',
+            data: [0, 20, 10, 9, 56, 30, 74, 85, 27, 33, 65, 210],
+            }
+    ]
     };
 
     const config = {
