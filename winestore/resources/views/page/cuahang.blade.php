@@ -1,9 +1,7 @@
 @extends('home')
 @section('content')
     <div class="container-md shadow my-4" style="width: 80%">
-
-
-        <div class='d-flex flex-column mt-4 gx-5 sticky-top bg-white border p-3 justify-content-between'>
+        {{-- <div class='d-flex flex-column mt-4 gx-5 sticky-top bg-white border p-3 justify-content-between'>
             <div class="row justify-content-between">
                 <div class="col-md-5 ">
                     <div class="d-flex align-items-center">
@@ -26,7 +24,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         {{-- <div class='products mb-5 mt-4'> --}}
         <div class='products my-3 row'>
@@ -160,9 +158,30 @@
                     </div>
                 </form>
             </div>
+            {{-- Show sản phẩm --}}
+            <div class="col-lg-9" id="show-product">
+                <div class="d-flex flex-column mb-3 gx-5 sticky-top bg-white border p-3 justify-content-between">
+                    <div class="row justify-content-between">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <select id="dispose" class="form-select text-center" aria-label="Default select example" style="width: 11rem">
+                                    <option selected="" value="">-----Xếp theo------</option>
+                                    <option value="ASC">Giá thấp đến cao</option>
+                                    <option value="DESC">Giá cao đến thấp</option>
+                                </select>
+                                <span class="fw-semibold text-danger mx-2" id="soluong"> (Có 75 sản phẩm)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Nhập tên sản phẩm..." id="search_name">
+                                <button class="btn text-white" type="button" style="background-color: #bf0c2b" onclick="searchName()">Tìm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="col-lg-9">
-                <div class="row row-cols-1 row-cols-md-2 g-3" id="show-product">
+                <div class="row row-cols-1 row-cols-md-2 g-3">
                     @foreach ($wineArray as $item)
                         <div class="col">
                             <div class="card h-100 rounded-0" style="">
@@ -223,6 +242,7 @@
                     </ul>
                 </nav>
             </div>
+            {{-- Show sản phẩm --}}
 
         </div>
 
@@ -320,12 +340,12 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    console.log(JSON.parse(this.responseText));
-                    // console.log(this.responseText);
-                    document.getElementById('show-product').innerHTML = JSON.parse(this.responseText).showproduct;
-                    document.getElementById('phantrang').innerHTML = JSON.parse(this.responseText).pagin;
-                    document.getElementById('soluong').innerText = '(Có ' + JSON.parse(this.responseText).soluong +
-                        ' sản phẩm)';
+                    // console.log(JSON.parse(this.responseText));
+                    console.log(this.responseText);
+                    document.getElementById('show-product').innerHTML = this.responseText;
+                    // document.getElementById('phantrang').innerHTML = JSON.parse(this.responseText).pagin;
+                    // document.getElementById('soluong').innerText = '(Có ' + JSON.parse(this.responseText).soluong +
+                    //     ' sản phẩm)';
                 }
             };
             xhttp.open(formOk.method, '/shop/filter?arr=' + arr +
@@ -384,12 +404,14 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    console.log(JSON.parse(this.responseText));
-                    console.log(document.getElementById('soluong'));
-                    document.getElementById('show-product').innerHTML = JSON.parse(this.responseText).showproduct;
-                    document.getElementById('phantrang').innerHTML = JSON.parse(this.responseText).pagin;
-                    document.getElementById('soluong').innerText = '(Có ' + JSON.parse(this.responseText).soluong +
-                        ' sản phẩm)';
+                    // console.log(JSON.parse(this.responseText));
+                    // console.log(document.getElementById('soluong'));
+                    // document.getElementById('show-product').innerHTML = JSON.parse(this.responseText).showproduct;
+                    // document.getElementById('phantrang').innerHTML = JSON.parse(this.responseText).pagin;
+                    // document.getElementById('soluong').innerText = '(Có ' + JSON.parse(this.responseText).soluong +
+                    //     ' sản phẩm)';
+                    console.log(this.responseText);
+                    document.getElementById('show-product').innerHTML = this.responseText;
                 }
             };
             xhttp.open(formOk.method, '/shop/filter?arr=' + arr +

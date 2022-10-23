@@ -51,17 +51,17 @@
                     <?php
                         if($item->status=='Chờ xác nhận'){
                     ?>
-                    <button class="bi bi-check-circle-fill text-success"
+                    <button class="btn btn-sm bi bi-check-circle-fill text-success"
                         onclick="updateOrder(<?php echo $item->id; ?>, `Đã xác nhận`, this.parentElement.parentElement)">
                     </button>
-                    <button class="bi bi-x-lg text-danger"
+                    <button class="btn btn-sm bi bi-x-lg text-danger"
                         onclick="updateOrder(<?php echo $item->id; ?>, `Đã hủy`, this.parentElement.parentElement)">
                     </button>
-                    <button class="bi bi-exclamation-circle-fill text-primary"></button>
+                    <button class="btn btn-sm bi bi-exclamation-circle-fill text-primary"></button>
                     <?php
                         }elseif ($item->status=='Đã xác nhận' || $item->status=='Đã hủy') {
                     ?>
-                    <button class="bi bi-exclamation-circle-fill text-primary"></button>
+                    <button class="btn btn-sm bi bi-exclamation-circle-fill text-primary"></button>
                     <?php
                     }
                     ?>
