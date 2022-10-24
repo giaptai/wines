@@ -27,7 +27,7 @@ class MenuBarController extends Controller
     {
         Paginator::useBootstrapFive();
         $paginate = Product::count();
-        $wineArray = Product::paginate(12);
+        $wineArray = Product::paginate(10);
         $countryArray = Country::all();
         $categoryArray = Category::all();
         $brandArray = Brand::all();
@@ -37,9 +37,7 @@ class MenuBarController extends Controller
     //trang quản lý sản phẩm
     public function cart()
     {
-        $respon=Http::get('https://provinces.open-api.vn/api/p');
-        $apiOk=$respon->json();
-        return view('page.giohang', compact('apiOk'));
+        return view('page.giohang');
     }
 
     //trang quản lý khách hàng

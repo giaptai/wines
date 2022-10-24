@@ -29,13 +29,12 @@ class ManageController extends Controller
     public function Products()
     {
         Paginator::useBootstrapFive();
-        $wineArray = Product::paginate(10);
+        $productArray = Product::paginate(10);
         $pagin = Product::count();
-
         $countryArray = Country::all();
         $categoryArray = Category::all();
         $brandArray = Brand::all();
-        return view('page/quanly_sanpham', compact('wineArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray',));
+        return view('page/quanly_sanpham', compact('productArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray',));
     }
 
     //trang quản lý đơn hàng

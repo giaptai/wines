@@ -11,7 +11,9 @@ class BrandsController extends Controller
 {
     public function index()
     {
-        return Brand::all();
+        $brandArray = Brand::paginate(10);
+        $pagin = Brand::count();
+        return response(view('dynamic_layout.tablebrand', compact('brandArray', 'pagin')), 200);
     }
  
     public function show($id)
@@ -21,7 +23,8 @@ class BrandsController extends Controller
 
     public function store(Request $request)
     {
-        return Brand::create($request->all());
+        Brand::create($request->all());
+        return $this->index();
     }
 
     public function update(Request $request, $id)
@@ -31,10 +34,10 @@ class BrandsController extends Controller
         return response($Brand, 200);
     }
 
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
         $Brand = Brand::findOrFail($id);
         $Brand->delete();
-        return 206;
+        return $this->index();
     }
 }
