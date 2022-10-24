@@ -9,7 +9,9 @@ class CountriesController extends Controller
 {
     public function index()
     {
-        return Country::all();
+        $countryArray = Country::paginate(10);
+        $pagin = Country::count();
+        return response(view('dynamic_layout.tablecountry', compact('countryArray', 'pagin')), 200);
     }
  
     public function show($id)
@@ -19,7 +21,8 @@ class CountriesController extends Controller
 
     public function store(Request $request)
     {
-        return Country::create($request->all());
+        Country::create($request->all());
+        return $this->index();
     }
 
     public function update(Request $request, $id)
@@ -29,10 +32,10 @@ class CountriesController extends Controller
         return $Country;
     }
 
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
         $Country = Country::findOrFail($id);
         $Country->delete();
-        return 206;
+        return $this->index();
     }
 }

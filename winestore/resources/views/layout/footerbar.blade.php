@@ -1,5 +1,5 @@
 <div style="overflow: hidden;">
-    <div class="text-white" style="background-color: #612d53;">
+    <div class="text-white" style="background-color: #27006f;">
         <footer class="p-5 border-top">
             <div class="row">
                 <div class="col-4">

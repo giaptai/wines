@@ -42,7 +42,7 @@
                 <div class="row row-cols-1 row-cols-lg-3 gy-2 align-items-stretch">
                     <div class="col">
                         <div class="card card-cover h-100  text-bg-dark rounded-4 shadow-lg"
-                            style="background-image: url('https://www.foodandwine.com/thmb/08KJJcjBuKyllCFFY7hDwvq9Z6w=/2000x1125/filters:fill(auto,1)/red-wine-blends-FT-MAG1116-2000-4f3c3e91bcd646ea8a21f2152746ef53.jpg');background-size: cover; background-position: center; min-height: 234px;">
+                            style="background-image: url('https://api.lorem.space/image/drink?w=450&h=450');background-size: cover; background-repeat: no-repeat; background-position: center; min-height: 234px;">
                             <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
                                 <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[0]->name!!}</h3>
                             </div>
@@ -51,7 +51,7 @@
 
                     <div class="col">
                         <div class="card card-cover h-100  text-bg-dark rounded-4 shadow-lg"
-                            style="background-image: url('https://i.pinimg.com/736x/99/78/6f/99786f008c01c25bda4b744873fdb456.jpg'); background-size: cover;min-height: 234px;">
+                            style="background-image: url('https://api.lorem.space/image/drink?w=450&h=450'); background-size: cover;min-height: 234px;">
                             <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
                                 <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[1]['name']!!}</h3>
                             </div>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="col">
                         <div class="card card-cover h-100  text-bg-dark rounded-4 shadow-lg"
-                            style="background-image: url('https://us.123rf.com/450wm/alfastudio/alfastudio1708/alfastudio170800724/83369587-a-glass-of-red-wine-and-cut-ham-with-basil-and-pepper-on-a-black-background-tasty-healthy-delicious-.jpg?ver=6');background-size: cover;min-height: 234px;">
+                            style="background-image: url('https://api.lorem.space/image/drink?w=450&h=450');background-size: cover;min-height: 234px;">
                             <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
                                 <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[2]['name']!!}</h3>
                             </div>

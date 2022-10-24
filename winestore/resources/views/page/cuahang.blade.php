@@ -133,22 +133,22 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label for="inputEmail3" class="col-sm-12 col-form-label fw-bold">Giá</label>
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="row">
-                                    <div class="col-sm-12">
-                                        <input type="number" class="form-control" id="first-price" placeholder="0"
-                                            value="">
+                                    <div class="col-sm-6">
+                                        <input type="number" class="form-control form-control-sm" id="first-price"
+                                            placeholder="0" value="">
                                     </div>
-                                    <div class="col-sm-12">
-                                        <input type="number" class="form-control" id="last-price"
+                                    <div class="col-sm-6">
+                                        <input type="number" class="form-control form-control-sm" id="last-price"
                                             placeholder="999999999" value="">
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        <hr>
                         <div class="">
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <button name="btn-submit" type="button" class="btn-submit btn btn-outline-danger w-100"
@@ -161,22 +161,23 @@
             {{-- Show sản phẩm --}}
             <div class="col-lg-9" id="show-product">
                 <div class="d-flex flex-column mb-3 gx-5 sticky-top bg-white border p-3 justify-content-between">
-                    <div class="row justify-content-between">
+                    <div class="row justify-content-between align-items-center">
                         <div class="col-md-6">
-                            <div class="d-flex align-items-center">
-                                <select id="dispose" class="form-select text-center" aria-label="Default select example" style="width: 11rem">
-                                    <option selected="" value="">-----Xếp theo------</option>
-                                    <option value="ASC">Giá thấp đến cao</option>
-                                    <option value="DESC">Giá cao đến thấp</option>
-                                </select>
-                                <span class="fw-semibold text-danger mx-2" id="soluong"> (Có 75 sản phẩm)</span>
-                            </div>
+                            {{-- <div class="d-flex align-items-center"> --}}
+                            <select id="dispose" class="form-select form-select-sm text-center"
+                                aria-label="Default select example" style="width: 11rem">
+                                <option selected="" value="">-----Xếp theo------</option>
+                                <option value="ASC">Giá thấp đến cao</option>
+                                <option value="DESC">Giá cao đến thấp</option>
+                            </select>
+                            {{-- </div> --}}
                         </div>
-                        <div class="col-md-4">
-                            <div class="input-group">
+                        <div class="col-md-auto">
+                            {{-- <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Nhập tên sản phẩm..." id="search_name">
                                 <button class="btn text-white" type="button" style="background-color: #bf0c2b" onclick="searchName()">Tìm</button>
-                            </div>
+                            </div> --}}
+                            <span class="fw-semibold text-danger mx-2" id="soluong"> (Có 75 sản phẩm)</span>
                         </div>
                     </div>
                 </div>
@@ -222,30 +223,18 @@
                 </div>
                 <nav aria-label="Page navigation example" class="col-md-12 my-3">
                     <ul class="pagination pagination-sm justify-content-end" id="phantrang">
-
-                        {{-- @for ($i = 0; $i < ceil($paginate / 12); $i++)
+                        @for ($i = 0; $i < ceil($paginate / 10); $i++)
                             @if ($i == 0)
                                 <li class="page-item"><a class="page-link active">{!! ($i + 1) !!}</a></li>
                             @else
                             <li class="page-item"><a class="page-link" onclick="phantrang({!! ($i + 1) !!})">{!! ($i + 1) !!}</a></li>
                             @endif
-                        @endfor --}}
-                        <?php
-                        for ($i = 0; $i < ceil($paginate / 12); $i++) {
-                            if ($i == 0) {
-                                echo '<li class="page-item"><a class="page-link active">' . ($i + 1) . '</a></li>';
-                            } else {
-                                echo '<li class="page-item"><a class="page-link" onclick="phantrang(' . ($i + 1) . ')">' . ($i + 1) . '</a></li>';
-                            }
-                        }
-                        ?>
+                        @endfor
                     </ul>
                 </nav>
             </div>
             {{-- Show sản phẩm --}}
-
         </div>
-
         {{-- </div> --}}
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
             <div id="liveToast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
@@ -256,7 +245,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 

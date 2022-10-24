@@ -91,26 +91,8 @@ Route::prefix('admin')->group(function () {
   Route::get('/countries', [ManageController::class, 'Countries'])->name('countries');
   // Controller điều hương vô trang quản lý
 
-  //thêm sản phẩm
+  //trang thêm sản phẩm
   Route::get('/products-add', [ManageController::class, 'manage_product_add'])->name('add-product');
-
-  //xóa sản phẩm
-  Route::get('/products/deleted', [ProductsController::class, 'deletedProduct'])->name('deleted-product');
-
-  //tìm sản phẩm
-  Route::get('/products/searched', [ProductsController::class, 'searchedProduct'])->name('searched-product');
-
-  Route::get('/search-products-pagination', [ProductsController::class, 'Pagination'])->name('search-products-pagination');
-
-  //sửa sản phẩm
-  Route::post('/products/edited', [ProductsController::class, 'editedProduct'])->name('edited-product');
-
-  // Route::post('/products/edited/{id}', function(Request $request){
-  //   echo var_dump($request->all());
-  // })->name('edited-product');
-
-  // thêm dữ liệu vào database
-  Route::get('/products/add-product/add', [ProductsController::class, 'addProduct'])->name('add-product-add');
 
   Route::get('/search-orders-pagination', [OrdersController::class, 'OrdersPagination'])->name('search-orders-pagination');
 
@@ -130,18 +112,26 @@ Route::prefix('admin')->group(function () {
   Route::get('/customers', [ManageController::class, 'Accounts'])->name('customers');
 
 
+  Route::delete('/products/{id}', [ProductsController::class, 'delete'])->name('products-delete');
+  Route::put('/products/{id}', [ProductsController::class, 'update'])->name('products-edit');
+  Route::post('/product-add', [ProductsController::class, 'store'])->name('product-add');
 
   Route::delete('/categories/{id}', [CategoriesController::class, 'delete'])->name('categories-delete');
   Route::put('/categories/{id}', [CategoriesController::class, 'update'])->name('categories-edit');
-  Route::get('/add-category', [ManageController::class, 'manage_category_add'])->name('add-category');
+  Route::post('/add-category', [CategoriesController::class, 'store'])->name('add-category');
+
+  Route::delete('/categories/{id}', [CategoriesController::class, 'delete'])->name('categories-delete');
+  Route::put('/categories/{id}', [CategoriesController::class, 'update'])->name('categories-edit');
+  Route::post('/add-category', [CategoriesController::class, 'store'])->name('add-category');
 
   Route::delete('/brands/{id}', [BrandsController::class, 'delete'])->name('brands-delete');
   Route::put('/brands/{id}', [BrandsController::class, 'update'])->name('brands-edit');
-  Route::get('/add-brand', [ManageController::class, 'manage_brand_add'])->name('add-brand');
+  Route::post('/add-brand', [BrandsController::class, 'store'])->name('add-brand');
+
 
   Route::delete('/countries/{id}', [CountriesController::class, 'delete'])->name('countries-delete');
   Route::put('/countries/{id}', [CountriesController::class, 'update'])->name('countries-edit');
-  Route::get('/add-country', [ManageController::class, 'manage_country_add'])->name('add-country');
+  Route::post('/add-country', [CountriesController::class, 'store'])->name('add-country');
 
 });
 

@@ -9,9 +9,11 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        return Category::all();
+        $categoryArray = Category::paginate(10);
+        $pagin = Category::count();
+        return response(view('dynamic_layout.tablecategory', compact('categoryArray', 'pagin')), 200);
     }
- 
+
     public function show($id)
     {
         return Category::find($id);
@@ -19,7 +21,8 @@ class CategoriesController extends Controller
 
     public function store(Request $request)
     {
-        return Category::create($request->all());
+        Category::create($request->all());
+        return $this->index();
     }
 
     public function update(Request $request, $id)
@@ -29,10 +32,10 @@ class CategoriesController extends Controller
         return $Category;
     }
 
-    public function delete(Request $request, $id)
+    public function delete( $id)
     {
         $Category = Category::findOrFail($id);
         $Category->delete();
-        return 206;
+        return $this->index();
     }
 }
