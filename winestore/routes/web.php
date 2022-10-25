@@ -32,7 +32,6 @@ use Illuminate\Http\Request;
 */
 //trang home
 
-
 // giao dien
 Route::prefix('/')->group(function () {
   //trang chủ
@@ -132,7 +131,6 @@ Route::prefix('admin')->group(function () {
   Route::delete('/countries/{id}', [CountriesController::class, 'delete'])->name('countries-delete');
   Route::put('/countries/{id}', [CountriesController::class, 'update'])->name('countries-edit');
   Route::post('/add-country', [CountriesController::class, 'store'])->name('add-country');
-
 });
 
 
