@@ -1,3 +1,36 @@
+<div class="modal fade" id="themthuonghieu" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel2">Thêm thương hiêu</h5>
+                <button type="lbutton" class="btn-close" data-bs-dismiss="modal" aria-labe="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center justify-content-around">
+                    <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-2 col-form-label fw-semibold">Tên</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext" id="name-brand-add"
+                                value="Thương hiệu A">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="inputPassword" class="col-sm-2 col-form-label fw-semibold">Mô tả</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="desc-brand-add" placeholder="Mô tả gì đó" style="height: 10rem">Tui crush Minh Thư.</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="add({!!$currentpage!!})">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
 <table class="table align-middle table-hover table-sm">
     <thead class="table">
         <tr>
@@ -8,9 +41,10 @@
         </tr>
     </thead>
     <tbody id="show-product">
+        <?php $stt = ($currentpage - 1) * 10; ?>
         @foreach ($brandArray as $item)
         <tr>
-            <th scope="row"><?php echo $item->id; ?></th>
+            <th scope="row"><?php echo ++$stt; ?></th>
             <th scope="row"><?php echo $item->name; ?></th>
             <td><?php echo $item->description; ?></td>
             <td>
@@ -20,7 +54,7 @@
                 </button>
                 <button value="<?php echo $item->id; ?>"
                     class="delete-btn btn btn-sm bi bi-x-lg text-danger" type="button"
-                    onclick="deleted(<?php echo $item->id; ?>)">
+                    onclick="deleted({!!$item->id!!}, {!!$currentpage!!})">
                 </button>
             </td>
         </tr>
@@ -76,4 +110,14 @@
         @endforeach
     </tbody>
 </table>
-{!! $brandArray !!}
+<nav aria-label="Page navigation example" class="col-md-12 my-3">
+    <ul class="pagination pagination-sm justify-content-end" id="phantrang">
+        @for ($i = 0; $i < ceil($pagin / 10); $i++)
+            @if ($i == $currentpage - 1)
+                <li class="page-item"><a class="page-link active">{!! ($i + 1) !!}</a></li>
+            @else
+            <li class="page-item"><a class="page-link" onclick="phantrang({!! ($i + 1) !!})">{!! ($i + 1) !!}</a></li>
+            @endif
+        @endfor
+    </ul>
+</nav>

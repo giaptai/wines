@@ -24,16 +24,4 @@ class ClientController extends Controller
     {
         return view('page/donhangcanhan');
     }
-
-    // //trang quản lý đơn hàng
-    // public function updateInfo(Request $request)
-    // {
-    //     $val = $request->all();
-    //     $query = DB::table('account')->where('email', $val['email'])->update(
-    //         [
-    //             'phone' => $val['phone'],
-    //         ]
-    //     );
-    //     return response($query, 200);
-    // }
 }

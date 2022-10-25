@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\URL;
 
 class CategoriesController extends Controller
 {
-    public function index()
+    public function index($page)
     {
-        $categoryArray = Category::paginate(10);
+        $categoryArray = Category::skip(($page - 1) * 10)->take(10)->get();
         $pagin = Category::count();
-        return response(view('dynamic_layout.tablecategory', compact('categoryArray', 'pagin')), 200);
+        $currentpage = $page;
+        return response(view('dynamic_layout.tablecategory', compact('categoryArray', 'pagin', 'currentpage')), 200);
     }
 
     public function show($id)
@@ -21,8 +23,13 @@ class CategoriesController extends Controller
 
     public function store(Request $request)
     {
-        Category::create($request->all());
-        return $this->index();
+        Category::create(
+            [
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+            ]
+        );
+        return $this->index($request->input('page'));
     }
 
     public function update(Request $request, $id)
@@ -32,10 +39,15 @@ class CategoriesController extends Controller
         return $Category;
     }
 
-    public function delete( $id)
+    public function delete(Request $request, $id)
     {
         $Category = Category::findOrFail($id);
         $Category->delete();
-        return $this->index();
+        return $this->index($request->input('page'));
+    }
+
+    public function pagination($page)
+    {
+        return $this->index($page);
     }
 }

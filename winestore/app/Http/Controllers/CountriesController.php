@@ -7,13 +7,14 @@ use App\Models\Country;
 
 class CountriesController extends Controller
 {
-    public function index()
+    public function index($page)
     {
-        $countryArray = Country::paginate(10);
+        $countryArray = Country::skip(($page - 1) * 10)->take(10)->get();
         $pagin = Country::count();
-        return response(view('dynamic_layout.tablecountry', compact('countryArray', 'pagin')), 200);
+        $currentpage = $page;
+        return response(view('dynamic_layout.tablecountry', compact('countryArray', 'pagin', 'currentpage')), 200);
     }
- 
+
     public function show($id)
     {
         return Country::find($id);
@@ -21,8 +22,13 @@ class CountriesController extends Controller
 
     public function store(Request $request)
     {
-        Country::create($request->all());
-        return $this->index();
+        Country::create(
+            [
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+            ]
+        );
+        return $this->index($request->input('page'));
     }
 
     public function update(Request $request, $id)
@@ -32,10 +38,15 @@ class CountriesController extends Controller
         return $Country;
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
         $Country = Country::findOrFail($id);
         $Country->delete();
-        return $this->index();
+        return $this->index($request->input('page'));
+    }
+
+    public function pagination($page)
+    {
+        return $this->index($page);
     }
 }

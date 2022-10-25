@@ -11,7 +11,7 @@ use App\Models\Category;
 use App\Models\Country;
 
 use Illuminate\Pagination\Paginator;
-
+use Illuminate\Support\ServiceProvider;
 
 class ManageController extends Controller
 {
@@ -34,16 +34,18 @@ class ManageController extends Controller
         $countryArray = Country::all();
         $categoryArray = Category::all();
         $brandArray = Brand::all();
-        return view('page/quanly_sanpham', compact('productArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray',));
+        $currentpage=1;
+        return view('page/quanly_sanpham', compact('productArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray', 'currentpage'));
     }
 
     //trang quản lý đơn hàng
     public function Orders()
     {
         Paginator::useBootstrapFive();
-        $orders = Order::paginate(15);
+        $orderArray = Order::paginate(15);
         $pagin = Order::count();
-        return view('page/quanly_donhang', compact('orders', 'pagin'));
+        $currentpage=1;
+        return view('page/quanly_donhang', compact('orderArray', 'pagin', 'currentpage'));
     }
 
     //trang quản lý tài khoản
@@ -61,7 +63,8 @@ class ManageController extends Controller
         Paginator::useBootstrapFive();
         $categoryArray = Category::paginate(10);
         $pagin = Category::count();
-        return view('page/quanly_theloai', compact('categoryArray', 'pagin'))->render();
+        $currentpage = 1;
+        return view('page/quanly_theloai', compact('categoryArray', 'pagin', 'currentpage'))->render();
     }
 
     //trang quản lý thương hiệu
@@ -70,16 +73,18 @@ class ManageController extends Controller
         Paginator::useBootstrapFive();
         $brandArray = Brand::paginate(10);
         $pagin = Brand::count();
-        return view('page/quanly_thuonghieu', compact('brandArray', 'pagin'))->render();
+        $currentpage=1;
+        return view('page/quanly_thuonghieu', compact('brandArray', 'pagin', 'currentpage'));
     }
 
     //trang quản lý quốc gia
     public function Countries()
     {
         Paginator::useBootstrapFive();
-        $countryArray = Country::paginate(10);
+        $countryArray = Country::cursorPaginate(10);
         $pagin = Country::count();
-        return view('page/quanly_quocgia', compact('countryArray', 'pagin'))->render();
+        $currentpage=1;
+        return view('page/quanly_quocgia', compact('countryArray', 'pagin', 'currentpage'));
     }
 
     //trang quản lý them sản phẩm

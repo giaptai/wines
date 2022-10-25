@@ -9,10 +9,11 @@
             <th scope="col">Thao tác</th>
         </tr>
     </thead>
-    <tbody id="tbody">
-        @foreach ($orders as $item)
+    <tbody id="show-order">
+        <?php $stt = ($currentpage - 1) * 15; ?>
+        @foreach ($orderArray as $item)
         <tr>
-            <th scope="row"><?php echo $item->id; ?></th>
+            <th scope="row"><?php echo ++$stt; ?></th>
             <td><?php echo $item->id; ?></td>
             <td><?php echo date_format(new DateTime($item->date), 'd/m/Y h:i:s'); ?></td>
             <td><?php echo number_format($item->total_money); ?></td>
@@ -41,4 +42,15 @@
         @endforeach
     </tbody>
 </table>
-{!! $orders !!}
+{{-- {!! $orders !!} --}}
+<nav aria-label="Page navigation example" class="col-md-12 my-3">
+    <ul class="pagination pagination-sm justify-content-end" id="phantrang">
+        @for ($i = 0; $i < ceil($pagin / 15); $i++)
+            @if ($i == $currentpage-1)
+                <li class="page-item"><a class="page-link active">{!! ($i + 1) !!}</a></li>
+            @else
+            <li class="page-item"><a class="page-link" onclick="phantrang({!! ($i + 1) !!})">{!! ($i + 1) !!}</a></li>
+            @endif
+        @endfor
+    </ul>
+</nav>

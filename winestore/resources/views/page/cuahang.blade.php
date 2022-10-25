@@ -177,7 +177,7 @@
                                 <input type="text" class="form-control" placeholder="Nhập tên sản phẩm..." id="search_name">
                                 <button class="btn text-white" type="button" style="background-color: #bf0c2b" onclick="searchName()">Tìm</button>
                             </div> --}}
-                            <span class="fw-semibold text-danger mx-2" id="soluong"> (Có 75 sản phẩm)</span>
+                            <span class="fw-semibold text-danger mx-2" id="soluong"> (Có {!! $paginate !!} sản phẩm)</span>
                         </div>
                     </div>
                 </div>
@@ -221,6 +221,7 @@
                         </div>
                     @endforeach
                 </div>
+
                 <nav aria-label="Page navigation example" class="col-md-12 my-3">
                     <ul class="pagination pagination-sm justify-content-end" id="phantrang">
                         @for ($i = 0; $i < ceil($paginate / 10); $i++)
