@@ -17,13 +17,16 @@ class OrderFactory extends Factory
      */
     public function definition()
     {
-        $status = $this->faker->randomElement(['B', 'V', 'P']);
         return [
-            'customer_id' => Customer::factory(),
-            'amount' => $this->faker->numberBetween(100, 2000),
-            'status' => $status,
-            'billed_date' => $this->faker->dateTimeThisDecade(),
-            'paid_date' => $status == 'P' ? $this->faker->dateTimeThisDecade() : NULL
+            'customer_id' => rand(1, 3),
+            'total' => $this->faker->numberBetween(100, 2000),
+            'status' => rand(1, 3),
+            'fullname' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'address' => $this->faker->streetAddress(),
+            'phone' => $this->faker->phoneNumber(),
+            'created_at' => $this->faker->dateTimeThisDecade(),
+            'updated_at' => $this->faker->dateTimeThisDecade()
         ];
     }
 }
