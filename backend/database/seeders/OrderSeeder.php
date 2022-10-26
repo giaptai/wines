@@ -23,9 +23,5 @@ class OrderSeeder extends Seeder
             ->count(10)
             ->hasOrderDetails(5)
             ->create();
-        Order::factory()
-            ->count(25)
-            ->hasOrderDetails(10)
-            ->create();
     }
 }

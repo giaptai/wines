@@ -16,7 +16,7 @@ class OriginSeeder extends Seeder
     public function run()
     {
         Origin::factory()
-            ->count(10)
+            ->count(3)
             ->create();
     }
 }

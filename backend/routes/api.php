@@ -8,8 +8,6 @@ use App\Http\Controllers\Api\V1\OriginController;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\FileUploadController;
-use App\Models\Customer;
-use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //api/v1/ -- auth
-Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1', 'middleware' => 'auth:sanctum'], function () {
+Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'/* ,'middleware' => 'auth:sanctum' */], function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('orders', OrderController::class);
     Route::apiResource('orderdetails', OrderDetailController::class);

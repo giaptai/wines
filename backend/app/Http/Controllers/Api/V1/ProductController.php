@@ -42,7 +42,7 @@ class ProductController extends Controller
                 $product = $product->where($tmp);
             }
         }
-        return new ProductCollection($product->paginate()->appends($request->query()));
+        return $product->select('id', 'name', 'price', 'images')->paginate()->appends($request->query());
     }
 
     /**

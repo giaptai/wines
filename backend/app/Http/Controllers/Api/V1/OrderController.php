@@ -25,19 +25,21 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-        $user = request()->user();
-        if ($user->role_as == 0) {
-            $filler = new OrderFilter();
-            $fillerItems = $filler->transform($request);
-            $order = Order::where($fillerItems)->where('customer_id', $user->id)->get();
-            return $order;
-            // return new OrderCollection($order->paginate()->appends($request->query()));
-        }
+        /**
+         * check auth
+         */
+        // $user = request()->user();
+        // if ($user->role_as == 0) {
+        //     $filler = new OrderFilter();
+        //     $fillerItems = $filler->transform($request);
+        //     $order = Order::where($fillerItems)->where('customer_id', $user->id);
+        //     return $order->paginate();
+        // }
+
         $filler = new OrderFilter();
         $fillerItems = $filler->transform($request);
-        $order = Order::where($fillerItems)->get();
-        return $order;
-        // return new OrderCollection($order->paginate()->appends($request->query()));
+        $order = Order::where($fillerItems);
+        return $order->paginate();
     }
 
     /**
@@ -78,15 +80,11 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        // $includeOrderDetails = request()->query('includeOrderDetails');
-        // if ($includeOrderDetails) {
-        //     return  new OrderResource($order->loadMissing('OrderDetails'));
+        // $user = request()->user();
+        // if ($user->role_as == 0) {
+        //     $orderUser = Order::where('id', $order->id)->with('orderDetails')->get();
+        //     return new OrderCollection($orderUser);
         // }
-        $user = request()->user();
-        if ($user->role_as == 0) {
-            $orderUser = Order::where('id', $order->id)->with('orderDetails')->get();
-            return new OrderCollection($orderUser);
-        }
         return new OrderResource($order);
     }
 

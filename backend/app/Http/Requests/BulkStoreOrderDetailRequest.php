@@ -14,8 +14,9 @@ class BulkStoreOrderDetailRequest extends FormRequest
      */
     public function authorize()
     {
-        $user = $this->user();
-        return $user != NULL && $user->tokenCan('user:create');
+        return true;
+        // $user = $this->user();
+        // return $user != NULL && $user->tokenCan('user:create');
     }
 
     /**

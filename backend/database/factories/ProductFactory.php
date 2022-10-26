@@ -33,9 +33,9 @@ class ProductFactory extends Factory
             'vol' => $vol,
             'c' => $c,
             'price' => $price,
-            'brand_id' => Brand::factory(),
-            'origin_id' => Origin::factory(),
-            'category_id' => Category::factory(),
+            'brand_id' => rand(1, 3),
+            'origin_id' => rand(1, 3),
+            'category_id' => rand(1, 3),
             'year' => '2022'
         ];
     }

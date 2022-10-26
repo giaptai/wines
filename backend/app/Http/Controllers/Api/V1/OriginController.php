@@ -14,8 +14,12 @@ use Illuminate\Http\Request;
 class OriginController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 1. Get all Origins
+     * url: http://localhost:8000/api/v1/origins.
      *
+     * 2. Search Origins by name
+     * url: http://localhost:8000/api/v1/origins?name[like]=name.
+     * 
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -41,7 +45,13 @@ class OriginController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 1. Add new origin .
+     * url: http://localhost:8000/api/v1/origins.
+     * method: POST
+     * data{
+     *  'name':'name',
+     * ''description':'description'
+     * }
      *
      * @param  \App\Http\Requests\StoreOriginRequest  $request
      * @return \Illuminate\Http\Response
@@ -52,7 +62,8 @@ class OriginController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 1. Add new origin .
+     * url: http://localhost:8000/api/v1/origins/id.
      *
      * @param  \App\Models\Origin  $origin
      * @return \Illuminate\Http\Response
@@ -78,7 +89,13 @@ class OriginController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * * 1. Update origin .
+     * url: http://localhost:8000/api/v1/origins/id.
+     * method: PUT/PATCH
+     * data{
+     *  'name':'name',
+     * ''description':'description'
+     * }
      *
      * @param  \App\Http\Requests\UpdateOriginRequest  $request
      * @param  \App\Models\Origin  $origin
@@ -90,7 +107,9 @@ class OriginController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 1. Remove origin by id.
+     * url: http://localhost:8000/api/v1/origins/id.
+     * method: Delete
      *
      * @param  \App\Models\Origin  $origin
      * @return \Illuminate\Http\Response

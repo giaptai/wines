@@ -30,8 +30,8 @@ class DatabaseSeeder extends Seeder
             // [CustomerSeeder::class],
             // [BrandSeeder::class],
             // [CategorySeeder::class],
-            // [OriginSeeder::class]
-            [ProductSeeder::class]
+            [OriginSeeder::class]
+            // [ProductSeeder::class]
             // [OrderDetailSeeder::class]
         );
     }

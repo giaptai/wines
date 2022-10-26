@@ -19,21 +19,17 @@ class FileUploadController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
-
+        $fileModel = new File;
         if ($file = $request->file('file')) {
-            $path = $file->store('public/images');
-            $name = $file->getClientOriginalName();
-            // return $path;
-            //store your file into directory and db
-            $save = new File();
-            $save->name = $name;
-            $save->path = $path;
-            $save->save();
-            return response()->json([
-                "success" => true,
-                "message" => "File successfully uploaded",
-                "file" => $save
-            ]);
+            $fileName = time() . '_' . $request->file->getClientOriginalName();
+            $filePath = $file->move('public/uploads/', $request->file->getClientOriginalName());
+            // $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
+            $fileModel->name = time() . '_' . $request->file->getClientOriginalName();
+            $fileModel->file_path = '/storage/' . $filePath;
+            $fileModel->save();
+            return back()
+                ->with('success', 'File has been uploaded.')
+                ->with('file', $fileName);
         }
     }
 }
