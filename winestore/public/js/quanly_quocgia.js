@@ -97,18 +97,19 @@ function phantrang(page) {
     xhttp.send();
 }
 
-function search(ele) {
-    var newval = document.getElementById('desc-country-modal-' + ele).value;
-    var ss1 = document.getElementById(ele).parentElement.parentElement;
-    console.log(ss1);
+function searched(ele) {
+    var search = document.getElementById('search_id').value;
+    console.log(search);
+    // var ss1 = document.getElementById(ele).parentElement.parentElement;
+    // console.log(ss1);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-            ss1.children[1].innerHTML = newval;
+            document.getElementById('quanlyquocgia').innerHTML = this.responseText;
         }
     };
-    xhttp.open("PUT", '/admin/countries/' + ele + '?name=' + newval, true);
+    xhttp.open("GET", '/admin/search-country?name=' + search, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();

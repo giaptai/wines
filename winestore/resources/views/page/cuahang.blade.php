@@ -188,31 +188,25 @@
                             <div class="card h-100 rounded-0" style="">
                                 <div class="row g-0">
                                     <div class="col-md-4 col-sm-12">
-                                        {{-- <a href="{{ route('product_details', ['id'=>$item->id]) }}">
-                                        <img width="115" src="{{ $item->image }}" class="img-fluid rounded-end"
-                                        alt="...">
-                                    </a> --}}
-                                        <a href="{{ route('product_details', ['id' => $item->id]) }}">
+                                        <a href="{{ route('product_details', ['id' => $item['id']]) }}">
                                             <div class="m-2"
-                                                style="height: 120px; width: 90px;background-image: url({{ $item->image }}); background-size:contain;background-repeat: no-repeat;background-position: center;">
+                                                style="height: 120px; width: 90px;background-image: url({{ $item['images'] }}); background-size:contain;background-repeat: no-repeat;background-position: center;">
                                             </div>
                                         </a>
-
                                     </div>
                                     <div class="col-md-8 col-sm-12">
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ $item->name }}</h5>
-                                            <span class="fs-5">{{ number_format($item->price) }} đ</span>
+                                            <h5 class="card-title">{{ $item['name'] }}</h5>
+                                            <span class="fs-5">{{ number_format($item['price']) }} đ</span>
                                         </div>
                                         <div class="card-footer bg-white border-0">
-                                            @if (session()->exists('cart.' . $item->id))
+                                            @if (session()->exists('cart.' . $item['id']))
                                                 <button type="button" class="btn disabled btn-sm btn-primary">Trong giỏ
                                                     hàng</button>
                                             @else
-                                                <button type="button" onclick="addtocart({{ $item->id }})"
+                                                <button type="button" onclick="addtocart({{ $item['id'] }})"
                                                     class="btn btn-sm btn-outline-primary"
-                                                    id="btn{{ $item->id }}">Thêm
-                                                    vào giỏ</button>
+                                                    id="btn{{ $item['id'] }}">Thêm vào giỏ</button>
                                             @endif
                                         </div>
                                     </div>

@@ -12,6 +12,7 @@ use App\Models\Country;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Http;
 
 class ManageController extends Controller
 {
@@ -28,7 +29,8 @@ class ManageController extends Controller
     //trang quản lý sản phẩm, lấy dữ liệu từ wines
     public function Products()
     {
-        Paginator::useBootstrapFive();
+        $respon=Http::get('http://127.0.0.1:8001/api/v1/categories');
+
         $productArray = Product::paginate(10);
         $pagin = Product::count();
         $countryArray = Country::all();
@@ -41,9 +43,9 @@ class ManageController extends Controller
     //trang quản lý đơn hàng
     public function Orders()
     {
-        Paginator::useBootstrapFive();
-        $orderArray = Order::paginate(15);
-        $pagin = Order::count();
+        $respon=Http::get('http://127.0.0.1:8001/api/v1/orders');
+        $orderArray = $respon['data'];
+        $pagin = $respon['total'];
         $currentpage=1;
         return view('page/quanly_donhang', compact('orderArray', 'pagin', 'currentpage'));
     }
@@ -51,7 +53,6 @@ class ManageController extends Controller
     //trang quản lý tài khoản
     public function Accounts()
     {
-        Paginator::useBootstrapFive();
         $accounts = Account::paginate(10);
         $pagin = Account::count();
         return view('page/quanly_taikhoan', compact('accounts', 'pagin'));
@@ -60,9 +61,9 @@ class ManageController extends Controller
     //trang quản lý thể loại
     public function Categories()
     {
-        Paginator::useBootstrapFive();
-        $categoryArray = Category::paginate(10);
-        $pagin = Category::count();
+        $respon=Http::get('http://127.0.0.1:8001/api/v1/categories');
+        $categoryArray = $respon['data'];
+        $pagin = $respon['meta']['total'];
         $currentpage = 1;
         return view('page/quanly_theloai', compact('categoryArray', 'pagin', 'currentpage'))->render();
     }
@@ -70,9 +71,10 @@ class ManageController extends Controller
     //trang quản lý thương hiệu
     public function Brands()
     {
-        Paginator::useBootstrapFive();
-        $brandArray = Brand::paginate(10);
-        $pagin = Brand::count();
+        $respon=Http::get('http://127.0.0.1:8001/api/v1/brands');
+
+        $brandArray = $respon['data'];
+        $pagin = $respon['meta']['total'];
         $currentpage=1;
         return view('page/quanly_thuonghieu', compact('brandArray', 'pagin', 'currentpage'));
     }
@@ -81,8 +83,10 @@ class ManageController extends Controller
     public function Countries()
     {
         Paginator::useBootstrapFive();
-        $countryArray = Country::cursorPaginate(10);
-        $pagin = Country::count();
+        $respon=Http::get('http://127.0.0.1:8001/api/v1/origins');
+
+        $countryArray = $respon['data'];
+        $pagin = $respon['meta']['total'];
         $currentpage=1;
         return view('page/quanly_quocgia', compact('countryArray', 'pagin', 'currentpage'));
     }

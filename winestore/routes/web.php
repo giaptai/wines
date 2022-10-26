@@ -104,6 +104,8 @@ Route::prefix('admin')->group(function () {
   Route::put('/orders/{id}', [OrdersController::class, 'update'])->name('orders-edit');
   // Route::post('/product-add', [ProductsController::class, 'store'])->name('product-add');
   Route::get('/orders/{page}', [OrdersController::class, 'pagination'])->name('paginate-order');
+  Route::get('/search-order', [OrdersController::class, 'show'])->name('search-order');
+
 
   Route::delete('/products/{id}', [ProductsController::class, 'delete'])->name('products-delete');
   Route::put('/products/{id}', [ProductsController::class, 'update'])->name('products-edit');
@@ -115,16 +117,19 @@ Route::prefix('admin')->group(function () {
   Route::put('/categories/{id}', [CategoriesController::class, 'update'])->name('categories-edit');
   Route::post('/add-category', [CategoriesController::class, 'store'])->name('add-category');
   Route::get('/categories/{page}', [CategoriesController::class, 'pagination'])->name('paginate-category');
+  Route::get('/search-category', [CategoriesController::class, 'show'])->name('search-category');
 
   Route::delete('/brands/{id}', [BrandsController::class, 'delete'])->name('brands-delete');
   Route::put('/brands/{id}', [BrandsController::class, 'update'])->name('brands-edit');
   Route::post('/add-brand', [BrandsController::class, 'store'])->name('add-brand');
   Route::get('/brands/{page}', [BrandsController::class, 'pagination'])->name('paginate-brand');
+  Route::get('/search-brand', [BrandsController::class, 'show'])->name('search-brand');
 
   Route::delete('/countries/{id}', [CountriesController::class, 'delete'])->name('countries-delete');
   Route::put('/countries/{id}', [CountriesController::class, 'update'])->name('countries-edit');
   Route::post('/add-country', [CountriesController::class, 'store'])->name('add-country');
   Route::get('/countries/{page}', [CountriesController::class, 'pagination'])->name('paginate-country');
+  Route::get('/search-country', [CountriesController::class, 'show'])->name('search-country');
 
 });
 
