@@ -158,11 +158,46 @@
                                 <input type="text" class="form-control" placeholder="Nhập tên sản phẩm..." id="search_name">
                                 <button class="btn text-white" type="button" style="background-color: #bf0c2b" onclick="searchName()">Tìm</button>
                             </div> --}}
+<<<<<<< HEAD
+                            <span class="fw-semibold text-danger mx-2" id="soluong"> (Có {!! $paginate !!} sản phẩm)</span>
+                        </div>
+=======
                         <span class="fw-semibold text-danger mx-2" id="soluong"> (Có 75 sản phẩm)</span>
+>>>>>>> 07b32dff0d76ab720f80c964c25bc320b35234f3
                     </div>
                 </div>
             </div>
 
+<<<<<<< HEAD
+                <div class="row row-cols-1 row-cols-md-2 g-3">
+                    @foreach ($wineArray as $item)
+                        <div class="col">
+                            <div class="card h-100 rounded-0" style="">
+                                <div class="row g-0">
+                                    <div class="col-md-4 col-sm-12">
+                                        <a href="{{ route('product_details', ['id' => $item['id']]) }}">
+                                            <div class="m-2"
+                                                style="height: 120px; width: 90px;background-image: url({{ $item['images'] }}); background-size:contain;background-repeat: no-repeat;background-position: center;">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-8 col-sm-12">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $item['name'] }}</h5>
+                                            <span class="fs-5">{{ number_format($item['price']) }} đ</span>
+                                        </div>
+                                        <div class="card-footer bg-white border-0">
+                                            @if (session()->exists('cart.' . $item['id']))
+                                                <button type="button" class="btn disabled btn-sm btn-primary">Trong giỏ
+                                                    hàng</button>
+                                            @else
+                                                <button type="button" onclick="addtocart({{ $item['id'] }})"
+                                                    class="btn btn-sm btn-outline-primary"
+                                                    id="btn{{ $item['id'] }}">Thêm vào giỏ</button>
+                                            @endif
+                                        </div>
+                                    </div>
+=======
             <div class="row row-cols-1 row-cols-md-2 g-3">
                 @foreach ($wineArray as $item)
                 <div class="col">
@@ -191,12 +226,28 @@
                                     <button type="button" onclick="addtocart({{ $item->id }})" class="btn btn-sm btn-outline-primary" id="btn{{ $item->id }}">Thêm
                                         vào giỏ</button>
                                     @endif
+>>>>>>> 07b32dff0d76ab720f80c964c25bc320b35234f3
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
+
+                <nav aria-label="Page navigation example" class="col-md-12 my-3">
+                    <ul class="pagination pagination-sm justify-content-end" id="phantrang">
+                        @for ($i = 0; $i < ceil($paginate / 10); $i++)
+                            @if ($i == 0)
+                                <li class="page-item"><a class="page-link active">{!! ($i + 1) !!}</a></li>
+                            @else
+                            <li class="page-item"><a class="page-link" onclick="phantrang({!! ($i + 1) !!})">{!! ($i + 1) !!}</a></li>
+                            @endif
+                        @endfor
+                    </ul>
+                </nav>
+=======
                 @endforeach
+>>>>>>> 07b32dff0d76ab720f80c964c25bc320b35234f3
             </div>
             <nav aria-label="Page navigation example" class="col-md-12 my-3">
                 <ul class="pagination pagination-sm justify-content-end" id="phantrang">

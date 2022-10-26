@@ -1,4 +1,4 @@
-function deleted(id) {
+function deleted(id, page) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -16,7 +16,7 @@ function deleted(id) {
         }
     };
 
-    xhttp.open("DELETE", '/admin/products/' + id, true);
+    xhttp.open("DELETE", '/admin/products/' + id + '?page=' + page, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();
@@ -104,6 +104,20 @@ function add() {
         'name=' + name +
         '&description=' + desc
     );
+}
+
+function phantrang(page) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            document.getElementById('quanlysanpham').innerHTML = this.responseText;
+        }
+    };
+    xhttp.open("GET", '/admin/products/' + page, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
+    xhttp.send();
 }
 
 function search(ele) {
