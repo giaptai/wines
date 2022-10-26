@@ -13,7 +13,8 @@ class UpdateOriginRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        $user = request()->user();
+        return $user != NULL && $user->role_as == 1 && $user->tokenCan('admin:update');
     }
 
     /**
@@ -23,8 +24,15 @@ class UpdateOriginRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if ($method == 'PUT') {
+            return [
+                'name' => ['required']
+            ];
+        } else {
+            return [
+                'name' => ['sometimes', 'required']
+            ];
+        }
     }
 }

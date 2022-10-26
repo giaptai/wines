@@ -13,7 +13,8 @@ class StoreOriginRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        $user = request()->user();
+        return $user != NULL && $user->role_as == 1 && $user->tokenCan('admin:create');
     }
 
     /**

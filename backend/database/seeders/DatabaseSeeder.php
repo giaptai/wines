@@ -31,8 +31,8 @@ class DatabaseSeeder extends Seeder
             // [BrandSeeder::class],
             // [CategorySeeder::class],
             // [OriginSeeder::class]
-            // [ProductSeeder::class]
-            [OrderDetailSeeder::class]
+            [ProductSeeder::class]
+            // [OrderDetailSeeder::class]
         );
     }
 }

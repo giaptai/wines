@@ -43,8 +43,12 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1', 'm
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
     Route::get('brands', [BrandController::class, 'index']);
     Route::get('origins', [OriginController::class, 'index']);
-    Route::get('categories', [CategoryController::class], 'index');
+    Route::get('categories', [CategoryController::class, 'index']);
+    Route::get('brands/{brand}', [BrandController::class, 'show']);
+    Route::get('origins/{origin}', [OriginController::class, 'show']);
+    Route::get('categories/{category}', [CategoryController::class, 'show']);
     Route::get('products', [ProductController::class, 'index']);
+    Route::get('products/{product}', [ProductController::class, 'show']);
     Route::post('register', [AuthController::class, 'store']);
     Route::post('login', [AuthController::class, 'index']);
     Route::post('upload', [FileUploadController::class, 'upload']);
