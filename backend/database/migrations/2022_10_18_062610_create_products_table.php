@@ -22,6 +22,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default(0);
             $table->integer('vol');
             $table->decimal('c');
+            $table->year('year');
             $table->double('price');
             $table->integer('brand_id');
             $table->integer('origin_id');

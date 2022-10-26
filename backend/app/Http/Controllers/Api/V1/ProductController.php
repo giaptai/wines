@@ -66,6 +66,7 @@ class ProductController extends Controller
      *  "status" : "",
      *  "vol":"",
      *  "c":"",
+     * "year":"",
      *  "price":"",
      *  "brand_id" : "",
      *  "origin_id" : "",

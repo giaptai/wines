@@ -17,6 +17,7 @@ class Product extends Model
         'vol',
         'c',
         'price',
+        'year',
         'brand_id',
         'origin_id',
         'category_id',

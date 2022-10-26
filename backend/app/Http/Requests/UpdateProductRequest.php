@@ -37,6 +37,7 @@ class UpdateProductRequest extends FormRequest
                 'category_id' => ['required', 'numeric'],
                 'origin_id' => ['required', 'numeric'],
                 'price' => ['required'],
+                'year' => ['required'],
             ];
         } else {
             return [
@@ -50,6 +51,7 @@ class UpdateProductRequest extends FormRequest
                 'category_id' => ['sometimes', 'required', 'numeric'],
                 'origin_id' => ['sometimes', 'required', 'numeric'],
                 'price' => ['sometimes', 'required'],
+                'year' => ['sometimes', 'required'],
             ];
         }
     }

@@ -36,6 +36,7 @@ class ProductFactory extends Factory
             'brand_id' => Brand::factory(),
             'origin_id' => Origin::factory(),
             'category_id' => Category::factory(),
+            'year' => $this->year()
         ];
     }
 }

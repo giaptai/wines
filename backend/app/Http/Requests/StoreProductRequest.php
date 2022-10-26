@@ -13,6 +13,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize()
     {
+
         return true;
     }
 
@@ -34,6 +35,7 @@ class StoreProductRequest extends FormRequest
             'category_id' => ['required', 'numeric'],
             'origin_id' => ['required', 'numeric'],
             'price' => ['required'],
+            'year' => ['required']
         ];
     }
 }
