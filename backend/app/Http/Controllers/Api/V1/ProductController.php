@@ -37,6 +37,9 @@ class ProductController extends Controller
             if ($items[1] == 'in') {
                 $integerIDs = array_map('intval', json_decode($items[2], true));
                 $product = $product->whereIn($items[0], $integerIDs);
+            } elseif ($items[1] == 'between') {
+                $integerIDs = array_map('intval', json_decode($items[2], true));
+                $product = $product->whereBetween($items[0], $integerIDs);
             } else {
                 $tmp[] = $items;
                 $product = $product->where($tmp);

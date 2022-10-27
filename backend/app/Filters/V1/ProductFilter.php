@@ -14,6 +14,8 @@ class ProductFilter extends ApiFilter
         'originId' => ['eq', 'in'],
         'brandId' => ['eq', 'in'],
         'cateId' => ['eq', 'in'],
+        'price' => ['between'],
+        'c' => ['eq', 'lt', 'lte', 'gt', 'gte', 'between']
     ];
 
     protected $columMap = [
@@ -24,6 +26,11 @@ class ProductFilter extends ApiFilter
     protected $operatorMap = [
         'eq' => '=',
         'like' => 'like',
-        'in' => 'in'
+        'in' => 'in',
+        'between' => 'between',
+        'lt' => '<',
+        'lte' => '<=',
+        'gt' => '>',
+        'gte' => '>='
     ];
 }
