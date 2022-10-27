@@ -29,13 +29,13 @@ class ManageController extends Controller
     //trang quản lý sản phẩm, lấy dữ liệu từ wines
     public function Products()
     {
-        $respon=Http::get('http://127.0.0.1:8001/api/v1/categories');
+        $respon=Http::get('http://127.0.0.1:8001/api/v1/products');
 
-        $productArray = Product::paginate(10);
-        $pagin = Product::count();
-        $countryArray = Country::all();
-        $categoryArray = Category::all();
-        $brandArray = Brand::all();
+        $productArray = $respon['data'];
+        $pagin = $respon['total'];
+        $countryArray = Http::get('http://127.0.0.1:8001/api/v1/origins')['data'];
+        $categoryArray = Http::get('http://127.0.0.1:8001/api/v1/categories')['data'];
+        $brandArray =  Http::get('http://127.0.0.1:8001/api/v1/brands')['data'];
         $currentpage=1;
         return view('page/quanly_sanpham', compact('productArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray', 'currentpage'));
     }

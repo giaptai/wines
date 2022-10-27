@@ -70,7 +70,7 @@ Route::prefix('/')->group(function () {
 });
 
 
-
+Route::view('/cart/checkout', 'vnpay.checkout')->name('checkout');
 
 Route::prefix('admin')->group(function () {
   // Controller điều hương vô trang quản lý
@@ -127,12 +127,10 @@ Route::prefix('admin')->group(function () {
   Route::delete('/countries/{id}', [CountriesController::class, 'delete'])->name('countries-delete');
   Route::put('/countries/{id}', [CountriesController::class, 'update'])->name('countries-edit');
   Route::post('/add-country', [CountriesController::class, 'store'])->name('add-country');
-<<<<<<< HEAD
+
   Route::get('/countries/{page}', [CountriesController::class, 'pagination'])->name('paginate-country');
   Route::get('/search-country', [CountriesController::class, 'show'])->name('search-country');
 
-=======
->>>>>>> 07b32dff0d76ab720f80c964c25bc320b35234f3
 });
 
 

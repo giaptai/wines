@@ -44,7 +44,7 @@
                         <div class="card card-cover h-100  text-bg-dark rounded-4 shadow-lg"
                             style="background-image: url('https://api.lorem.space/image/drink?w=450&h=450');background-size: cover; background-repeat: no-repeat; background-position: center; min-height: 234px;">
                             <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
-                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[0]->name!!}</h3>
+                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[0]['name']!!}</h3>
                             </div>
                         </div>
                     </div>
@@ -100,8 +100,8 @@
 background-image: url('https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/red-wine-on-a-dark-background-maryana-kankulova.jpg');
 ">
                     <div class="my-3 py-3">
-                        <h2 class="display-5">{!! $brandArray[0]->name!!}</h2>
-                        <p class="lead">{!! $brandArray[0]->description !!}</p>
+                        <h2 class="display-5">{!! $brandArray[0]['name']!!}</h2>
+                        <p class="lead">{!! $brandArray[0]['description'] !!}</p>
                     </div>
                     <div class="shadow-sm mx-auto" style="width: 80%; height: 15rem; border-radius: 21px 21px 0 0;">
                         <button class="btn btn-outline-light">Tìm hiểu thêm</button>
@@ -112,8 +112,8 @@ background-image: url('https://images.fineartamerica.com/images/artworkimages/me
 background-image: url('https://images.unsplash.com/photo-1606767208159-1a5fb0a87841?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8d2hpdGUlMjB3aW5lfGVufDB8fDB8fA%3D%3D&w=1000&q=80');
 ">
                     <div class="my-3 py-3">
-                        <h2 class="display-5">{!! $brandArray[1]->name!!}</h2>
-                        <p class="lead">{!! $brandArray[1]->description !!}</p>
+                        <h2 class="display-5">{!! $brandArray[1]['name']!!}</h2>
+                        <p class="lead">{!! $brandArray[1]['description'] !!}</p>
                     </div>
                     <div class="shadow-sm mx-auto" style="width: 80%; height: 15rem; border-radius: 21px 21px 0 0;">
                         <button class="btn btn-outline-light">Tìm hiểu thêm</button>
@@ -125,8 +125,8 @@ background-image: url('https://images.unsplash.com/photo-1606767208159-1a5fb0a87
 background-image: url('https://cdn.shopify.com/s/files/1/1503/3114/articles/fixed_1_of_1_-3_960x.jpg?v=1600956950');
 ">
                     <div class="my-3 py-3">
-                        <h2 class="display-5">{!! $brandArray[2]->name !!}</h2>
-                        <p class="lead">{!! $brandArray[2]->description !!}</p>
+                        <h2 class="display-5">{!! $brandArray[2]['name'] !!}</h2>
+                        <p class="lead">{!! $brandArray[2]['description'] !!}</p>
                     </div>
                     <div class="shadow-sm mx-auto" style="width: 80%; height: 8em; border-radius: 21px 21px 0 0;">
                         <button class="btn btn-outline-light">Tìm hiểu thêm</button>

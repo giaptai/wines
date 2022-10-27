@@ -128,6 +128,6 @@
                     style="display: none"><?php echo $sum; ?></span>
             </div>
         </div>
-        <button type="button" class="btn btn-primary" onclick="codpay()">Đặt hàng</button>
+        <a type="button" class="btn btn-primary" href="{{ route('checkout') }}" >Đặt hàng</a>
     </form>
 </div>

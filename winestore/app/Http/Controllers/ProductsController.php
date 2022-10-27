@@ -14,6 +14,8 @@ class ProductsController extends Controller
 
     public function index($page)
     {
+        // $respon = Http::get('http://127.0.0.1:8001/api/v1/orders?page=' . $page);
+
         $productArray = Product::skip(($page - 1) * 10)->take(10)->get();
         $countryArray = Country::all();
         $categoryArray = Category::all();

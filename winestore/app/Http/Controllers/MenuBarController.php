@@ -17,26 +17,26 @@ class MenuBarController extends Controller
     //trang home
     public function home()
     {
-        $categoryArray = Category::get('name');
-        $brandArray = Brand::all();
+        $respon=Http::get('http://127.0.0.1:8001/api/v1/brands');
+        $respon2=Http::get('http://127.0.0.1:8001/api/v1/categories');
+        $categoryArray = $respon2['data'];
+        $brandArray = $respon['data'];
         return view('page.trangchu',compact('categoryArray','brandArray' ));
     }
 
     //trang sản phẩm
     public function shop()
     {
-        Paginator::useBootstrapFive();
-
         $respon=Http::get('http://127.0.0.1:8001/api/v1/products');
 
-        $paginate = $respon['meta']['total'];
+        $paginate = $respon['total'];
         $wineArray = $respon['data'];
-        $countryArray = Country::all();
-        $categoryArray = Category::all();
-        $brandArray = Brand::all();
-
-        // return response($respon, 200);
-        return view('page.cuahang',  compact('wineArray', 'countryArray', 'categoryArray', 'brandArray', 'paginate'));
+        $countryArray = Http::get('http://127.0.0.1:8001/api/v1/origins')['data'];
+        $categoryArray = Http::get('http://127.0.0.1:8001/api/v1/categories')['data'];
+        $brandArray = Http::get('http://127.0.0.1:8001/api/v1/brands')['data'];
+        $currentpage=1;
+        // return response($categoryArray, 200);
+        return view('page.cuahang',  compact('wineArray', 'countryArray', 'categoryArray', 'brandArray', 'paginate','currentpage'));
     }
 
     //trang quản lý sản phẩm

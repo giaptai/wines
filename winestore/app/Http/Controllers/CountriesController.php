@@ -44,8 +44,7 @@ class CountriesController extends Controller
 
     public function delete(Request $request, $id)
     {
-        $Country = Country::findOrFail($id);
-        $Country->delete();
+        $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->delete('http://127.0.0.1:8001/api/v1/origins/' . $id);
         return $this->index($request->input('page'));
     }
 
