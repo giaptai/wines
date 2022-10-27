@@ -29,9 +29,9 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'status' => $this->status,
             'year' => $this->year,
-            'category' => new CategoryCollection(Category::where('id', $this->category_id)->paginate()),
-            'brand' => new BrandCollection(Brand::where('id', $this->brand_id)->paginate()),
-            'origin' => new OriginCollection(Origin::Where('id', $this->origin_id)->paginate()),
+            'category' => new CategoryCollection(Category::where('id', $this->category_id)->get()),
+            'brand' => new BrandCollection(Brand::where('id', $this->brand_id)->get()),
+            'origin' => new OriginCollection(Origin::Where('id', $this->origin_id)->get()),
             'created_at' => $this->created_at,
             'update_at' => $this->updated_at
         ];
