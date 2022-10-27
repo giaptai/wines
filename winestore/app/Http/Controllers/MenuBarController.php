@@ -19,12 +19,14 @@ class MenuBarController extends Controller
     {
         $categoryArray = Category::get('name');
         $brandArray = Brand::all();
-        return view('page.trangchu',compact('categoryArray','brandArray' ));
+        return view('page.trangchu', compact('categoryArray', 'brandArray'));
     }
 
     //trang sản phẩm
     public function shop()
     {
+        // $res = Http::patch('http://localhost:8000/api/v1/orders/1', ['status' => 4]);
+        // return response()->json([$res['data']], 200);
         Paginator::useBootstrapFive();
         $paginate = Product::count();
         $wineArray = Product::paginate(10);
@@ -41,13 +43,14 @@ class MenuBarController extends Controller
     }
 
     //trang quản lý khách hàng
-    public function account(){
+    public function account()
+    {
         return view('page.taikhoan');
     }
 
     //trang quản lý khách hàng
-    public function login(){
+    public function login()
+    {
         return view('page/logger');
     }
-
 }
