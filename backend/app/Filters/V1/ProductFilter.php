@@ -15,7 +15,7 @@ class ProductFilter extends ApiFilter
         'brandId' => ['eq', 'in'],
         'cateId' => ['eq', 'in'],
         'price' => ['between'],
-        'c' => ['eq', 'lt', 'lte', 'gt', 'gte', 'between']
+        'c' => ['eq', 'lt', 'lte', 'gt', 'gte', 'between'],
     ];
 
     protected $columMap = [
