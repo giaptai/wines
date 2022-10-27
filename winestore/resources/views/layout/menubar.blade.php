@@ -1,4 +1,4 @@
-<div class="header" style="background-color: #09102a;">
+<div class="header" style="background-color: #09102a; font-size: 14px">
     <div class="container p-0">
         <ul class="nav justify-content-end align-items-center">
             <li class="nav-item"><a class="nav-link text-light" href="{{ route('login') }}">Đăng nhập</a></li>
@@ -6,17 +6,17 @@
             <li class="nav-item"><a class="nav-link text-light" href="/lienhe">Đăng ký</a></li>
         </ul>
     </div>
-    <nav class="navbar navbar-dark navbar-expand-lg nav-masthead shadow-sm"
+    <nav class="navbar navbar-dark navbar-expand-lg nav-masthead shadow-sm pt-0 pb-3"
         style="font-family: Knockout 48 A,Knockout 48 B,sans-serif">
         <div class="container">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarsExample10" aria-controls="navbarsExample10" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample10"
+                aria-controls="navbarsExample10" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-md-center py-2" id="navbarsExample10">
+            <div class="collapse navbar-collapse justify-content-md-start py-2" id="navbarsExample10">
                 <ul class="navbar-nav">
-                    <li class="nav-item  mx-2"><a class="nav-link <?php echo str_contains(Request::url(), 'home') ? 'border text-light fw-bold' : 'text-light fw-bold'; ?>" href="{{ route('home') }}">HOME</a>
+                    <li class="nav-item  mx-2"><a class="nav-link <?php echo str_contains(Request::url(), 'home') ? 'border text-light fw-bold' : 'text-light fw-bold'; ?>"
+                            href="{{ route('home') }}">HOME</a>
                     </li>
                     <li class="nav-item mx-2"><a class="nav-link <?php echo str_contains(Request::url(), 'shop') ? 'border text-light fw-bold' : 'text-light fw-bold'; ?>" href="{{ route('shop') }}">CỬA
                             HÀNG</a>
@@ -38,11 +38,10 @@
             </div>
             <form action="">
                 <div class="input-group rounded">
-                    <input type="search" class="form-control rounded" placeholder="Tên sản phẩm">
+                    <input type="search" class="form-control form-control-sm rounded" placeholder="Tên sản phẩm" size="28">
                 </div>
             </form>
         </div>
-        
+
     </nav>
 </div>
-

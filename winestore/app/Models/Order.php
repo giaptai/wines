@@ -10,4 +10,13 @@ class Order extends Model
     use HasFactory;
     protected $table="orders";
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'status',
+        'updated_at'
+    ];
 }

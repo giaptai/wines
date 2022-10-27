@@ -15,6 +15,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\CheckoutController;
 
 use Illuminate\Http\Request;
 
@@ -69,8 +70,8 @@ Route::prefix('/')->group(function () {
   Route::get('/login', [MenuBarController::class, 'login'])->name('login');
 });
 
-
-
+Route::post('/vnpay/vnpay_payment', [CheckoutController::class, 'vnpayPayment'])->name('checkout');
+Route::get('/vnpay/vnpay_return', [CheckoutController::class, 'paymentsResult'])->name('checkout-result');
 
 Route::prefix('admin')->group(function () {
   // Controller điều hương vô trang quản lý
@@ -93,44 +94,44 @@ Route::prefix('admin')->group(function () {
   //trang thêm sản phẩm
   Route::get('/products-add', [ManageController::class, 'manage_product_add'])->name('add-product');
 
-  Route::get('/search-orders-pagination', [OrdersController::class, 'OrdersPagination'])->name('search-orders-pagination');
-
-  //thay đổi trạng thái đơn hàng
-  Route::post('/status-order', [OrdersController::class, 'updateOrder'])->name('status-order');
-
-  //lọc đơn hàng
-  Route::post('/filter-order', [OrdersController::class, 'filterOrder'])->name('filter-order');
-
-  //lọc đơn hàng
-  Route::post('/search-order', [OrdersController::class, 'searchOrder'])->name('search-order');
-
   Route::get('/search-accounts', [AccountsController::class, 'Search'])->name('search-accounts');
 
   Route::get('/search-accounts-pagination', [AccountsController::class, 'Pagination'])->name('search-accounts-pagination');
 
   Route::get('/customers', [ManageController::class, 'Accounts'])->name('customers');
 
+  // Route::delete('/products/{id}', [ProductsController::class, 'delete'])->name('products-delete');
+  Route::put('/orders/{id}', [OrdersController::class, 'update'])->name('orders-edit');
+  // Route::post('/product-add', [ProductsController::class, 'store'])->name('product-add');
+  Route::get('/orders/{page}', [OrdersController::class, 'pagination'])->name('paginate-order');
+  Route::get('/search-order', [OrdersController::class, 'show'])->name('search-order');
+
 
   Route::delete('/products/{id}', [ProductsController::class, 'delete'])->name('products-delete');
   Route::put('/products/{id}', [ProductsController::class, 'update'])->name('products-edit');
   Route::post('/product-add', [ProductsController::class, 'store'])->name('product-add');
+  Route::get('/products/{page}', [ProductsController::class, 'pagination'])->name('paginate-product');
+
 
   Route::delete('/categories/{id}', [CategoriesController::class, 'delete'])->name('categories-delete');
   Route::put('/categories/{id}', [CategoriesController::class, 'update'])->name('categories-edit');
   Route::post('/add-category', [CategoriesController::class, 'store'])->name('add-category');
-
-  Route::delete('/categories/{id}', [CategoriesController::class, 'delete'])->name('categories-delete');
-  Route::put('/categories/{id}', [CategoriesController::class, 'update'])->name('categories-edit');
-  Route::post('/add-category', [CategoriesController::class, 'store'])->name('add-category');
+  Route::get('/categories/{page}', [CategoriesController::class, 'pagination'])->name('paginate-category');
+  Route::get('/search-category', [CategoriesController::class, 'show'])->name('search-category');
 
   Route::delete('/brands/{id}', [BrandsController::class, 'delete'])->name('brands-delete');
   Route::put('/brands/{id}', [BrandsController::class, 'update'])->name('brands-edit');
   Route::post('/add-brand', [BrandsController::class, 'store'])->name('add-brand');
-
+  Route::get('/brands/{page}', [BrandsController::class, 'pagination'])->name('paginate-brand');
+  Route::get('/search-brand', [BrandsController::class, 'show'])->name('search-brand');
 
   Route::delete('/countries/{id}', [CountriesController::class, 'delete'])->name('countries-delete');
   Route::put('/countries/{id}', [CountriesController::class, 'update'])->name('countries-edit');
   Route::post('/add-country', [CountriesController::class, 'store'])->name('add-country');
+
+  Route::get('/countries/{page}', [CountriesController::class, 'pagination'])->name('paginate-country');
+  Route::get('/search-country', [CountriesController::class, 'show'])->name('search-country');
+
 });
 
 

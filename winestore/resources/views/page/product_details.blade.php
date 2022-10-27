@@ -4,23 +4,23 @@
         <div class="details">
             <h3 class="border-bottom">Chi tiết sản phẩm 
             </h3>
-            {!! $winedetail !!}
+            {{-- {!! $wineDetail !!} --}}
             <div class="row row-cols-md-3 row-cols-1 g-3 border-bottom">
                 <div class="col-md-3">
+                    <span class="fw-bold">Loại: </span>
+                    <p class=""><?php echo $wineDetail['category'][0]['name']; ?></p>
+                    <hr>
                     <span class="fw-bold">Quốc gia: </span>
-                    <p class=""><?php echo $winedetail->country; ?></p>
+                    <p class=""><?php echo $wineDetail['origin'][0]['name']; ?></p>
                     <hr>
                     <span class="fw-bold">Thương hiệu: </span>
-                    <p class=""><?php echo $winedetail->brand; ?></p>
-                    <hr>
-                    <span class="fw-bold">Loại: </span>
-                    <p class=""><?php echo $winedetail->category; ?></p>
+                    <p class=""><?php echo $wineDetail['brand'][0]['name']; ?></p>
                     <hr>
                     <span class="fw-bold">Nồng độ: </span>
-                    <p class=""><?php echo $winedetail->tone; ?> %</p>
+                    <p class=""><?php echo $wineDetail['c']; ?> %</p>
                     <hr>
                     <span class="fw-bold">Năm: </span>
-                    <p class=""><?php echo $winedetail->year; ?></p>
+                    <p class=""><?php echo $wineDetail['year']; ?></p>
 
                 </div>
                 <div class="col-md-4 text-center">
@@ -30,9 +30,9 @@
                 </div>
                 <div class="col-md-5">
                     <div class="mota">
-                        <h3><?php echo $winedetail->name; ?></h3>
-                        <p class="fs-4 fw-bolder"><?php echo number_format($winedetail->price); ?> đ</p>
-                        <p class="tilte lh-lg" style="font-size: 15px;"><?php echo $winedetail->description; ?></p>
+                        <h3><?php echo $wineDetail['name']; ?></h3>
+                        <p class="fs-4 fw-bolder"><?php echo number_format( $wineDetail['price']); ?> đ</p>
+                        <p class="tilte lh-lg" style="font-size: 15px;"><?php echo  $wineDetail['description']; ?></p>
                     </div>
                     <button class="btn btn-outline-primary rounded-0">Thêm vào giỏ</button>
                 </div>

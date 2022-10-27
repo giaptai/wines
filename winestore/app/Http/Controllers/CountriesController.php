@@ -4,38 +4,52 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Country;
+use Illuminate\Support\Facades\Http;
 
 class CountriesController extends Controller
 {
-    public function index()
+    public function index($page)
     {
-        $countryArray = Country::paginate(10);
-        $pagin = Country::count();
-        return response(view('dynamic_layout.tablecountry', compact('countryArray', 'pagin')), 200);
+        $respon = Http::get('http://127.0.0.1:8001/api/v1/origins?page=' . $page);
+
+        $countryArray = $respon['data'];
+        $pagin = $respon['meta']['total'];
+        $currentpage = $respon['meta']['current_page'];
+        return response(view('dynamic_layout.tablecountry', compact('countryArray', 'pagin', 'currentpage')), 200);
     }
- 
-    public function show($id)
+
+    public function show(Request $request)
     {
-        return Country::find($id);
+        $respon = Http::get('http://127.0.0.1:8001/api/v1/origins?name[like]='.$request->input('name'));
+        $countryArray = $respon['data'];
+        $pagin = $respon['meta']['total'];
+        $currentpage = $respon['meta']['current_page'];
+        return response(view('dynamic_layout.tablecountry', compact('countryArray', 'pagin', 'currentpage')), 200);
     }
 
     public function store(Request $request)
     {
-        Country::create($request->all());
-        return $this->index();
+        $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->post('http://127.0.0.1:8001/api/v1/origins', [
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+        ]);
+        return $this->index($request->input('page'));
     }
 
     public function update(Request $request, $id)
     {
-        $Country = Country::findOrFail($id);
-        $Country->update($request->all());
-        return $Country;
+        $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->put('http://127.0.0.1:8001/api/v1/origins/' . $id, $request->all());
+        return response($respon, 200);
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        $Country = Country::findOrFail($id);
-        $Country->delete();
-        return $this->index();
+        $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->delete('http://127.0.0.1:8001/api/v1/origins/' . $id);
+        return $this->index($request->input('page'));
+    }
+
+    public function pagination($page)
+    {
+        return $this->index($page);
     }
 }

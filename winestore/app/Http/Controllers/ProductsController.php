@@ -3,23 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Country;
+use Illuminate\Support\Facades\Http;
 
 class ProductsController extends Controller
 {
 
-    public function index()
+    public function index($page)
     {
-        $productArray = Product::paginate(10);
-        $countryArray = Country::all();
-        $categoryArray = Category::all();
-        $brandArray = Brand::all();
-        $pagin = Product::count();
-        return response(view('dynamic_layout.tableproduct', compact('productArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray',)), 200);
+        $respon = Http::get('http://127.0.0.1:8001/api/v1/products?page=' . $page);
+
+        $productArray = $respon['data'];
+        $countryArray = Http::get('http://127.0.0.1:8001/api/v1/origins')['data'];
+        $categoryArray = Http::get('http://127.0.0.1:8001/api/v1/categories')['data'];
+        $brandArray = Http::get('http://127.0.0.1:8001/api/v1/brands')['data'];
+
+        $pagin = $respon['meta']['total'];
+        $currentpage = $page;
+        return response(view('dynamic_layout.tableproduct', compact('currentpage', 'productArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray',)), 200);
     }
 
     public function show($id)
@@ -30,7 +34,7 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         Product::create($request->all());
-        return $this->index();
+        return $this->index(1);
     }
 
     public function update(Request $request, $id)
@@ -40,36 +44,35 @@ class ProductsController extends Controller
         return $Product;
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
         $Product = Product::findOrFail($id);
         $Product->delete();
-        return $this->index();
+        return $this->index($request->input('page'));
     }
 
-    //lấy dữ liệu từ wines cu the
-    public function getAll()
+    public function pagination($page)
     {
-        $winedetail = DB::table('products')->get();
-        return view('product_details', ["winedetail" => $winedetail]);
+        return $this->index($page);
     }
-
 
     //lấy dữ liệu từ wines cu the
     public function getWines($id)
     {
-        $winedetail = Product::select(
-            'products.*',
-            'categories.name as category',
-            'countries.name as country',
-            'brands.name as brand'
-        )
-            ->join('categories', 'categories.id', 'products.category')
-            ->join('brands', 'brands.id', 'products.brand')
-            ->join('countries', 'countries.id', 'products.country')
-            ->where('products.id', $id)
-            ->first();
+        $wineDetail = Http::get('http://127.0.0.1:8001/api/v1/products/' . $id)['data'];
 
-        return view('page/product_details', compact('winedetail'));
+        // $wineDetail = Product::select(
+        //     'products.*',
+        //     'categories.name as category',
+        //     'countries.name as country',
+        //     'brands.name as brand'
+        // )
+        //     ->join('categories', 'categories.id', 'products.category')
+        //     ->join('brands', 'brands.id', 'products.brand')
+        //     ->join('countries', 'countries.id', 'products.country')
+        //     ->where('products.id', $id)
+        //     ->first();
+        // return $respon;
+        return view('page/product_details', compact('wineDetail'));
     }
 }

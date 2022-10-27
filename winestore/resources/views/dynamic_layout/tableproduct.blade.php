@@ -11,10 +11,10 @@
         </tr>
     </thead>
     <tbody id="show-product">
-
+        <?php $stt = ($currentpage - 1) * 15; ?>
         @foreach ($productArray as $value)
             <tr>
-                <th scope="row"><?php echo $value['id']; ?></th>
+                <th scope="row"><?php echo ++$stt; ?></th>
                 <th scope="row"><?php echo $value['id']; ?></th>
                 <td>
                     <div class="d-flex align-items-center">
@@ -33,7 +33,7 @@
                         <i class="bi bi-eye-fill text-primary"></i>
                     </button>
                     <button value="<?php echo $value['id']; ?>" class="delete-btn btn btn-sm bi bi-x-lg text-danger"
-                        type="button" onclick="deleted(<?php echo $value['id']; ?>)">
+                        type="button" onclick="deleted({!! $value['id'] !!}, {!! $currentpage !!})">
                     </button>
                 </td>
             </tr>
@@ -93,7 +93,7 @@
                                                 <select class="form-select"
                                                     id="category-product-modal-<?php echo $value['id']; ?>">
                                                     @foreach ($categoryArray as $item)
-                                                        <option value="{!! $item->id !!}" {!! $item->id == $value->category ? 'selected' : '' !!}>{!! $item->name !!}</option>
+                                                        <option value="{!! $value['id'] !!}" {!! $value['category'][0]['id'] == $item['id'] ? 'selected' : '' !!}>{!! $item['name'] !!}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -104,7 +104,7 @@
                                                 <select class="form-select"
                                                     id="brand-product-modal-<?php echo $value['id']; ?>">
                                                     @foreach ($brandArray as $item)
-                                                        <option value="{!! $item->id !!}" {!! $item->id == $value->brand ? 'selected' : '' !!}>{!! $item->name !!}</option>
+                                                        <option value="{!! $value['id'] !!}" {!! $value['brand'][0]['id'] == $item['id'] ? 'selected' : '' !!}>{!! $item['name'] !!}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -115,7 +115,7 @@
                                                 <select class="form-select"
                                                     id="country-product-modal-<?php echo $value['id']; ?>">
                                                     @foreach ($countryArray as $item)
-                                                        <option value="{!! $item->id !!}" {!! $item->id == $value->country ? 'selected' : '' !!}>{!! $item->name !!}</option>
+                                                        <option value="{!! $value['id'] !!}" {!! $value['origin'][0]['id'] == $item['id'] ? 'selected' : '' !!}>{!! $item['name'] !!}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -135,7 +135,7 @@
                                                 <label for="" class="form-label">Nồng độ:</label>
                                                 <input type="number" class="form-control"
                                                     id="tone-product-modal-<?php echo $value['id']; ?>"
-                                                    value="<?php echo $value['tone']; ?>">
+                                                    value="<?php echo $value['c']; ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -171,3 +171,14 @@
         @endforeach
     </tbody>
 </table>
+<nav aria-label="Page navigation example" class="col-md-12 my-3">
+    <ul class="pagination pagination-sm justify-content-end" id="phantrang">
+        @for ($i = 0; $i < ceil($pagin / 15); $i++)
+            @if ($i == $currentpage - 1)
+                <li class="page-item"><a class="page-link active">{!! $i + 1 !!}</a></li>
+            @else
+                <li class="page-item"><a class="page-link" onclick="phantrang({!! $i + 1 !!})">{!! $i + 1 !!}</a></li>
+            @endif
+        @endfor
+    </ul>
+</nav>

@@ -10,31 +10,29 @@
         </tr>
     </thead>
     <tbody id="tbody">
+        <?php $stt = ($currentpage - 1) * 15; ?>
         @php
-            $i = 0;
-            if (sizeof($accounts) > 0) {
-                foreach ($accounts as $key => $value) {
+                foreach ($customerArr as $key => $value) {
                     echo '<tr>
-                        <th scope="row">' .
-                        ++$i .
-                        '</th>
-                        <td>' .
-                        $value['name'] .
-                        '</td>
-                        <td>' .
-                        $value['email'] .
-                        '</td>
-                        <td>' .
-                        $value['phone'] .
-                        '</td>
-                        <td>' .
-                        ($value['status'] == 1 ? 'Mở' : 'Khóa') .
-                        '</td>
+                        <th scope="row">' .++$stt .'</th>
+                        <td>' .$value['lastname'] ." ".$value['firstname'].'</td>
+                        <td>' .$value['email'] .'</td>
+                        <td>' .$value['phone'] .'</td>
+                        <td>' .($value['type'] == 1 ? 'Mở' : 'Khóa') .'</td>
                         <td><i class="bi bi-lock-fill"></i></td>
                     </tr>';
                 }
-            }
         @endphp
     </tbody>
 </table>
-{!! $accounts !!}
+<nav aria-label="Page navigation example" class="col-md-12 my-3">
+    <ul class="pagination pagination-sm justify-content-end" id="phantrang">
+        @for ($i = 0; $i < ceil($pagin / 15); $i++)
+            @if ($i == $currentpage-1)
+                <li class="page-item"><a class="page-link active">{!! ($i + 1) !!}</a></li>
+            @else
+            <li class="page-item"><a class="page-link" onclick="phantrang({!! ($i + 1) !!})">{!! ($i + 1) !!}</a></li>
+            @endif
+        @endfor
+    </ul>
+</nav>

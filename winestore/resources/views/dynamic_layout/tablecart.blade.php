@@ -1,4 +1,4 @@
-<div class="{!! (session()->has('cart')==true && sizeof(session('cart')) > 0) ? 'col-md-8' : 'col-md-12' !!}">
+<div class="{!! session()->has('cart') == true && sizeof(session('cart')) > 0 ? 'col-md-8' : 'col-md-12' !!}">
     <div class="">
         <table class="table table-sm align-middle">
             <thead class="table-dark">
@@ -10,7 +10,7 @@
                 </tr>
             </thead>
             <?php $sum = 0; ?>
-            @if (session()->has('cart')==true && sizeof(session('cart')) > 0)
+            @if (session()->has('cart') == true && sizeof(session('cart')) > 0)
                 @foreach (session('cart') as $item)
                     <?php $sum += $item['price'] * $item['quantity']; ?>
                     <tr>
@@ -33,10 +33,11 @@
                         </td>
                         <td>{{ number_format($item['price']) }}</td>
                         <td>
-                            <div class="row">
+                            <div class="row px-2 text-end">
                                 <span class="col-12">{{ number_format($item['price'] * $item['quantity']) }}</span>
                                 <span class="col-12 text-decoration-underline text-danger"
-                                    onclick="removeItemCart({{ $item['id'] }})"><i class="bi bi-trash3"></i>
+                                    onclick="removeItemCart({{ $item['id'] }})"><button class="btn p-0"><i
+                                            class="bi bi-trash3"></i></button>
                                 </span>
                             </div>
                         </td>
@@ -60,26 +61,30 @@
         </table>
     </div>
 </div>
-<div class="col-md-4" style="display: {!! (session()->has('cart')==true && sizeof(session('cart')) > 0)  ? 'block' : 'none' !!}">
-    <form class="p-3 mb-3 border">
+<div class="col-md-4" style="display: {!! session()->has('cart') == true && sizeof(session('cart')) > 0 ? 'block' : 'none' !!}">
+    <form class="p-3 mb-3 border" action="/vnpay/vnpay_payment" method="POST">
+        @csrf <!-- {{ csrf_field() }} -->
         <h4>THÔNG TIN KHÁCH HÀNG</h4>
         <div class="row mb-3">
             <label for="inputEmail3" class="col-sm-4 col-form-label-sm fw-semibold">Họ và tên</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control form-control-sm" id="pay-name" name="pay-name" value="Nguyễn Thị Minh Thư">
+                <input type="text" class="form-control form-control-sm" id="pay-name" name="pay-name"
+                    value="Nguyễn Thị Minh Thư">
             </div>
         </div>
         <div class="row mb-3">
             <label for="inputPassword3" class="col-sm-4 col-form-label-sm fw-semibold">Số điện thoại</label>
             <div class="col-sm-8">
-                <input type="phone" class="form-control form-control-sm" id="pay-phone" name="pay-phone" value="0921123435">
+                <input type="phone" class="form-control form-control-sm" id="pay-phone" name="pay-phone"
+                    value="0921123435">
             </div>
         </div>
 
         <div class="row mb-3">
             <label for="inputPassword3" class="col-sm-4 col-form-label-sm fw-semibold">Email</label>
             <div class="col-sm-8">
-                <input type="email" class="form-control form-control-sm" id="pay-email" name="pay-email" value="minhthu@gmail.com">
+                <input type="email" class="form-control form-control-sm" id="pay-email" name="pay-email"
+                    value="minhthu@gmail.com">
             </div>
         </div>
         <hr>
@@ -87,23 +92,23 @@
             <label for="inputPassword3" class="col-sm-4 col-form-label-sm fw-semibold">Địa chỉ</label>
             <div class="col-sm-8">
                 <select class="form-select form-select-sm mb-2" aria-label="Default select example" id="thanhpho"
-                    onchange="getDistric(this)">
+                    name="thanhpho" onchange="getDistric(this)">
                     <option selected class="text-center">------Thành phố------</option>
                     <?php
                     $respon = Http::get('https://provinces.open-api.vn/api/p');
                     $apiOk = $respon->json();
-                    
                     for ($i = 0; $i < sizeof($apiOk); $i++) {
                         echo '<option value="' . $apiOk[$i]['code'] . '">' . $apiOk[$i]['name'] . '</option>';
                     }
                     ?>
                 </select>
                 <select class="form-select form-select-sm mb-2" aria-label="Default select example" id="quan-huyen"
-                    onchange="getBlock(this)">
+                    name="quan-huyen" onchange="getBlock(this)">
                     <option selected class="text-center">------Quận, huyện------</option>
 
                 </select>
-                <select class="form-select form-select-sm mb-2" aria-label="Default select example" id="phuong-xa">
+                <select class="form-select form-select-sm mb-2" aria-label="Default select example" id="phuong-xa"
+                    name="phuong-xa">
                     <option selected class="text-center">------Phường, xã------</option>
                 </select>
                 <textarea class="form-control form-select-sm" id="pay-address" id="pay-address" placeholder="Số nhà, tên đường"
@@ -124,11 +129,10 @@
         <div class="row mb-3">
             <label for="inputPassword3" class="col-sm-4 col-form-label fw-bold">Tổng</label>
             <div class="col-sm-8">
-                <span class="form-control fw-semibold bg-white" id="pay-sum"><?php echo number_format($sum); ?></span>
-                <span class="form-control fw-semibold bg-white" id="pay-sum2"
-                    style="display: none"><?php echo $sum; ?></span>
+                <input class="form-control fw-semibold bg-white" id="pay-sum" value="<?php echo number_format($sum); ?>"/>
+                <input class="form-control fw-semibold bg-white" id="pay-sum2" name="pay-sum2" value="<?php echo $sum; ?>" style="display: none"/>
             </div>
         </div>
-        <button type="button" class="btn btn-primary" onclick="codpay()">Đặt hàng</button>
+        <button type="submit" class="btn btn-primary" name="redirect">Đặt hàng</button>
     </form>
 </div>
