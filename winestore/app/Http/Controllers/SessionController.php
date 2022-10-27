@@ -11,15 +11,16 @@ class SessionController extends Controller
 
     public function store($id)
     {
-        $item = Product::find($id);
+        $item=Http::get('http://127.0.0.1:8001/api/v1/products/'.$id);
+
         $cart = session('cart');
         $cart[$id] =
             [
-                'id' => $id,
-                'name' => $item->name,
-                'image' => $item->image,
+                'id' => $item['data']['id'],
+                'name' => $item['data']['name'],
+                'images' => $item['data']['images'],
                 'quantity' => 1,
-                'price' => $item->price,
+                'price' => $item['data']['price'],
             ];
         session()->put('cart', $cart);
         return response($item, 200);
@@ -28,9 +29,9 @@ class SessionController extends Controller
     public function add($id)
     {
         $cart = session('cart');
-        $item = Product::find($id);
+        $item=Http::get('http://127.0.0.1:8001/api/v1/products/'.$id);
         if (isset($cart[$id])) {
-            if ($cart[$id]['quantity'] < $item->quantity) {
+            if ($cart[$id]['quantity'] < $item['data']['quantity']) {
                 $cart[$id]['quantity'] = $cart[$id]['quantity'] + 1;
                 session()->put('cart', $cart);
             } 

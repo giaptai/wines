@@ -92,7 +92,6 @@
                     <?php
                     $respon = Http::get('https://provinces.open-api.vn/api/p');
                     $apiOk = $respon->json();
-                    
                     for ($i = 0; $i < sizeof($apiOk); $i++) {
                         echo '<option value="' . $apiOk[$i]['code'] . '">' . $apiOk[$i]['name'] . '</option>';
                     }

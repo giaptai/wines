@@ -28,11 +28,16 @@ class MenuBarController extends Controller
         // $res = Http::patch('http://localhost:8000/api/v1/orders/1', ['status' => 4]);
         // return response()->json([$res['data']], 200);
         Paginator::useBootstrapFive();
-        $paginate = Product::count();
-        $wineArray = Product::paginate(10);
+
+        $respon=Http::get('http://127.0.0.1:8001/api/v1/products');
+
+        $paginate = $respon['meta']['total'];
+        $wineArray = $respon['data'];
         $countryArray = Country::all();
         $categoryArray = Category::all();
         $brandArray = Brand::all();
+
+        // return response($respon, 200);
         return view('page.cuahang',  compact('wineArray', 'countryArray', 'categoryArray', 'brandArray', 'paginate'));
     }
 

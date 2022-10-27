@@ -9,7 +9,7 @@
             </select>
         </div>
         <div class="col-md-auto">
-            <span class="fw-semibold text-danger mx-2" id="soluong"> (Có {!! $paginate !!} sản phẩm)</span>
+            <span class="fw-semibold text-danger mx-2" id="soluong"> (Có {!! sizeof($paginate) !!} sản phẩm)</span>
         </div>
     </div>
 </div>
