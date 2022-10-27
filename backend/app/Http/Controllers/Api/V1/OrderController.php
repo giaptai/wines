@@ -111,7 +111,10 @@ class OrderController extends Controller
         $order->update($request->all());
         return response()->json([
             'status' => true,
-            'message' => 'Updated status successfully !'
+            'message' => 'Updated status successfully !',
+            'data' => [
+                $order
+            ]
         ]);
     }
 
