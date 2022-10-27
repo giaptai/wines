@@ -35,7 +35,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'/* ,
     Route::apiResource('origins', OriginController::class);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('products', ProductController::class);
-    Route::post('orderdetails/bulk', ['uses' => 'OrderDetailController@bulkStore']);
+    // Route::post('orderdetails/bulk', ['uses' => 'OrderDetailController@bulkStore']);
 });
 //api/v1/ 
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {

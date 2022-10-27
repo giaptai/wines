@@ -35,8 +35,26 @@ class OrderDetailController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 1. Create orderdetail.
      *
+     *  [
+     *      { "id": 1,
+     *      "productId": 26,
+     *      "price": "8.00",
+     *      "productName": "Dr. Mervin Rippin III",
+     *      "quantity": 5,
+     *      "orderId": 1
+     *      },
+     *      {
+     *      "id": 2,
+     *      "productId": 27,
+     *      "price": "2.00",
+     *      "productName": "Jeanie Schulist V",
+     *      "quantity": 3,
+     *      "orderId": 2
+     *      },
+     * ]
+     * 
      * @param  \App\Http\Requests\StoreOrderDetailRequest  $request
      * @return \Illuminate\Http\Response
      */
@@ -45,7 +63,17 @@ class OrderDetailController extends Controller
         $bulk = collect($request->all())->map(function ($arr, $key) {
             return Arr::except($arr, ['productId', 'productName', 'orderId']);
         });
-        OrderDetail::insert($bulk->toArray());
+
+        $orderdetails = OrderDetail::insert($bulk->toArray());
+        if ($orderdetails == 1) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Add orderdetails successfully !',
+                'data' => [
+                    $bulk
+                ]
+            ]);
+        }
     }
 
     /**
