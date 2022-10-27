@@ -37,6 +37,7 @@ use Illuminate\Http\Request;
 Route::prefix('/')->group(function () {
   //trang chủ
   Route::get('/home', [MenuBarController::class, 'home'])->name('home');
+  Route::get('/', [MenuBarController::class, 'home'])->name('home');
 
   //trang cửa hàng
   Route::get('/shop', [MenuBarController::class, 'shop'])->name('shop');
@@ -131,7 +132,6 @@ Route::prefix('admin')->group(function () {
 
   Route::get('/countries/{page}', [CountriesController::class, 'pagination'])->name('paginate-country');
   Route::get('/search-country', [CountriesController::class, 'show'])->name('search-country');
-
 });
 
 
