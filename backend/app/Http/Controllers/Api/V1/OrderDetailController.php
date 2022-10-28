@@ -63,17 +63,10 @@ class OrderDetailController extends Controller
         $bulk = collect($request->all())->map(function ($arr, $key) {
             return Arr::except($arr, ['productId', 'productName', 'orderId']);
         });
-
-        $orderdetails = OrderDetail::insert($bulk->toArray());
-        if ($orderdetails == 1) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Add orderdetails successfully !',
-                'data' => [
-                    $bulk
-                ]
-            ]);
+        foreach ($bulk as $item) {
+            OrderDetail::create($item);
         }
+        return response()->json(['status' => true, 'message' => 'Add orderdetails successfully !', 'data' => [$bulk]]);
     }
 
     /**
