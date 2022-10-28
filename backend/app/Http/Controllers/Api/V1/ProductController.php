@@ -30,6 +30,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+
         $filler = new ProductFilter();
         $product = new Product();
         $filterItems = $filler->transform($request);
@@ -40,6 +41,8 @@ class ProductController extends Controller
             } elseif ($items[1] == 'between') {
                 $integerIDs = array_map('intval', json_decode($items[2], true));
                 $product = $product->whereBetween($items[0], $integerIDs);
+            } elseif ($items[1] == 'sort') {
+                $product = $product->orderBy($items[0], $items[2]);
             } else {
                 $tmp[] = $items;
                 $product = $product->where($tmp);
@@ -48,6 +51,7 @@ class ProductController extends Controller
         // return $request;
         return new ProductCollection($product->paginate(10)->appends($request->query()));
     }
+
 
     /**
      * Show the form for creating a new resource.

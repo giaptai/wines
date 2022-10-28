@@ -14,7 +14,7 @@ class ProductFilter extends ApiFilter
         'originId' => ['eq', 'in'],
         'brandId' => ['eq', 'in'],
         'cateId' => ['eq', 'in'],
-        'price' => ['between'],
+        'price' => ['between', 'sort'],
         'c' => ['eq', 'lt', 'lte', 'gt', 'gte', 'between'],
     ];
 
@@ -31,6 +31,7 @@ class ProductFilter extends ApiFilter
         'lt' => '<',
         'lte' => '<=',
         'gt' => '>',
-        'gte' => '>='
+        'gte' => '>=',
+        'sort' => 'sort'
     ];
 }
