@@ -10,9 +10,8 @@
     <div class="col-md-auto">
         <div class="input-group">
             <input type="text" class="form-control form-control-sm" value="" placeholder="Mã" id="search_id">
-            <input type="text" class="form-control form-control-sm" value="" placeholder="Tên"
-                id="search_name">
-            <button class="btn btn-sm btn-primary" onclick="searched(this.parentElement)" type="button">Search</button>
+            <input type="text" class="form-control form-control-sm" value="" placeholder="Tên" id="search_name">
+            <button class="btn btn-sm btn-primary" onclick="searched()" type="button">Search</button>
         </div>
     </div>
 </div>

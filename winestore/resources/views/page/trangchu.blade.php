@@ -35,7 +35,7 @@
                 {{-- <h2 class="col-md-auto text-center">Thể loại rượu</h2> --}}
                 <div class="d-flex align-items-center justify-content-center text-center mt-3 mb-3">
                     <hr class="col-md-5" />
-                    <span class="border p-1 col-md-2 fs-3 fw-semibold">Thể loại rượu</span>
+                    <span class="border border-dark p-1 col-md-2 fs-3 fw-semibold">Thể loại rượu</span>
                     <hr class="col-md-5" />
                 </div>
                
@@ -72,7 +72,7 @@
             <div class="mt-4 mb-4">
                 <div class="d-flex align-items-center justify-content-center text-center p-0">
                     <hr class="col-5" />
-                    <span class="border p-1 col-md-2 fs-3 fw-semibold">Tìm hiểu</span>
+                    <span class="border border-dark p-1 col-md-2 fs-3 fw-semibold">Tìm hiểu</span>
                     <hr class="col-5" />
                 </div>
             </div>
@@ -138,7 +138,7 @@ background-image: url('https://cdn.shopify.com/s/files/1/1503/3114/articles/fixe
                 <div class=" mb-3 bg-white">
                     <div class="d-flex align-items-center justify-content-center text-center p-0">
                         <hr class="col-md-4" />
-                        <span class="border p-1 col-md-4 fs-3 fw-semibold">Về LuxuryWine Flix</span>
+                        <span class="border border-dark p-1 col-md-4 fs-3 fw-semibold">Về LuxuryWine Flix</span>
                         <hr class="col-md-4" />
                     </div>
                 </div>

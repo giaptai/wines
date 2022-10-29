@@ -52,7 +52,7 @@
                             <p class="fw-semibold">Không có sản phẩm nào trong giỏ hàng</p>
                             <div class="d-grid gap-2">
                                 <hr>
-                                <a class="btn btn-primary" type="button" href="{{ route('shop') }}">Mua hàng</a>
+                                <a class="btn btn-primary rounded-0" type="button" href="{{ route('shop') }}">Mua hàng</a>
                             </div>
                         </div>
                     </td>
@@ -68,8 +68,7 @@
         <div class="row mb-3">
             <label for="inputEmail3" class="col-sm-4 col-form-label-sm fw-semibold">Họ và tên</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control form-control-sm" id="pay-name" name="pay-name"
-                    value="Nguyễn Thị Minh Thư">
+                <input type="text" class="form-control form-control-sm" id="pay-name" name="pay-name" value="Nguyễn Thị Minh Thư">
             </div>
         </div>
         <div class="row mb-3">
@@ -91,8 +90,7 @@
         <div class="row mb-3">
             <label for="inputPassword3" class="col-sm-4 col-form-label-sm fw-semibold">Địa chỉ</label>
             <div class="col-sm-8">
-                <select class="form-select form-select-sm mb-2" aria-label="Default select example" id="thanhpho"
-                    name="thanhpho" onchange="getDistric(this)">
+                <select class="form-select form-select-sm mb-2" aria-label="Default select example" id="thanhpho" name="thanhpho" onchange="getDistric(this)">
                     <option selected class="text-center">------Thành phố------</option>
                     <?php
                     $respon = Http::get('https://provinces.open-api.vn/api/p');
@@ -105,13 +103,12 @@
                 <select class="form-select form-select-sm mb-2" aria-label="Default select example" id="quan-huyen"
                     name="quan-huyen" onchange="getBlock(this)">
                     <option selected class="text-center">------Quận, huyện------</option>
-
                 </select>
                 <select class="form-select form-select-sm mb-2" aria-label="Default select example" id="phuong-xa"
                     name="phuong-xa">
                     <option selected class="text-center">------Phường, xã------</option>
                 </select>
-                <textarea class="form-control form-select-sm" id="pay-address" id="pay-address" placeholder="Số nhà, tên đường"
+                <textarea class="form-control form-select-sm" id="pay-address" name="pay-address" placeholder="Số nhà, tên đường"
                     style="height: 50px;">99 An Dương Vương</textarea>
             </div>
 

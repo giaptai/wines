@@ -121,7 +121,7 @@
                         <hr>
                         <div class="">
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <button name="btn-submit" type="button" class="btn-submit btn btn-outline-danger w-100"
+                                <button name="btn-submit" type="button" class="btn-submit btn btn-outline-danger rounded-0 w-100"
                                     onclick="filter()">Lọc sản phẩm</button>
                             </div>
                         </div>
@@ -191,6 +191,14 @@
                     </ul>
                 </nav> --}}
                 @include('dynamic_layout.tableshop')
+            </div>    
+        </div>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">Thêm vào giỏ thành công</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
             </div>
         </div>
     </div>

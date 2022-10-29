@@ -50,13 +50,13 @@
                             <div class="row justify-content-center justify-content-around">
                                 <div class="col-md-4">
                                     <div class="col-md-auto border" style="height: 24rem;">
-                                        <img src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
+                                        <img src="{!! $value['images'] !!}"
                                             class="rounded mx-auto d-block m-5" alt="..." width="auto"
                                             height="200" style="object-fit: cover;">
                                     </div>
                                     <div class="col-md-auto">
                                         <div class="input-group mb-3">
-                                            <input type="file" class="form-control">
+                                            <input type="file" class="form-control" id="image-product-modal-<?php echo $value['id']; ?>">
                                             <button class="btn btn-outline-secondary" type="button">Upload</button>
                                         </div>
                                     </div>

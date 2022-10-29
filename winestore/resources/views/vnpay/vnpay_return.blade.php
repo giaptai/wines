@@ -9,11 +9,11 @@
     <script src="{{ url('./bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url('./bootstrap/dist/css/bootstrap.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 
-<body>
+<body class="bg-light">
     <style>
         .container {
             margin: 2rem auto;
@@ -35,47 +35,76 @@
             margin-bottom: 0.4rem;
         }
     </style>
-    <div class="container">
-        <div class="header clearfix">
-            <h2 class="text-muted">Thông tin hóa đơn</h2>
+    <div class="container bg-light">
+        
+        <div class="p-1">
+            
+            <div class="m-auto card p-4 rounded-0 shadow" style="width:35rem">
+                <div class="header clearfix">
+                    <h2 class="text-muted">Thông tin giao dịch</h2>
+                </div>
+                <div class="mb-2 row">
+                    <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Mã đơn hàng:</label>
+                    <div class="col-md-6">
+                        <input type="text" readonly class="form-control-plaintext" value="{{ $vnp_TxnRef }}">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Tổng số tiền:</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control-plaintext" readonly
+                            value="{{ number_format(session('orders')['total_price']) }}">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Nội dung thanh toán:</label>
+                    <div class="col-md-6">
+                        <input type="text" readonly class="form-control-plaintext" value="{{ $vnp_OrderInfo }}">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Mã phản hồi:</label>
+                    <div class="col-md-6">
+                        <input type="text" readonly class="form-control-plaintext" value="{{ $vnp_ResponseCode }}">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Mã giao dịch VNPAY:</label>
+                    <div class="col-md-6">
+                        <input type="text" readonly class="form-control-plaintext" value="{{ $vnp_TransactionNo }}">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Mã Ngân hàng:</label>
+                    <div class="col-md-6">
+                        <input type="text" readonly class="form-control-plaintext" value="{{ $vnp_BankCode }}">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Thời gian thanh toán:</label>
+                    <div class="col-md-6">
+                        <input type="text" readonly class="form-control-plaintext" value="{{ date('d-m-Y h:i:s', strtotime($vnp_PayDate)) }}">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Người thanh toán:</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control-plaintext" readonly
+                            value="{{ session('orders')['fullname'] }}">
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Kết quả: </label>
+                    <div class="col-md-6">
+                        <input type="text" readonly class="form-control-plaintext {!! $vnp_ResponseCode=='00' ? 'text-success fw-bold' : 'text-danger fw-bold' !!}" value="{{ $Result }}">
+                    </div>
+                </div>
+                <a href="{{ route('home') }}" class="btn btn-primary rounded-0">Quay lại</a>
+            </div>
+           
         </div>
-        <div class="table-responsive">
-            <div class="form-group">
-                <label class="form-control">Mã đơn hàng: {{ $vnp_TxnRef }}</label>
-            </div>
-            <div class="form-group">
-                <label class="form-control">Tổng số tiền: {{ number_format(
-                    // session('orders')['vnp_Amount']
-                    $_GET['vnp_Amount']
-                    ) }}
-                    VNĐ</label>
-            </div>
-            <div class="form-group">
-                <label class="form-control">Nội dung thanh toán: {{ $vnp_OrderInfo }}</label>
-            </div>
-            <div class="form-group">
-                <label class="form-control">Mã phản hồi: {{ $vnp_ResponseCode }}</label>
-            </div>
-            <div class="form-group">
-                <label class="form-control">Mã giao dịch của VNPAY: {{ $vnp_TransactionNo }}</label>
-            </div>
-            <div class="form-group">
-                <label class="form-control">Mã Ngân hàng: {{ $vnp_BankCode }} </label>
-            </div>
-            <div class="form-group">
-                <label class="form-control">Thời gian thanh toán:
-                    {{ date('d-m-Y h:i:s', strtotime($vnp_PayDate)) }}</label>
-            </div>
-            <div class="form-group">
-                <label class="form-control">Người thanh toán: {{ session('orders')['fullname'] }}</label>
-            </div>
-            <div class="form-group">
-                <label class="form-control">Kết quả: {{ $Result }}</label>
-            </div>
-            <a href="/cart" class="btn btn-primary">Quay lại</a>
-        </div>
-        <footer class="footer">
-            <p>&copy; Trang web bán bật lửa Zippo trực tuyến 2022</p>
+        <footer class="footer mt-5">
+            <p>&copy; Trang web bán rượu trực tuyến {!! date('Y') !!}</p>
         </footer>
     </div>
 </body>

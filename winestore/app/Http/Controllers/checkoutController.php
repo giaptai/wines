@@ -16,11 +16,15 @@ class CheckoutController extends Controller
 
     public function vnpayPayment(Request $request)
     {
+        $respon1 = Http::get('https://provinces.open-api.vn/api/p/' . $request->input('thanhpho') . '?depth=1');
+        $respon2 = Http::get('https://provinces.open-api.vn/api/d/' . $request->input('quan-huyen') . '?depth=1');
+        $respon3 = Http::get('https://provinces.open-api.vn/api/w/' . $request->input('phuong-xa') . '?depth=1');
+
         session()->put('orders', [
             'fullname' => $request->input('pay-name'),
             'phonenumber' => $request->input('pay-phone'),
             'email' => $request->input('pay-email'),
-            'address' => $request->input('thanhpho') . ' ' . $request->input('quan-huyen') . ' ' . $request->input('phuong-xa'),
+            'address' =>  $request->input('pay-address') . ', ' . $respon3['name'] . ', ' . $respon2['name'] . ', ' . $respon1['name'],
             'total_price' => $request->input('pay-sum2'),
             // 'quantity' => $request->input('quantity')
         ]);
@@ -29,9 +33,9 @@ class CheckoutController extends Controller
         $vnp_Returnurl = "http://127.0.0.1:8000/vnpay/vnpay_return";
         $vnp_TxnRef = random_int(PHP_INT_MIN, PHP_INT_MAX);
         // $_POST['order_id']; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = "Thanh toan hoa don";
+        $vnp_OrderInfo = "Thanh toán hóa đơn";
         // $_POST['order_desc'];
-        $vnp_OrderType = 'mua hang hoa';
+        $vnp_OrderType = 'Mua hàng hóa';
         // $_POST['order_type'];
         $vnp_Amount = $request->input('pay-sum2') * 100;
         $vnp_Locale = 'vn';
@@ -145,32 +149,46 @@ class CheckoutController extends Controller
         if ($secureHash == $vnp_SecureHash) {
             // lưu vô bảng đơn hàng và chi tiết đơn hàng
             if ($_GET['vnp_ResponseCode'] == '00') {
-                // $orders = new orders();
-                // $orders->order_date = $request->input('vnp_PayDate');
-                // $orders->fullname = session('orders')['fullname'];
-                // $orders->phone_number = session('orders')['phone_number'];
-                // $orders->address = session('orders')['address'];
-                // $orders->quantity = session('orders')['quantity'];
-                // $orders->total_price = session('orders')['total_price'];
-                // $orders->user_id = session('UserID');
-                // if ($orders->save()) {
-                //     foreach (session()->get('cart') as $item) {
-                //         $orderdetails = new orderdetails();
-                //         $orderdetails->order_id = orders::max('id') + 1;
-                //         $orderdetails->product_id = $item['id'];
-                //         $orderdetails->quantity = $item['quantity'];
-                //         $orderdetails->product_price = $item['price'];
-                //         $orderdetails->save();
-                //     }
+                $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->post(
+                    'http://127.0.0.1:8001/api/v1/orders',
+                    [
+                        "customer_id" => 2,
+                        "total" => session('orders')['total_price'],
+                        "address" => session('orders')['address'],
+                        "phone" => session('orders')['phonenumber'],
+                        "fullname" => session('orders')['fullname'],
+                        "email" => session('orders')['email'],
+                    ]
+                );
+                // Ngân hàng: NCB
+                // Số thẻ: 9704198526191432198
+                // Tên chủ thẻ: NGUYEN VAN A
+                // Ngày phát hành: 07/15
+                // Mật khẩu OTP: 123456
+                foreach ($cart = session('cart') as $item) {
+                    $respon2 = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->post(
+                        'http://127.0.0.1:8001/api/v1/orderdetails',
+                        [
+                            array(
+                                'productId' => $item['id'],
+                                'price' => $item['price'],
+                                'productName' => $item['name'],
+                                'quantity' => $item['quantity'],
+                                'orderId' => $respon['data']['id'],
+                            )
+                        ]
+                    );
+                }
                 $Result = 'Giao dịch thành công';
                 // }
             } else {
-                $Result= 'Giao dịch không thành công';
+                $Result = 'Giao dịch không thành công';
             }
         } else {
-            $Result= 'Chu kỳ không hợp lệ';
+            $Result = 'Chu kỳ không hợp lệ';
         }
-        @dd($Result);
+        // return response($arr, 200);
+
         return view("vnpay.vnpay_return", [
             'vnp_TxnRef' => $request->input('vnp_TxnRef'),
             'vnp_OrderInfo' => $request->input('vnp_OrderInfo'),

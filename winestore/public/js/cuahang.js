@@ -33,7 +33,9 @@ function filter(id) {
 
     var firstprice = document.getElementById('first-price').value;
     var lastprice = document.getElementById('last-price').value;
+    // var dispose = 'ASC';
     var dispose = document.getElementById('dispose').value;
+
 
     for (var i = 0; i < chbox.length; i++) {
         if (chbox[i].checked) {

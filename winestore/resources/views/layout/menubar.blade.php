@@ -1,12 +1,15 @@
-<div class="header" style="background-color: #09102a; font-size: 14px">
+<div class="header" style="background-color: #06283D; font-size: 14px">
+    {{--  09102a--}}
     <div class="container p-0">
         <ul class="nav justify-content-end align-items-center">
-            <li class="nav-item"><a class="nav-link text-light" href="{{ route('login') }}">Đăng nhập</a></li>
+            <li class="nav-item"><a class="nav-link text-light" href="{{ route('register') }}">Đăng nhập</a></li>
             <div class="text-white">|</div>
-            <li class="nav-item"><a class="nav-link text-light" href="/lienhe">Đăng ký</a></li>
+            <li class="nav-item"><a class="nav-link text-light" href="{{ route('register') }}">Đăng ký</a></li>
+            <div class="text-white">|</div>
+            <li class="nav-item"><a class="nav-link text-light" href="{{ route('statistic') }}">Quản lý</a></li>
         </ul>
     </div>
-    <nav class="navbar navbar-dark navbar-expand-lg nav-masthead shadow-sm pt-0 pb-3"
+    <nav class="navbar navbar-dark navbar-expand-lg nav-masthead shadow-sm pb-2 pt-0"
         style="font-family: Knockout 48 A,Knockout 48 B,sans-serif">
         <div class="container">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample10"
@@ -29,16 +32,16 @@
                     <li class="nav-item mx-2">
                         <a class="nav-link <?php echo str_contains(Request::url(), 'account') ? 'border text-light fw-bold' : 'text-light fw-bold'; ?>" href="{{ route('my-account') }}">TÀI KHOẢN</a>
                     </li>
-                    <li class="nav-item mx-2">
+                    {{-- <li class="nav-item mx-2">
                         <a class="nav-link <?php echo str_contains(Request::url(), 'admin') ? 'border text-light fw-bold' : 'text-light fw-bold'; ?>" href="{{ route('statistic') }}">QUẢN LÝ</a>
-                    </li>
+                    </li> --}}
                     {{-- <li class="nav-item mx-2"><a class="nav-link text-light" href="{{ route('login') }}">Đăng nhập</a></li> --}}
                     <li class="nav-item mx-2"><a class="nav-link text-light fw-bold" href="/lienhe">LIÊN HỆ</a></li>
                 </ul>
             </div>
             <form action="">
-                <div class="input-group rounded">
-                    <input type="search" class="form-control form-control-sm rounded" placeholder="Tên sản phẩm" size="28">
+                <div class="input-group">
+                    <input type="search" class="form-control form-control-sm rounded-0" placeholder="Tên sản phẩm" size="28">
                 </div>
             </form>
         </div>

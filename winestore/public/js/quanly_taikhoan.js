@@ -1,9 +1,9 @@
-function deleted(id, page) {
+function deleted(ele, page) {
+    console.log(ele);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            document.getElementById('quanlysanpham').innerHTML = this.responseText;
+            document.getElementById('quanlyquocgia').innerHTML = this.responseText;
 
             const toastLiveExample = document.getElementById('liveToast')
             toastLiveExample.innerHTML =
@@ -16,39 +16,25 @@ function deleted(id, page) {
         }
     };
 
-    xhttp.open("DELETE", '/admin/products/' + id + '?page=' + page, true);
+    xhttp.open("DELETE", '/admin/countries/' + ele + '?page=' + page, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();
 }
 
 function edit(ele) {
-    var image = document.getElementById('image-product-modal-' + ele).value;
-    var name = document.getElementById('name-product-modal-' + ele).value;
-    var desc = document.getElementById('desc-product-modal-' + ele).value;
-    var category = document.getElementById('category-product-modal-' + ele).value;
-    var brand = document.getElementById('brand-product-modal-' + ele).value;
-    var country = document.getElementById('country-product-modal-' + ele).value;
-    var quantity = document.getElementById('quantity-product-modal-' + ele).value;
-    var tone = document.getElementById('tone-product-modal-' + ele).value;
-    var year = document.getElementById('year-product-modal-' + ele).value;
-    var price = document.getElementById('price-product-modal-' + ele).value;
-
+    var name = document.getElementById('name-country-modal-' + ele).value;
+    var desc = document.getElementById('desc-country-modal-' + ele).value;
 
     var ss1 = document.getElementById(ele).parentElement.parentElement;
-    console.log(image);
+    console.log(ele, name, desc, ss1);
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-            ss1.children[2].children[0].children[0].src = 'https://api.lorem.space/image/game?w=68&h=51';
-            ss1.children[2].children[0].children[1].innerHTML = name;
-            ss1.children[3].innerHTML = quantity;
-            ss1.children[4].innerHTML = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(price);
-            ss1.children[5].innerHTML = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(quantity * price);
-            
-            document.getElementById('quanlysanpham').innerHTML = this.responseText;
+            ss1.children[1].innerHTML = name;
+            ss1.children[2].innerHTML = desc;
 
             const toastLiveExample = document.getElementById('liveToast')
             toastLiveExample.innerHTML =
@@ -60,25 +46,13 @@ function edit(ele) {
             toast.show()
         }
     };
-    xhttp.open("PUT", '/admin/products/' + ele, true);
+    xhttp.open("PUT", '/admin/countries/' + ele + '?name=' + name + '&description=' + desc, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
-    xhttp.send(
-        'image=' + image +
-        '&name=' + name +
-        '&c=' + tone +
-        '&vol=' + 700 +
-        '&description=' + desc +
-        '&quantity=' + quantity +
-        '&country=' + country +
-        '&brand=' + brand +
-        '&category=' + category +
-        '&price=' + price +
-        '&year=' + year,
-    );
+    xhttp.send();
 }
 
-function add() {
+function add(page) {
     var name = document.getElementById('name-country-add').value;
     var desc = document.getElementById('desc-country-add').value;
     console.log(name, desc);
@@ -87,7 +61,7 @@ function add() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-            document.getElementById('quanlysanpham').innerHTML = this.responseText;
+            document.getElementById('quanlyquocgia').innerHTML = this.responseText;
 
             const toastLiveExample = document.getElementById('liveToast')
             toastLiveExample.innerHTML =
@@ -99,42 +73,45 @@ function add() {
             toast.show()
         }
     };
-    xhttp.open("POST", '/admin/add-product', true);
+    xhttp.open("POST", '/admin/add-country', true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send(
         'name=' + name +
-        '&description=' + desc
+        '&description=' + desc +
+        '&page=' + page
     );
 }
 
 function phantrang(page) {
+    console.log(page);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-            document.getElementById('quanlysanpham').innerHTML = this.responseText;
+            document.getElementById('quanlytaikhoan').innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", '/admin/products/' + page, true);
+    xhttp.open("GET", '/admin/accounts/' + page, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();
 }
 
-function searched() {
-    var idqr = document.getElementById('search_id').value;
-    var nameqr = document.getElementById('search_name').value;
-    console.log(idqr, nameqr);
+function searched(ele) {
+    var emailqr = document.getElementById('email').value;
+    var phoneqr = document.getElementById('phone').value;
+
+    console.log(emailqr, phoneqr);
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-            document.getElementById('quanlysanpham').innerHTML = this.responseText;
+            document.getElementById('quanlytaikhoan').innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", '/admin/search-product?name=' + nameqr + '&id=' + idqr, true);
+    xhttp.open("GET", '/admin/search-accounts?email=' + emailqr + '&phone=' + phoneqr, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();

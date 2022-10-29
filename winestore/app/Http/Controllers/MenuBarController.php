@@ -54,7 +54,7 @@ class MenuBarController extends Controller
     }
 
     //trang quản lý khách hàng
-    public function login(){
+    public function register(){
         return view('page/logger');
     }
 

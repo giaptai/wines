@@ -93,7 +93,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-floating mb-3">
-                                                <textarea class="form-control" id="desc-category-modal-{{ $item['id'] }}" placeholder="Mô tả gì đó"
+                                                <textarea class="form-control desc" id="desc-category-modal-{{ $item['id'] }}" placeholder="Mô tả gì đó"
                                                     style="height: 12rem">{{ $item['description'] }}</textarea>
                                                 <label for="floatingInput">Mô tả</label>
                                             </div>
