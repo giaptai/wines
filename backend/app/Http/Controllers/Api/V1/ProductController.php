@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\V1\ProductCollection;
 use App\Http\Resources\V1\ProductResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -87,7 +88,28 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $product = new ProductResource(Product::create($request->all()));
+        $data = $request->all();
+        if ($file = $request->file('images')) {
+            $filePath = 'public/uploads/' . time() . '_' . $request->images->getClientOriginalName();
+            $file->move('uploads/', $filePath);
+            $data['images'] = $filePath;
+        }
+        // return $request->all();
+        // $product = new ProductResource(Product::create([
+        //     'name' => $request->name,
+        //     'description' => $request->description,
+        //     'images' => $request->images,
+        //     'quantity' => $request->quantity,
+        //     'vol' => $request->vol,
+        //     'c' => $request->c,
+        //     'brand_id' => $request->brand_id,
+        //     'category_id' => $request->category_id,
+        //     'origin_id' => $request->origin_id,
+        //     'year' => $request->year,
+        //     'price' => $request->price
+        // ]));
+
+        $product = new ProductResource(Product::create($data));
         return response()->json([
             'status' => true,
             'message' => 'Create new product successfully!',
@@ -142,6 +164,16 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        if ($request->images) {
+            if (File::exists($product->images)) {
+                File::delete($product->images);
+            }
+            if ($file = $request->file('images')) {
+                $filePath = 'public/uploads/' . time() . '_' . $request->images->getClientOriginalName();
+                $file->move($filePath);
+                $request->images = $filePath;
+            }
+        }
         $product->update($request->all());
         return response()->json([
             'status' => true,

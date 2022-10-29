@@ -49,8 +49,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], f
     Route::get('products/{product}', [ProductController::class, 'show']);
     Route::post('register', [AuthController::class, 'store']);
     Route::post('login', [AuthController::class, 'index']);
-    Route::get('/email/verify', function () {
-        return view('auth.verify-email');
-    })->middleware('auth')->name('verification.notice');
+    // Route::get('/email/verify', function () {
+    //     return view('auth.verify-email');
+    // })->middleware('auth')->name('verification.notice');
     Route::post('upload', [FileUploadController::class, 'upload']);
 });

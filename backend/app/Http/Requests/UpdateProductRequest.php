@@ -31,7 +31,7 @@ class UpdateProductRequest extends FormRequest
             return [
                 'name' => ['required'],
                 'description' => ['required'],
-                'images' => ['required'],
+                'images' => ['required', 'mimes:jpg,png,web,jpeg,tiff,tag'],
                 'quantity' => ['required', 'numeric'],
                 'vol' => ['required', 'numeric'],
                 'c' => ['required'],
@@ -45,7 +45,7 @@ class UpdateProductRequest extends FormRequest
             return [
                 'name' => ['sometimes', 'required'],
                 'description' => ['sometimes', 'required'],
-                'images' => ['sometimes', 'required'],
+                'images' => ['sometimes', 'required', 'mimes:jpg,png,web,jpeg,tiff,tag'],
                 'quantity' => ['sometimes', 'required', 'numeric'],
                 'vol' => ['sometimes', 'required', 'numeric'],
                 'c' => ['sometimes', 'required'],
