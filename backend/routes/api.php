@@ -35,6 +35,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'/* ,
     Route::apiResource('origins', OriginController::class);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('products', ProductController::class);
+    Route::post('change-password', [AuthController::class, 'changePassword']);
     // Route::post('orderdetails/bulk', ['uses' => 'OrderDetailController@bulkStore']);
 });
 //api/v1/ 

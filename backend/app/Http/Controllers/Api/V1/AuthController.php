@@ -147,9 +147,73 @@ class AuthController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
+    public function changePassword(Request $request)
     {
-        $customer->update($request->all());
+        try {
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'email' => 'required|email',
+                    'password' => 'required',
+                    'new_password' => 'required',
+                    'c_password' => 'required|same:new_password'
+                ]
+            );
+
+            if ($validateUser->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'validation error',
+                    'errors' => $validateUser->errors()
+                ], 401);
+            }
+
+            $user = User::where('email', $request->email)->first();
+            $user->update(['password' => Hash::make($request->new_password)]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Đổi mật khẩu thành công 1'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+    public function update(Request $request)
+    {
+        try {
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'email' => 'required|email',
+                    'password' => 'required',
+                    'new_password' => 'required',
+                    'c_password' => 'required|same:new_password'
+                ]
+            );
+
+            if ($validateUser->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'validation error',
+                    'errors' => $validateUser->errors()
+                ], 401);
+            }
+
+            $user = User::where('email', $request->email)->first();
+            $user->update(['password' => Hash::make($request->new_password)]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Đổi mật khẩu thành công 1'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     /**

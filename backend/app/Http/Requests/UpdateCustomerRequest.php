@@ -27,32 +27,26 @@ class UpdateCustomerRequest extends FormRequest
         $method = $this->method();
         if ($method == 'PUT') {
             return [
-                'name' => ['required'],
-                'type' => ['required', Rule::in(['I', 'B', 'i', 'b'])],
+                'firstname' => ['required'],
+                'lastname' => ['required'],
+                'phone' => ['required'],
                 'email' => ['required', 'email'],
                 'city' => ['required'],
                 'state' => ['required'],
-                'postalCode' => ['required'],
-                'address' => ['required']
+                'address' => ['required'],
+                'type' => ['required'],
             ];
         } else {
             return [
-                'name' => ['sometimes', 'required'],
-                'type' => ['sometimes', 'required', Rule::in(['I', 'B', 'i', 'b'])],
+                'firstname' => ['sometimes', 'required'],
+                'lastname' => ['sometimes', 'required'],
+                'phone' => ['sometimes', 'required'],
                 'email' => ['sometimes', 'required', 'email'],
                 'city' => ['sometimes', 'required'],
                 'state' => ['sometimes', 'required'],
-                'postalCode' => ['sometimes', 'required'],
-                'address' => ['sometimes', 'required']
+                'address' => ['sometimes', 'required'],
+                'type' => ['sometimes', 'required'],
             ];
-        }
-    }
-    protected function prepareForValidation()
-    {
-        if ($this->postalCode) {
-            $this->merge([
-                'postal_code' => $this->postalCode
-            ]);
         }
     }
 }
