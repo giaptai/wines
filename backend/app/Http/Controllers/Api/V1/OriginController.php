@@ -9,6 +9,7 @@ use App\Http\Requests\StoreOriginRequest;
 use App\Http\Requests\UpdateOriginRequest;
 use App\Http\Resources\V1\OriginCollection;
 use App\Http\Resources\V1\OriginResource;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OriginController extends Controller
@@ -116,6 +117,22 @@ class OriginController extends Controller
      */
     public function destroy($id)
     {
-        Origin::destroy($id);
+        if (Origin::find($id)) {
+            if (Product::where('origin_id', $id)->first()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Không thể xóa nơi xuất xứ này !'
+                ], 200);
+            } elseif (Origin::destroy($id)) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Xóa nơi xuất xứ thành công !'
+                ], 200);
+            }
+        }
+        return response()->json([
+            'status' => false,
+            'message' => 'Không tìm thấy nơi xuất xứ này !'
+        ], 200);
     }
 }

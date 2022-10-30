@@ -10,6 +10,7 @@ use App\Http\Resources\V1\CategoryCollection;
 use App\Http\Resources\V1\CategoryResource;
 use Illuminate\Http\Request;
 use App\Filters\V1\CategoryFilter;
+use App\Models\Product;
 
 class CategoryController extends Controller
 {
@@ -97,6 +98,22 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        return Category::destroy($id);
+        if (Category::find($id)) {
+            if (Product::where('category_id', $id)->first()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Không thể xóa thể loại này !'
+                ], 200);
+            } elseif (Category::destroy($id)) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Xóa thể loại thành công !'
+                ], 200);
+            }
+        }
+        return response()->json([
+            'status' => false,
+            'message' => 'Không tìm thấy thể loại này !'
+        ], 200);
     }
 }

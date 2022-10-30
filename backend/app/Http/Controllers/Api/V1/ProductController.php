@@ -191,10 +191,15 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        Product::deleted($id);
+        if (Product::destroy($id)) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Xóa sản phẩm thành công !'
+            ], 200);
+        }
         return response()->json([
-            'status' => true,
-            'message' => 'Deleted productId=' . $id . ' successfully !'
-        ], 200);
+            'status' => false,
+            'message' => 'Không tìm thấy sản phẩm'
+        ]);
     }
 }

@@ -10,6 +10,8 @@ use App\Http\Requests\UpdateBrandRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\V1\BrandCollection;
 use App\Http\Resources\V1\BrandResource;
+use App\Models\Category;
+use App\Models\Product;
 
 class BrandController extends Controller
 {
@@ -97,6 +99,22 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        Brand::destroy($id);
+        if (Brand::find($id)) {
+            if (Product::where('brand_id', $id)->first()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Không thể xóa thương hiệu này !'
+                ], 200);
+            } elseif (Brand::destroy($id)) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Xóa thương hiệu thành công !'
+                ], 200);
+            }
+        }
+        return response()->json([
+            'status' => false,
+            'message' => 'Không tìm thấy thương hiệu này !'
+        ], 200);
     }
 }
