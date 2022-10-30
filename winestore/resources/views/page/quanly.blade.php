@@ -19,7 +19,11 @@
     </script> --}}
     <title>Document</title>
 </head>
-
+<style>
+    .btn{
+        border-radius:1px;
+    }
+</style>
 <body class="vh-100">
     <div class="container-fluid">
         <div class="row vh-100">

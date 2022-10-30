@@ -108,11 +108,11 @@
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <input type="number" class="form-control form-control-sm" id="first-price"
+                                        <input type="number" class="form-control form-control-sm" id="first-price" min="0" max="999999999" step="1"
                                             placeholder="0" value="">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="number" class="form-control form-control-sm" id="last-price"
+                                        <input type="number" class="form-control form-control-sm" id="last-price" min="1" max="999999999" step="1"
                                             placeholder="999999999" value="">
                                     </div>
                                 </div>

@@ -20,7 +20,7 @@ class CategoriesController extends Controller
 
     public function show(Request $request)
     {
-        $respon = Http::get('http://127.0.0.1:8001/api/v1/categories?name[like]='.$request->input('name'));
+        $respon = Http::get('http://127.0.0.1:8001/api/v1/categories?name[like]=' . $request->input('name'));
         $categoryArray = $respon['data'];
         $pagin = $respon['meta']['total'];
         $currentpage = $respon['meta']['current_page'];
@@ -38,13 +38,14 @@ class CategoriesController extends Controller
 
     public function update(Request $request, $id)
     {
-        $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->put('http://127.0.0.1:8001/api/v1/categories/' . $id, $request->all());
-        return response( $respon, 200);
+        $respon = Http::withToken($request->header('X-CSRF-TOKEN'))->put('http://127.0.0.1:8001/api/v1/categories/' . $id, $request->all());
+        return response($respon, 200);
     }
 
     public function delete(Request $request, $id)
     {
-        $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->delete('http://127.0.0.1:8001/api/v1/categories/' . $id);
+        $respon = Http::withToken($request->header('X-CSRF-TOKEN'))->delete('http://127.0.0.1:8001/api/v1/categories/' . $id);
+        // echo $respon;
         return $this->index($request->input('page'));
     }
 

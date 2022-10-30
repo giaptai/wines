@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Account;
+
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 
 class AccountsController extends Controller
@@ -49,8 +52,39 @@ class AccountsController extends Controller
                     "c_password" => $request->input('password'),
                 ]
             );
+        $emailok = $request->input('email'); //email cần gửi
+        // return ($respon);
+        // {
+        //     "status":true,
+        //     "message":"Create user successfully!",
+        //     "data":
+        //     {
+        //         "token":"6|1vZDGm1N24jDVYqVfnozuP1mTwA3FissXrWONqnZ",
+        //         "user":
+        //         {
+        //             "firstname":"Th\u01b0",
+        //             "lastname":"Nguy\u00ea\u0303n Thi\u0323 Hoa\u0300ng",
+        //             "email":"thucute@gmail.com",
+        //             "updated_at":"2022-10-29T15:06:01.000000Z",
+        //             "created_at":"2022-10-29T15:06:01.000000Z",
+        //             "id":7
+        //         }
+        //     }
+        // }
         // return ve view dang nhap 
-        return response($respon, 200);
+        Mail::send(
+            "email.template",
+            [
+                'token' => Str::random(42),
+                'email' => $request->input('email'),
+                'name' => $request->input('lastname') . ' ' . $request->input('firstname')
+            ],
+            function ($email) use ($emailok) {
+                $email->subject('ĐĂNG KÝ THÀNH CÔNG');
+                $email->to($emailok, "xxxx");
+            }
+        );
+        return $respon;
     }
 
     public function update(Request $request, $id)

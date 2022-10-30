@@ -50,4 +50,22 @@ function searched(ele) {
     xhttp.send();
 }
 
-// document.getQue
+// lọc đơn hàng theo trạng thái
+for(let i=0; i<document.querySelectorAll('.btnradio.btn-check').length; i++){
+    document.querySelectorAll('.btnradio.btn-check')[i].addEventListener('click', ()=>{
+        console.log(document.querySelectorAll('.btnradio.btn-check')[i].value);
+        let statusOrder=document.querySelectorAll('.btnradio.btn-check')[i].value;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                document.getElementById('quanlydonhang').innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", '/admin/filter-order?id=' + statusOrder, true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
+        xhttp.send();
+    })
+}

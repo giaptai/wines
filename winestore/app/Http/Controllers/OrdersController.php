@@ -19,6 +19,7 @@ class OrdersController extends Controller
         return response(view('dynamic_layout.tableorder', compact('orderArray', 'pagin', 'currentpage')), 200);
     }
 
+    // tìm kiếm mã đơn hàng
     public function show(Request $request)
     {
         if ($request->input('id') == null) {
@@ -27,6 +28,21 @@ class OrdersController extends Controller
             $respon = Http::get('http://127.0.0.1:8001/api/v1/orders/' . $request->input('id'));
         }
         $orderArray = [$respon['data']];
+        $pagin = 1;
+        $currentpage = 1;
+        return response(view('dynamic_layout.tableorder', compact('orderArray', 'pagin', 'currentpage')), 200);
+    }
+
+    // lọc đơn hàng
+    public function filter(Request $request)
+    {
+        // return $request->all();
+        if ($request->input('id') == -1) {
+            return $this->index(1);
+        } else {
+            $respon = Http::get('http://127.0.0.1:8001/api/v1/orders?status[eq]=' . $request->input('id'));
+        }
+        $orderArray = $respon['data'];
         $pagin = 1;
         $currentpage = 1;
         return response(view('dynamic_layout.tableorder', compact('orderArray', 'pagin', 'currentpage')), 200);

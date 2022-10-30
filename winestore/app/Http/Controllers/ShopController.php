@@ -14,10 +14,10 @@ class ShopController extends Controller
 
     public function FilterShop(Request $request)
     {
-        $collection = $request->input('arr') == NULL ?  '' : '['.$request->input('arr').']';     // category
-        $collection2 = $request->input('arr2') == NULL ?  '' : '['.$request->input('arr2').']';   //country
-        $collection3 = $request->input('arr3') == NULL ? '' : '['.$request->input('arr3').']';      //brand
-        $collection4 = '['.str_replace("-",",", $request->input('arr4')).']' ;                                                           //tone
+        $collection = $request->input('arr') == NULL ?  '' : '['.$request->input('arr').']';                            // category
+        $collection2 = $request->input('arr2') == NULL ?  '' : '['.$request->input('arr2').']';                         //country
+        $collection3 = $request->input('arr3') == NULL ? '' : '['.$request->input('arr3').']';                          //brand
+        $collection4 = '['.str_replace("-",",", $request->input('arr4')).']' ;                                          //tone
         $firstprice = $request->input('firstprice') == NULL ? 0 : $request->input('firstprice');                        //first-price
         $lastprice = $request->input('lastprice') == NULL ? 9999999999 : $request->input('lastprice');                  //first-price
         $price='['.$firstprice.','.$lastprice.']';

@@ -1,7 +1,7 @@
 @extends('home')
 @section('content')
     <div class="CarouselFade">
-       
+
         <div class="carousel slide carousel-fade carousel-dark">
             <div class="carousel-indicators"><button type="button" data-bs-target="" aria-label="Slide 1" aria-current="true"
                     class="active"></button><button type="button" data-bs-target="" aria-label="Slide 2"
@@ -38,34 +38,34 @@
                     <span class="border border-dark p-1 col-md-2 fs-3 fw-semibold">Thể loại rượu</span>
                     <hr class="col-md-5" />
                 </div>
-               
+
                 <div class="row row-cols-1 row-cols-lg-3 gy-2 align-items-stretch">
                     <div class="col">
-                        <div class="card card-cover h-100  text-bg-dark rounded-4 shadow-lg"
-                            style="background-image: url('https://api.lorem.space/image/drink?w=450&h=450');background-size: cover; background-repeat: no-repeat; background-position: center; min-height: 234px;">
+                        <div class="card h-100  text-bg-dark rounded-4 shadow-lg"
+                            style="background-image: url('https://ruouvang24h.vn/wp-content/uploads/2020/07/Top-10-Chai-R%C6%B0%E1%BB%A3u-Vang-%C4%90%E1%BB%8F.jpg');background-size: 100% 100%; background-repeat: no-repeat; background-position: center; min-height: 234px;">
                             <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
-                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[0]['name']!!}</h3>
+                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[0]['name'] !!}</h3>
                             </div>
                         </div>
                     </div>
 
                     <div class="col">
-                        <div class="card card-cover h-100  text-bg-dark rounded-4 shadow-lg"
-                            style="background-image: url('https://api.lorem.space/image/drink?w=450&h=450'); background-size: cover;min-height: 234px;">
+                        <div class="card h-100  text-bg-dark rounded-4 shadow-lg"
+                            style="background-image: url('https://besthqwallpapers.com/Uploads/17-5-2020/133048/thumb2-glass-of-white-wine-wine-concepts-white-wine-black-background-wine.jpg'); background-size: 100% 100%; background-position: center; min-height: 234px;">
                             <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
-                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[1]['name']!!}</h3>
+                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[1]['name'] !!}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card card-cover h-100  text-bg-dark rounded-4 shadow-lg"
-                            style="background-image: url('https://api.lorem.space/image/drink?w=450&h=450');background-size: cover;min-height: 234px;">
+                        <div class="card h-100  text-bg-dark rounded-4 shadow-lg"
+                            style="background-image: url('https://img.freepik.com/premium-photo/top-view-wine-bottle-with-slate-background_23-2148243150.jpg'); background-size: 100% 100%; background-position: center;min-height: 234px;">
                             <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
-                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[2]['name']!!}</h3>
+                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[2]['name'] !!}</h3>
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -100,10 +100,10 @@
 background-image: url('https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/red-wine-on-a-dark-background-maryana-kankulova.jpg');
 ">
                     <div class="my-3 py-3">
-                        <h2 class="display-5">{!! $brandArray[0]['name']!!}</h2>
+                        <h2 class="display-5">{!! $brandArray[0]['name'] !!}</h2>
                         <p class="lead">{!! $brandArray[0]['description'] !!}</p>
                     </div>
-                    <div class="shadow-sm mx-auto" style="width: 80%; height: 15rem; border-radius: 21px 21px 0 0;">
+                    <div class="shadow-sm mx-auto" style="width: 80%; height: 8rem;">
                         <button class="btn btn-outline-light">Tìm hiểu thêm</button>
                     </div>
                 </div>
@@ -112,28 +112,94 @@ background-image: url('https://images.fineartamerica.com/images/artworkimages/me
 background-image: url('https://images.unsplash.com/photo-1606767208159-1a5fb0a87841?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8d2hpdGUlMjB3aW5lfGVufDB8fDB8fA%3D%3D&w=1000&q=80');
 ">
                     <div class="my-3 py-3">
-                        <h2 class="display-5">{!! $brandArray[1]['name']!!}</h2>
+                        <h2 class="display-5">{!! $brandArray[1]['name'] !!}</h2>
                         <p class="lead">{!! $brandArray[1]['description'] !!}</p>
                     </div>
-                    <div class="shadow-sm mx-auto" style="width: 80%; height: 15rem; border-radius: 21px 21px 0 0;">
+                    <div class="shadow-sm mx-auto" style="width: 80%; height: 8rem;">
                         <button class="btn btn-outline-light">Tìm hiểu thêm</button>
 
                     </div>
                 </div>
                 <div class="col col-md-12 bg-dark pt-3 pt-md-5 px-md-5 text-center text-white "
-                    style="background-size: cover; background-repeat: no-repeat;
-background-image: url('https://cdn.shopify.com/s/files/1/1503/3114/articles/fixed_1_of_1_-3_960x.jpg?v=1600956950');
-">
+                    style="background-size: 100% 100%; background-repeat: no-repeat;
+                            background-image: url('https://as1.ftcdn.net/v2/jpg/04/65/48/30/1000_F_465483015_X2H2GuDGJhZFoK1DyGtmjFsqFAuApO8r.jpg');">
                     <div class="my-3 py-3">
                         <h2 class="display-5">{!! $brandArray[2]['name'] !!}</h2>
                         <p class="lead">{!! $brandArray[2]['description'] !!}</p>
+                        <div class="shadow-sm mx-auto" style="width: 80%; height: 9em;">
+                            <button class="btn btn-light">Tìm hiểu thêm</button>
+                        </div>
                     </div>
-                    <div class="shadow-sm mx-auto" style="width: 80%; height: 8em; border-radius: 21px 21px 0 0;">
-                        <button class="btn btn-outline-light">Tìm hiểu thêm</button>
 
-                    </div>
                 </div>
             </div>
+
+            <div class="mt-4 mb-4">
+                <div class=" mb-3 bg-white">
+                    <div class="d-flex justify-content-center text-center p-0">    
+                        <span class="fs-3 fw-semibold">Gợi ý</span>
+                    </div>
+                    <hr>
+                </div>
+                <div id="carouselExampleIndicators" class="carousel slide carousel-dark" data-bs-ride="true">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row row-cols-2 row-cols-md-4 g-0 justify-content-center">
+                                @for ($i = 0; $i < 4; $i++)
+                                    <div class="card h-100 rounded-0 border-0 text-center" style="width: 16rem;">
+                                        <div class="">
+                                            <img src="{!! $productArray[$i]['images'] !!}"
+                                                class="img"style="background-size: contain;" width="60%"
+                                                height="160rem" alt="...">
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="fw-semibold">{!! $productArray[$i]['name'] !!}</p>
+                                            <p class="fw-semibold">{!! number_format($productArray[$i]['price']) !!}</p>
+                                        </div>
+                                        <div class="card-footer bg-white rounded-0 border-0">
+                                            <a class="btn btn-sm btn-outline-primary"
+                                            href="{{ route('product_details', ['id' => $productArray[$i]['id']]) }}">Xem sản phẩm</a>
+                                        </div>
+                                    </div>
+                                @endfor
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row row-cols-2 row-cols-md-4 g-0 justify-content-center">
+                                @for ($i = 4; $i < 8; $i++)
+                                    <div class="card h-100 rounded-0 border-0 text-center" style="width: 16rem;">
+                                        <div class="">
+                                            <img src="{!! $productArray[$i]['images'] !!}"
+                                                class="img"style="background-size: contain;" width="60%"
+                                                height="160rem" alt="...">
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="fw-semibold">{!! $productArray[$i]['name'] !!}</p>
+                                            <p class="fw-semibold">{!! number_format($productArray[$i]['price']) !!}</p>
+                                        </div>
+                                        <div class="card-footer bg-white rounded-0 border-0">
+                                            <a class="btn btn-sm btn-outline-primary"
+                                            href="{{ route('product_details', ['id' => $productArray[$i]['id']]) }}">Xem sản phẩm</a>
+                                        </div>
+                                    </div>
+                                @endfor                            
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+
             <div class="introduces row row-cols-md-1 row-cols-1 justify-content-between p-3 mt-3">
                 <div class=" mb-3 bg-white">
                     <div class="d-flex align-items-center justify-content-center text-center p-0">
@@ -143,7 +209,6 @@ background-image: url('https://cdn.shopify.com/s/files/1/1503/3114/articles/fixe
                     </div>
                 </div>
                 <div class="introducesText col-md-7 mb-2">
-
                     <span class="lh-lg lead">Thương hiệu Winemart được thành lập vào năm
                         2015 với mục tiêu đem lại cho người tiêu dùng những dịch vụ và sản phẩm tốt nhất. Winemart
                         chuyên cung cấp các loại rượu vang, rượu mạnh, bia nhập khẩu cùng với các loại thực phẩm cao

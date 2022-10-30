@@ -17,17 +17,16 @@ class MenuBarController extends Controller
     //trang home
     public function home()
     {
-        $respon=Http::get('http://127.0.0.1:8001/api/v1/brands');
-        $respon2=Http::get('http://127.0.0.1:8001/api/v1/categories');
-        $categoryArray = $respon2['data'];
-        $brandArray = $respon['data'];
-        return view('page.trangchu',compact('categoryArray','brandArray' ));
+        $productArray=Http::get('http://127.0.0.1:8001/api/v1/products?page=1')['data'];
+        $brandArray=Http::get('http://127.0.0.1:8001/api/v1/brands')['data'];
+        $categoryArray=Http::get('http://127.0.0.1:8001/api/v1/categories')['data'];
+        return view('page.trangchu',compact('categoryArray','brandArray', 'productArray' ));
     }
 
     //trang sản phẩm
     public function shop()
     {
-        $respon=Http::get('http://127.0.0.1:8001/api/v1/products');
+        $respon=Http::get('http://127.0.0.1:8001/api/v1/products?page=1');
 
         $paginate = $respon['meta']['total'];
         $wineArray = $respon['data'];

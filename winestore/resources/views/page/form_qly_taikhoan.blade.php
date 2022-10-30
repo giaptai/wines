@@ -1,3 +1,10 @@
+<?php
+$respon = Http::get('http://127.0.0.1:8001/api/v1/customers?page=1');
+$customerArr = $respon['data'];
+$pagin = $respon['meta']['total'];
+
+$currentpage = 1;
+?>
 <div class="p-3 row justify-content-between sticky-top bg-light">
     <div class="col-md-auto"><input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off"
             value="Tổng đơn"><label class="btn btn-outline-primary btn-sm" for="btnradio1">Tổng tài khoản <span

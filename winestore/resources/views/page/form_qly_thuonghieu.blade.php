@@ -1,3 +1,10 @@
+<?php
+$respon = Http::get('http://127.0.0.1:8001/api/v1/brands?page=1');
+
+$brandArray = $respon['data'];
+$pagin = $respon['meta']['total'];
+$currentpage = 1;
+?>
 <div class="p-3 row row-cols-1 row-cols-md-3 bg-light justify-content-between">
     <div class="col-md-auto d-flex">
         <div class="col-md-auto">
@@ -13,7 +20,8 @@
 
     <div class="col-md-auto">
         <div class="input-group">
-            <input type="text" class="form-control form-control-sm" value="" placeholder="Tên..." id="search_id">
+            <input type="text" class="form-control form-control-sm" value="" placeholder="Tên..."
+                id="search_id">
             <button class="btn btn-sm btn-primary" onclick="searched(this.parentElement)" type="button">Search</button>
         </div>
     </div>

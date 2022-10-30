@@ -16,6 +16,9 @@
                     <span class="fw-bold">Thương hiệu: </span>
                     <p class=""><?php echo $wineDetail['brand'][0]['name']; ?></p>
                     <hr>
+                    <span class="fw-bold">Thể tích: </span>
+                    <p class=""><?php echo $wineDetail['vol']; ?> ML</p>
+                    <hr>
                     <span class="fw-bold">Nồng độ: </span>
                     <p class=""><?php echo $wineDetail['c']; ?> %</p>
                     <hr>
@@ -25,9 +28,8 @@
                 </div>
                 <div class="col-md-4 text-center">
                     <img class="img-thumbnail p-3"
-                        src="https://random.imagecdn.app/330/360
-                    {{-- <?php echo $winedetail->image; ?> --}}
-                    "
+                    height="100%" width="100%"
+                        src="<?php echo $wineDetail['images']; ?>"
                         alt="description of image">
                 </div>
                 <div class="col-md-5">

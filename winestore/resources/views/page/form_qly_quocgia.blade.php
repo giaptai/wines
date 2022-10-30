@@ -1,3 +1,10 @@
+<?php
+  $respon=Http::get('http://127.0.0.1:8001/api/v1/origins?page=1');
+
+$countryArray = $respon['data'];
+$pagin = $respon['meta']['total'];
+$currentpage=1;
+?>
 <div class="p-3 row row-cols-1 row-cols-md-3 sticky-top bg-light justify-content-between">
     <div class="col-md-auto d-flex">
         <div class="col-md-auto">

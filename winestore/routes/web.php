@@ -91,16 +91,17 @@ Route::prefix('admin')->group(function () {
   Route::get('/countries', [ManageController::class, 'Countries'])->name('countries');
   // Controller điều hương vô trang quản lý
 
-  //trang thêm sản phẩm
-  // Route::get('/products-add', [ManageController::class, 'manage_product_add'])->name('add-product');
+
 
   Route::get('/customers', [ManageController::class, 'Accounts'])->name('customers');
 
-  // Route::delete('/products/{id}', [ProductsController::class, 'delete'])->name('products-delete');
+
   Route::put('/orders/{id}', [OrdersController::class, 'update'])->name('orders-edit');
   // Route::post('/product-add', [ProductsController::class, 'store'])->name('product-add');
   Route::get('/orders/{page}', [OrdersController::class, 'pagination'])->name('paginate-order');
   Route::get('/search-order', [OrdersController::class, 'show'])->name('search-order');
+  Route::get('/filter-order', [OrdersController::class, 'filter'])->name('filter-order');
+
 
   Route::post('/add-account', [AccountsController::class, 'store'])->name('add-account');
   Route::get('/accounts/{page}', [AccountsController::class, 'pagination'])->name('paginate-account');
@@ -111,6 +112,8 @@ Route::prefix('admin')->group(function () {
   Route::post('/add-product', [ProductsController::class, 'store'])->name('add-product');
   Route::get('/products/{page}', [ProductsController::class, 'pagination'])->name('paginate-product');
   Route::get('/search-product', [ProductsController::class, 'show'])->name('search-product');
+  //trang thêm sản phẩm
+  Route::get('/productspage', [ManageController::class, 'manage_product_add'])->name('productspage');
 
   Route::delete('/categories/{id}', [CategoriesController::class, 'delete'])->name('categories-delete');
   Route::put('/categories/{id}', [CategoriesController::class, 'update'])->name('categories-edit');

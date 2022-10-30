@@ -1,12 +1,12 @@
 <div class="{!! session()->has('cart') == true && sizeof(session('cart')) > 0 ? 'col-md-8' : 'col-md-12' !!}">
-    <div class="">
+    <div class="" style="font-size: 14px">
         <table class="table table-sm align-middle">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col" style="width:20%">Sản phẩm</th>
-                    <th scope="col" class="col-md-2">Số lượng</th>
-                    <th scope="col" class="col-md-2">Giá</th>
-                    <th scope="col" class="col-md-2">Tổng</th>
+                    <th scope="col" style="width:38%">Sản phẩm</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Giá</th>
+                    <th scope="col" class="text-end">Tổng</th>
                 </tr>
             </thead>
             <?php $sum = 0; ?>
@@ -15,20 +15,23 @@
                     <?php $sum += $item['price'] * $item['quantity']; ?>
                     <tr>
                         <td>
-                            <div class="d-flex">
-                                <img class="img"
-                                    src="https://vinoteka.vn/assets/components/phpthumbof/cache/071801-1.3899b5ec6313090055de59b4621df17a.jpg"
-                                    width="90"><span class="">{!! $item['name'] !!}</span>
+                            <div class="">
+                                <a href="{{ route('product_details', ['id' => $item['id']]) }}">
+                                    <img class="img pe-2" src="{!! $item['images'] !!}" height="50%" width="50%" alt="{!! $item['name'] !!}">
+                                </a>
+                                {{-- <div> --}}
+                                    <span class="">{!! $item['name'] !!}</span>
+                                {{-- </div> --}}
                             </div>
                         </td>
                         <td>
                             <div class="d-flex">
-                                <button class="btn bi bi-dash-circle" id="btndel{{ $item['id'] }}"
+                                <button class="btn btn-sm bi bi-dash-circle" id="btndel{{ $item['id'] }}"
                                     onclick="minustocart({{ $item['id'] }})"></button>
                                 <input id="inp{{ $item['id'] }}" type="number" min="1" max="99"
                                     class="bg-white border-0 text-center" step="1" disabled
-                                    value="<?php echo $item['quantity']; ?>" size="1">
-                                <button class="btn bi bi-plus-circle" onclick="addtocart({{ $item['id'] }})"></button>
+                                    value="<?php echo $item['quantity']; ?>" style="width: 2.5rem; text-align:center">
+                                <button class="btn btn-sm bi bi-plus-circle" onclick="addtocart({{ $item['id'] }})"></button>
                             </div>
                         </td>
                         <td>{{ number_format($item['price']) }}</td>
@@ -48,11 +51,12 @@
                     <td colspan="4">
                         <div class="d-flex flex-column text-center border p-3 justify-content-center m-auto"
                             style="width:fit-content ;">
-                            <i class="bi bi-basket display-6"></i>
-                            <p class="fw-semibold">Không có sản phẩm nào trong giỏ hàng</p>
+                            <i class="bi bi-basket display-5"></i>
+                            <p class="fw-semibold mt-3 mb-3 fs-6">Không có sản phẩm nào trong giỏ hàng</p>
                             <div class="d-grid gap-2">
                                 <hr>
-                                <a class="btn btn-primary rounded-0" type="button" href="{{ route('shop') }}">Mua hàng</a>
+                                <a class="btn btn-primary rounded-0" type="button" href="{{ route('shop') }}">Mua
+                                    hàng</a>
                             </div>
                         </div>
                     </td>
@@ -63,12 +67,14 @@
 </div>
 <div class="col-md-4" style="display: {!! session()->has('cart') == true && sizeof(session('cart')) > 0 ? 'block' : 'none' !!}">
     <form class="p-3 mb-3 border" action="/vnpay/vnpay_payment" method="POST">
-        @csrf <!-- {{ csrf_field() }} -->
+        @csrf
+        <!-- {{ csrf_field() }} -->
         <h4>THÔNG TIN KHÁCH HÀNG</h4>
         <div class="row mb-3">
             <label for="inputEmail3" class="col-sm-4 col-form-label-sm fw-semibold">Họ và tên</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control form-control-sm" id="pay-name" name="pay-name" value="Nguyễn Thị Minh Thư">
+                <input type="text" class="form-control form-control-sm" id="pay-name" name="pay-name"
+                    value="Nguyễn Thị Minh Thư">
             </div>
         </div>
         <div class="row mb-3">
@@ -90,7 +96,8 @@
         <div class="row mb-3">
             <label for="inputPassword3" class="col-sm-4 col-form-label-sm fw-semibold">Địa chỉ</label>
             <div class="col-sm-8">
-                <select class="form-select form-select-sm mb-2" aria-label="Default select example" id="thanhpho" name="thanhpho" onchange="getDistric(this)">
+                <select class="form-select form-select-sm mb-2" aria-label="Default select example" id="thanhpho"
+                    name="thanhpho" onchange="getDistric(this)">
                     <option selected class="text-center">------Thành phố------</option>
                     <?php
                     $respon = Http::get('https://provinces.open-api.vn/api/p');
@@ -126,10 +133,11 @@
         <div class="row mb-3">
             <label for="inputPassword3" class="col-sm-4 col-form-label fw-bold">Tổng</label>
             <div class="col-sm-8">
-                <input class="form-control fw-semibold bg-white" id="pay-sum" value="<?php echo number_format($sum); ?>"/>
-                <input class="form-control fw-semibold bg-white" id="pay-sum2" name="pay-sum2" value="<?php echo $sum; ?>" style="display: none"/>
+                <input class="form-control fw-semibold bg-white" id="pay-sum" value="<?php echo number_format($sum); ?>" />
+                <input class="form-control fw-semibold bg-white" id="pay-sum2" name="pay-sum2"
+                    value="<?php echo $sum; ?>" style="display: none" />
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" name="redirect">Đặt hàng</button>
+        <button type="submit" class="btn btn-primary rounded-0" name="redirect">Đặt hàng</button>
     </form>
 </div>
