@@ -90,7 +90,7 @@ class ProductController extends Controller
     {
         $data = $request->all();
         if ($file = $request->file('images')) {
-            $filePath = 'public/uploads/' . time() . '_' . $request->images->getClientOriginalName();
+            $filePath = 'uploads/' . time() . '_' . $request->images->getClientOriginalName();
             $file->move('uploads/', $filePath);
             $data['images'] = $filePath;
         }
@@ -169,8 +169,8 @@ class ProductController extends Controller
                 File::delete($product->images);
             }
             if ($file = $request->file('images')) {
-                $filePath = 'public/uploads/' . time() . '_' . $request->images->getClientOriginalName();
-                $file->move($filePath);
+                $filePath = 'uploads/' . time() . '_' . $request->images->getClientOriginalName();
+                $file->move('uploads', $filePath);
                 $request->images = $filePath;
             }
         }
