@@ -48,9 +48,9 @@ class AuthController extends Controller
 
             $user = User::where('email', $request->email)->first();
             if ($user->role_as == 1) {
-                $token = $user->createToken("API TOKEN", ['admin:create', 'admin:update', 'admin:delete'])->plainTextToken;
+                $token = $user->createToken("ADMIN TOKEN", ['admin:create', 'admin:update', 'admin:delete'])->plainTextToken;
             } else {
-                $token = $user->createToken("API TOKEN", ['user:create', 'user:update', 'user:delete'])->plainTextToken;
+                $token = $user->createToken("USER TOKEN", ['user:create', 'user:update', 'user:delete'])->plainTextToken;
             }
             return response()->json([
                 'status' => true,
