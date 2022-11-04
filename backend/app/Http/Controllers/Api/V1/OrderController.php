@@ -78,14 +78,20 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show($id)
     {
         // $user = request()->user();
         // if ($user->role_as == 0) {
         //     $orderUser = Order::where('id', $order->id)->with('orderDetails')->get();
         //     return new OrderCollection($orderUser);
         // }
-        return new OrderResource($order);
+        if ($order = Order::find($id)) {
+            return new OrderResource($order);
+        }
+        return response()->json([
+            'status' => false,
+            'message' => 'Không tìm thấy hóa đơn',
+        ], 404);
     }
 
     /**

@@ -58,13 +58,19 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        $includeOrders = request()->query('includeProducts');
-        if ($includeOrders) {
-            return  new CategoryResource($category->loadMissing('products'));
+        if ($category = Category::find($id)) {
+            $includeOrders = request()->query('includeProducts');
+            if ($includeOrders) {
+                return  new CategoryResource($category->loadMissing('products'));
+            }
+            return new CategoryResource($category);
         }
-        return new CategoryResource($category);
+        return response()->json([
+            'status' => false,
+            'message' => 'Không tìm thấy thể loại này'
+        ], 404);
     }
 
     /**

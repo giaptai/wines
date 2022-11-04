@@ -59,13 +59,19 @@ class BrandController extends Controller
      * @param  \App\Models\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function show(Brand $brand)
+    public function show($id)
     {
-        $includeOrders = request()->query('includeProducts');
-        if ($includeOrders) {
-            return  new BrandResource($brand->loadMissing('products'));
+        if ($brand = Brand::find($id)) {
+            $includeOrders = request()->query('includeProducts');
+            if ($includeOrders) {
+                return  new BrandResource($brand->loadMissing('products'));
+            }
+            return new BrandResource($brand);
         }
-        return new BrandResource($brand);
+        return response()->json([
+            'status' => false,
+            'mesage' => 'không tìm thấy thương hiện này'
+        ], 404);
     }
 
     /**

@@ -94,6 +94,7 @@ class ProductController extends Controller
             $file->move('uploads/', $filePath);
             $data['images'] = $filePath;
         }
+
         // return $request->all();
         // $product = new ProductResource(Product::create([
         //     'name' => $request->name,
@@ -113,7 +114,9 @@ class ProductController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Create new product successfully!',
-            'data' => $product
+            'data' => [
+                $product
+            ]
         ], 200);
     }
 
@@ -164,16 +167,16 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        if ($request->images) {
-            if (File::exists($product->images)) {
-                File::delete($product->images);
-            }
-            if ($file = $request->file('images')) {
-                $filePath = 'uploads/' . time() . '_' . $request->images->getClientOriginalName();
-                $file->move('uploads', $filePath);
-                $request->images = $filePath;
-            }
-        }
+        // if ($request->images) {
+        //     if (File::exists($product->images)) {
+        //         File::delete($product->images);
+        //     }
+        //     if ($file = $request->file('images')) {
+        //         $filePath = 'uploads/' . time() . '_' . $request->images->getClientOriginalName();
+        //         $file->move('uploads', $filePath);
+        //         $request->images = $filePath;
+        //     }
+        // }
         $product->update($request->all());
         return response()->json([
             'status' => true,

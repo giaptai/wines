@@ -69,13 +69,19 @@ class OriginController extends Controller
      * @param  \App\Models\Origin  $origin
      * @return \Illuminate\Http\Response
      */
-    public function show(Origin $origin)
+    public function show($id)
     {
-        $includeOrders = request()->query('includeProducts');
-        if ($includeOrders) {
-            return  new OriginResource($origin->loadMissing('products'));
+        if ($origin = Origin::find($id)) {
+            $includeOrders = request()->query('includeProducts');
+            if ($includeOrders) {
+                return  new OriginResource($origin->loadMissing('products'));
+            }
+            return new OriginResource($origin);
         }
-        return new OriginResource($origin);
+        return response()->json([
+            'status' => false,
+            'message' => 'Không tìm thấy quốc gia này'
+        ]);
     }
 
     /**

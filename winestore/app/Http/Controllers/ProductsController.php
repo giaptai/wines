@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Country;
 use Illuminate\Support\Facades\Http;
+use Symfony\Component\Console\Input\Input;
 
 class ProductsController extends Controller
 {
@@ -16,12 +17,12 @@ class ProductsController extends Controller
     {
         $respon = Http::get('http://127.0.0.1:8001/api/v1/products?page=' . $page);
         $pagin = $respon['meta']['total'];
-        $currentpage = ($pagin>=10 ? $page: $page-1);
+        $currentpage = ($pagin >= 10 ? $page : $page - 1);
         $productArray = $respon['data'];
         $countryArray = Http::get('http://127.0.0.1:8001/api/v1/origins')['data'];
         $categoryArray = Http::get('http://127.0.0.1:8001/api/v1/categories')['data'];
         $brandArray = Http::get('http://127.0.0.1:8001/api/v1/brands')['data'];
-        
+
         return view('dynamic_layout.tableproduct', compact('currentpage', 'productArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray'));
     }
 
@@ -50,7 +51,9 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-        // return response($request->all(), 200);
+        $path = $request->input('iptIMG');
+
+        return $path;
         $respon = Http::withToken($request->input('_token'))->post(
             'http://127.0.0.1:8001/api/v1/products',
             // để theo thứ tự
@@ -110,7 +113,7 @@ class ProductsController extends Controller
 
     public function delete(Request $request, $id)
     {
-        
+
         $respon = Http::withToken($request->header('X-CSRF-TOKEN'))->delete('http://127.0.0.1:8001/api/v1/products/' . $id);
         return $this->index($request->input('page'));
     }

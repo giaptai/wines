@@ -1,7 +1,8 @@
 {{-- @extends('page.quanly_sanpham')
 @section('content-them') --}}
 <div class="p-5">
-    <form method="POST" action="{{ route('add-product') }}" class="row justify-content-center shadow p-5 bg-body rounded justify-content-between">
+    <form method="POST" action="{{ route('add-product') }} " enctype="multipart/form-data"
+        class="row justify-content-center shadow p-5 bg-body rounded justify-content-between">
         @csrf
         <div class="col-md-5">
             <div class="col-md-auto mb-3 border" style="height: 20rem;">
@@ -11,7 +12,8 @@
             </div>
             <div class="col-md-auto">
                 <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="iptIMG" name="iptIMG" onchange="uploadd()" required>
+                    <input type="file" class="form-control" id="iptIMG" name="iptIMG" onchange="uploadd()"
+                        required>
                 </div>
             </div>
 
@@ -55,7 +57,8 @@
             <div class="col-md-auto">
                 <div class="mb-3">
                     <label class="form-label">Giới thiệu:</label>
-                    <textarea style="height: 15rem" class="form-control" aria-label="With textarea" id="intro-product" name="intro-product" required>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</textarea>
+                    <textarea style="height: 15rem" class="form-control" aria-label="With textarea" id="intro-product" name="intro-product"
+                        required>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</textarea>
                 </div>
             </div>
             <div class="row">
@@ -94,31 +97,36 @@
                 <div class="col-md-2">
                     <div class=" mb-3">
                         <label for="" class="form-label">Số lượng:</label>
-                        <input type="number" class="form-control" value="<?php echo rand(1, 99); ?>" id="number-product" name="number-product" required>
+                        <input type="number" class="form-control" value="<?php echo rand(1, 99); ?>" id="number-product"
+                            name="number-product" required>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class=" mb-3">
                         <label for="" class="form-label">Thể tích:</label>
-                        <input type="number" class="form-control" value="<?php echo rand(600, 2000); ?>" id="vol-product" name="vol-product" required>
+                        <input type="number" class="form-control" value="<?php echo rand(600, 2000); ?>" id="vol-product"
+                            name="vol-product" required>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class=" mb-3">
                         <label for="" class="form-label">Nồng độ:</label>
-                        <input type="number" class="form-control" value="<?php echo rand(5, 20); ?>" id="tone-product" name="tone-product" required>
+                        <input type="number" class="form-control" value="<?php echo rand(5, 20); ?>" id="tone-product"
+                            name="tone-product" required>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class=" mb-3">
                         <label for="" class="form-label">Năm:</label>
-                        <input type="number" class="form-control" value="<?php echo date('Y'); ?>" id="year-product" name="year-product" required>
+                        <input type="number" class="form-control" value="<?php echo date('Y'); ?>" id="year-product"
+                            name="year-product" required>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label">Giá:</label>
-                        <input type="number" class="form-control" value="<?php echo rand(500000, 36000000); ?>" id="price-product" name="price-product" required>
+                        <input type="number" class="form-control" value="<?php echo rand(500000, 36000000); ?>" id="price-product"
+                            name="price-product" required>
                     </div>
                 </div>
             </div>
