@@ -222,8 +222,8 @@ class AuthController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy()
     {
-        //
+        return  request()->user()->tokens()->delete();
     }
 }

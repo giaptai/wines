@@ -30,10 +30,10 @@ class StoreCustomerRequest extends FormRequest
             'phone' => ['required'],
             'email' => ['required', 'email'],
             'city' => ['required'],
-            'state' => ['required'],
+            'district' => ['required'],
+            'wards' => ['required'],
             'address' => ['required'],
             'type' => ['required'],
-
         ];
     }
 }

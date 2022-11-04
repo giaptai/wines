@@ -13,9 +13,9 @@ class StoreBrandRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
-        // $user = request()->user();
-        // return $user != NULL && $user->role_as == 1 && $user->tokenCan('admin:create');
+        // return true;
+        $user = request()->user();
+        return $user != NULL && $user->role_as == 1 && $user->tokenCan('admin:create');
     }
 
     /**

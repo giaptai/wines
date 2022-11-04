@@ -15,7 +15,8 @@ class Customer extends Model
         'phone',
         'email',
         'city',
-        'state',
+        'district',
+        'wards',
         'address',
         'type',
     ];

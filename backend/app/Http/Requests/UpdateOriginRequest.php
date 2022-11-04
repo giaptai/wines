@@ -13,9 +13,8 @@ class UpdateOriginRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
-        //     $user = request()->user();
-        //     return $user != NULL && $user->role_as == 1 && $user->tokenCan('admin:update');
+        $user = request()->user();
+        return $user != NULL && $user->role_as == 1 && $user->tokenCan('admin:update');
     }
 
     /**

@@ -36,6 +36,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1', 'm
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('products', ProductController::class);
     Route::post('change-password', [AuthController::class, 'changePassword']);
+    Route::post('logout', [AuthController::class, 'destroy']);
     // Route::post('orderdetails/bulk', ['uses' => 'OrderDetailController@bulkStore']);
 });
 //api/v1/ 
@@ -50,6 +51,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], f
     Route::get('products/{product}', [ProductController::class, 'show']);
     Route::post('register', [AuthController::class, 'store']);
     Route::post('login', [AuthController::class, 'index']);
+
     // Route::get('/email/verify', function () {
     //     return view('auth.verify-email');
     // })->middleware('auth')->name('verification.notice');

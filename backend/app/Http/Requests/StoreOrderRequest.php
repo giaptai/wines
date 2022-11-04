@@ -14,9 +14,8 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
-        // $user = $this->user();
-        // return $user != null && $user->tokenCan("user:create");
+        $user = $this->user();
+        return $user != null && $user->tokenCan("user:create");
     }
 
     /**
