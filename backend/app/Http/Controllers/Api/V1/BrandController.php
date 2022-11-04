@@ -50,7 +50,14 @@ class BrandController extends Controller
      */
     public function store(StoreBrandRequest $request)
     {
-        return new BrandResource(Brand::create($request->all()));
+        $brand = Brand::create($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => 'Thêm mới thương hiệu thành công!',
+            'data' => [
+                $brand
+            ]
+        ], 200);
     }
 
     /**
@@ -94,7 +101,14 @@ class BrandController extends Controller
      */
     public function update(UpdateBrandRequest $request, Brand $brand)
     {
-        return new BrandCollection($brand->update($request->all()));
+        $brand = $brand->update($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => 'Cập nhật thương hiệu thành công!',
+            'data' => [
+                $brand
+            ]
+        ], 200);
     }
 
     /**

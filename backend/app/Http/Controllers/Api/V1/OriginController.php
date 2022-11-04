@@ -59,7 +59,14 @@ class OriginController extends Controller
      */
     public function store(StoreOriginRequest $request)
     {
-        return new OriginResource(Origin::create($request->all()));
+        $origin = Origin::create($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => "Thêm mới quốc gia thành công",
+            'data' => [
+                $origin
+            ]
+        ], 200);
     }
 
     /**
@@ -110,7 +117,14 @@ class OriginController extends Controller
      */
     public function update(UpdateOriginRequest $request, Origin $origin)
     {
-        return new OriginCollection($origin->update($request->all()));
+        $origin = $origin->update($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => "Cập nhật quốc gia thành công",
+            'data' => [
+                $origin
+            ]
+        ], 200);
     }
 
     /**

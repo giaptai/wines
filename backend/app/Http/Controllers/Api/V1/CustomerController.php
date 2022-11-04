@@ -100,7 +100,14 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        return new CustomerCollection($customer->update($request->all()));
+        $customer = $customer->update($request->all());
+        return response()->json([
+            'stattus' => true,
+            'message' => 'create customer successfully !',
+            'data' => [
+                $customer
+            ]
+        ]);
     }
 
     /**

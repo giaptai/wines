@@ -60,7 +60,12 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        return new OrderResource(Order::create($request->all()));
+        $order = Order::create($request->all());
+        return response()->json([
+            'status' => false,
+            'message' => 'Không tìm thấy hóa đơn',
+            'data' => [$order]
+        ], 200);
     }
 
     public function bulkStore(BulkStoreOrderRequest  $request)
@@ -121,7 +126,7 @@ class OrderController extends Controller
             'data' => [
                 $order
             ]
-        ]);
+        ], 200);
     }
 
     /**

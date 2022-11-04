@@ -49,7 +49,14 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        return new CategoryResource(Category::create($request->all()));
+        $category = Category::create($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => 'Thêm mới thể loại thành công!',
+            'data' => [
+                $category
+            ]
+        ], 200);
     }
 
     /**
@@ -93,7 +100,14 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        return new CategoryCollection($category->update($request->all()));
+        $category = $category->update($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => 'Thêm mới thể loại thành công!',
+            'data' => [
+                $category
+            ]
+        ], 200);
     }
 
     /**
