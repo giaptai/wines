@@ -1,11 +1,31 @@
 @extends('home')
 @section('content')
+    @if (app('request')->all() == null)
+        <?php
+        $Wines = Http::get('http://127.0.0.1:8001/api/v1/products');
+        ?>
+    @else
+        @php
+            $collection = app('request')->input('arr') == null ? '' : '[' . app('request')->input('arr') . ']'; // category
+            $collection2 = app('request')->input('arr2') == null ? '' : '[' . app('request')->input('arr2') . ']'; //country
+            $collection3 = app('request')->input('arr3') == null ? '' : '[' . app('request')->input('arr3') . ']'; //brand
+            $collection4 = '[' . str_replace('-', ',', app('request')->input('arr4')) . ']'; //tone
+            $firstprice = app('request')->input('firstprice') == null ? 0 : app('request')->input('firstprice'); //first-price
+            $lastprice = app('request')->input('lastprice') == null ? 9999999999 : app('request')->input('lastprice'); //first-price
+            $price = '[' . $firstprice . ',' . $lastprice . ']';
+            $page = app('request')->input('page') == null ? 1 : app('request')->input('page'); //page
+            $dispose = app('request')->input('dispose') == null ? 'ASC' : app('request')->input('dispose'); //ASC - DESC
+            $url = 'cateId[in]=' . $collection . '&originId[in]=' . $collection2 . '&brandId[in]=' . $collection3 . '&price[between]=' . $price . '&c[between]=' . $collection4 . '&price[sort]=' . $dispose . '&page=' . $page . '';
+            $Wines = Http::get('http://127.0.0.1:8001/api/v1/products?' . $url);
+        @endphp
+    @endif
+
     <div class="container-md shadow my-4" style="width: 80%">
         <div class='products my-3 row'>
-            <div class="collapse show col-lg-3 col-md-12">
+            <div class="collapse show col-lg-3 col-md-12" style="font-size: 14px">
                 <div class="d-flex align-items-center">
-                    <button class="btn text-white fw-semibold px-4 rounded-0 w-100" type="button"
-                        style="background-color: #bf0c2b">BỘ LỌC TÌM NHANH </button>
+                    <button class="btn text-white fw-semibold rounded-0 w-100" type="button"
+                        style="background-color: #bf0c2b">LỌC SẢN PHẨM </button>
                 </div>
                 <form action="{{ route('filter_shop') }}" method="GET" id="formOk">
                     <div class="card card-body rounded-0 border-0">
@@ -19,7 +39,7 @@
                                         <label class="form-check-label" for="wine">Tất cả</label>
                                     </li>
 
-                                    @foreach ($categoryArray as $item)
+                                    @foreach ($categoryArray = Http::get('http://127.0.0.1:8001/api/v1/categories')['data'] as $item)
                                         <li class="form-check">
                                             <input class="input-checkbox form-check-input me-1" type="checkbox"
                                                 name="cat" value="{{ $item['id'] }}" id="wine{{ $item['id'] }}">
@@ -39,7 +59,7 @@
                                         name="country" checked id="country">
                                     <label class="form-check-label" for="country">Tất cả</label>
                                 </div>
-                                @foreach ($countryArray as $item)
+                                @foreach ($countryArray = Http::get('http://127.0.0.1:8001/api/v1/origins')['data'] as $item)
                                     <div class="form-check">
                                         <input class="input-country form-check-input me-1" type="radio"
                                             value="{{ $item['id'] }}" name="country" id="country{{ $item['id'] }}">
@@ -58,7 +78,7 @@
                                         name="brand" checked id="brand">
                                     <label class="form-check-label" for="brand">Tất cả</label>
                                 </div>
-                                @foreach ($brandArray as $item)
+                                @foreach ($brandArray = Http::get('http://127.0.0.1:8001/api/v1/brands')['data'] as $item)
                                     <div class="form-check">
                                         <input class="input-brand form-check-input me-1" type="radio"
                                             value="{{ $item['id'] }}" name="brand" id="brand{{ $item['id'] }}">
@@ -108,12 +128,14 @@
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <input type="number" class="form-control form-control-sm" id="first-price" min="0" max="999999999" step="1"
-                                            placeholder="0" value="">
+                                        <input type="number" class="form-control form-control-sm" id="first-price"
+                                            min="0" max="999999999" step="1" placeholder="0"
+                                            value="">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="number" class="form-control form-control-sm" id="last-price" min="1" max="999999999" step="1"
-                                            placeholder="999999999" value="">
+                                        <input type="number" class="form-control form-control-sm" id="last-price"
+                                            min="1" max="999999999" step="1" placeholder="999999999"
+                                            value="">
                                     </div>
                                 </div>
                             </div>
@@ -121,8 +143,9 @@
                         <hr>
                         <div class="">
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <button name="btn-submit" type="button" class="btn-submit btn btn-outline-danger rounded-0 w-100"
-                                    onclick="filter()">Lọc sản phẩm</button>
+                                <button name="btn-submit" type="button"
+                                    class="btn-submit btn btn-outline-danger rounded-0 w-100" onclick="filter()">Lọc sản
+                                    phẩm</button>
                             </div>
                         </div>
                     </div>
@@ -130,74 +153,15 @@
             </div>
             {{-- Show sản phẩm --}}
             <div class="col-lg-9" id="show-product">
-                {{-- <div class="d-flex flex-column mb-3 gx-5 sticky-top bg-white border p-3 justify-content-between">
-                    <div class="row justify-content-between align-items-center">
-                        <div class="col-md-6">
-                            <select id="dispose" class="form-select form-select-sm text-center"
-                                aria-label="Default select example" style="width: 11rem">
-                                <option selected="" value="">-----Xếp theo------</option>
-                                <option value="ASC">Giá thấp đến cao</option>
-                                <option value="DESC">Giá cao đến thấp</option>
-                            </select>
-                        </div>
-                        <div class="col-md-auto">
-                            <span class="fw-semibold text-danger mx-2" id="soluong"> (Có {!! $paginate !!} sản phẩm)</span>
-                        </div>
-                    </div>
-                </div> --}}
-                {{-- <div class="row row-cols-1 row-cols-md-2 g-3">
-                    @foreach ($wineArray as $item)
-                        <div class="col">
-                            <div class="card h-100 rounded-0" style="">
-                                <div class="row g-0">
-                                    <div class="col-md-4 col-sm-12">
-                                        <a href="{{ route('product_details', ['id' => $item['id']]) }}">
-                                            <div class="m-2"
-                                                style="height: 120px; width: 90px;background-image: url({{ $item['images'] }}); background-size:contain;background-repeat: no-repeat;background-position: center;">
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-8 col-sm-12">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ $item['name'] }}</h5>
-                                            <span class="fs-5">{{ number_format($item['price']) }} đ</span>
-                                        </div>
-                                        <div class="card-footer bg-white border-0">
-                                            @if (session()->exists('cart.' . $item['id']))
-                                                <button type="button" class="btn disabled btn-sm btn-primary">Trong giỏ
-                                                    hàng</button>
-                                            @else
-                                                <button type="button" onclick="addtocart({{ $item['id'] }})"
-                                                    class="btn btn-sm btn-outline-primary"
-                                                    id="btn{{ $item['id'] }}">Thêm vào giỏ</button>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div> --}}
-                {{-- <nav aria-label="Page navigation example" class="col-md-12 my-3">
-                    <ul class="pagination pagination-sm justify-content-end" id="phantrang">
-                        @for ($i = 0; $i < ceil($paginate / 10); $i++)
-                            @if ($i == $page - 1)
-                                <li class="page-item"><a class="page-link active">{!! $i + 1 !!}</a></li>
-                            @else
-                                <li class="page-item"><a class="page-link"
-                                        onclick="phantrang({!! $i + 1 !!})">{!! $i + 1 !!}</a></li>
-                            @endif
-                        @endfor
-                    </ul>
-                </nav> --}}
                 @include('dynamic_layout.tableshop')
-            </div>    
+            </div>
         </div>
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
             <div id="liveToast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
                     <div class="toast-body">Thêm vào giỏ thành công</div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
                 </div>
             </div>
         </div>

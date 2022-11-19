@@ -8,138 +8,185 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Country;
 use Illuminate\Support\Facades\Http;
-use Symfony\Component\Console\Input\Input;
 
 class ProductsController extends Controller
 {
-
-    public function index($page)
+    // trả về view sản phẩm
+    public function productView($url)
     {
-        $respon = Http::get('http://127.0.0.1:8001/api/v1/products?page=' . $page);
-        $pagin = $respon['meta']['total'];
-        $currentpage = ($pagin >= 10 ? $page : $page - 1);
-        $productArray = $respon['data'];
-        $countryArray = Http::get('http://127.0.0.1:8001/api/v1/origins')['data'];
-        $categoryArray = Http::get('http://127.0.0.1:8001/api/v1/categories')['data'];
-        $brandArray = Http::get('http://127.0.0.1:8001/api/v1/brands')['data'];
+        // return 'http://127.0.0.1:8001/api/v1/origins' . $url;
+        $Products = Http::withToken(session('tokenAdmin'))->get('http://127.0.0.1:8001/api/v1/products' . $url);
+        $countryArray = Http::withToken(session('tokenAdmin'))->get('http://127.0.0.1:8001/api/v1/origins')['data'];
+        $categoryArray = Http::withToken(session('tokenAdmin'))->get('http://127.0.0.1:8001/api/v1/categories')['data'];
+        $brandArray = Http::withToken(session('tokenAdmin'))->get('http://127.0.0.1:8001/api/v1/brands')['data'];
 
-        return view('dynamic_layout.tableproduct', compact('currentpage', 'productArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray'));
+        return view('dynamic_layout.tableproduct', [
+            'Products' => $Products,
+            'categoryArray' => $categoryArray,
+            'brandArray' => $brandArray,
+            'countryArray' => $countryArray,
+        ])->render();
     }
 
-    public function show(Request $request)
+    // xóa 1 sản phẩm
+    public function deleteProduct(Request $request, $id)
     {
-        // 'id' => ['eq']---'name' => ['like']
-        if ($request->input('name') == NULL && $request->input('id') == NULL) {
-            return $this->index(1);
-        } else if ($request->input('name') != NULL && $request->input('id') == NULL) {
-            $respon = Http::get('http://127.0.0.1:8001/api/v1/products?name[like]=' . $request->input('name'));
-        } else if ($request->input('name') == NULL && $request->input('id') != NULL) {
-            $respon = Http::get('http://127.0.0.1:8001/api/v1/products?id[eq]=' . $request->input('id'));
+        //  return $request->all();
+        if ($request->input('nameqr') == NULL && $request->input('id') == NULL) {
+            $url = '?page=' . $request->input('page');
+        } else if ($request->input('nameqr') != NULL && $request->input('id') == NULL) {
+            $url = '?name[like]=' . $request->input('nameqr') . '&page=' . $request->input('page');
+        } else if ($request->input('nameqr') == NULL && $request->input('id') != NULL) {
+            $url = '?id[eq]=' . $request->input('id') . '&page=' . $request->input('page');
         } else {
-            $respon = Http::get('http://127.0.0.1:8001/api/v1/products?name[like]=' . $request->input('name') . '&id[eq]=' . $request->input('id'));
+            $url = '?name[like]=' . $request->input('nameqr') . '&id[eq]=' . $request->input('id') . '&page=' . $request->input('page');
         }
-
-        $productArray = $respon['data'];
-        $countryArray = Http::get('http://127.0.0.1:8001/api/v1/origins')['data'];
-        $categoryArray = Http::get('http://127.0.0.1:8001/api/v1/categories')['data'];
-        $brandArray = Http::get('http://127.0.0.1:8001/api/v1/brands')['data'];
-
-        $pagin = $respon['meta']['total'];
-        $currentpage = $respon['meta']['current_page'];;
-        return response(view('dynamic_layout.tableproduct', compact('currentpage', 'productArray', 'pagin', 'countryArray',  'categoryArray', 'brandArray',)), 200);
+        $respon = Http::withToken(session('tokenAdmin'))->delete('http://127.0.0.1:8001/api/v1/products/' . $id);
+        
+        if ($respon['status']) {
+            return response()->json(['message' => $respon['message'], 'status' => 1, 'response' => $this->productView($url)]);
+        } else {
+            return response()->json(['message' => 'Xóa sản phẩm thất bại', 'status' => 0]);
+        }
     }
 
-    public function store(Request $request)
+    // Thêm 1 sản phẩm mới
+    public function addProduct(Request $request)
     {
-        $path = $request->input('iptIMG');
-
-        return $path;
-        $respon = Http::withToken($request->input('_token'))->post(
+        // return $request;
+        if ($file = $request->file('image-product-modal')) {
+            $filePath = 'uploads/' . time() . '_' .  $request->file('image-product-modal')->getClientOriginalName();
+            $file->move('uploads/', $filePath);
+        }
+        // return $filePath;
+        if ($request->input('nameqr') == NULL && $request->input('id') == NULL) {
+            $url = '?page=' . $request->input('page');
+        } else if ($request->input('nameqr') != NULL && $request->input('id') == NULL) {
+            $url = '?name[like]=' . $request->input('nameqr') . '&page=' . $request->input('page');
+        } else if ($request->input('nameqr') == NULL && $request->input('id') != NULL) {
+            $url = '?id[eq]=' . $request->input('id') . '&page=' . $request->input('page');
+        } else {
+            $url = '?name[like]=' . $request->input('nameqr') . '&id[eq]=' . $request->input('id') . '&page=' . $request->input('page');
+        }
+        // return $url;
+        $respon = Http::withToken(session('tokenAdmin'))->post(
             'http://127.0.0.1:8001/api/v1/products',
             // để theo thứ tự
-            // "_token": "nkiEEEI5OIrWKrfibSwMIfhiNYNLXRg9ULznfPae",
-            // "iptIMG": "288632185_755916338754725_6516556910628993021_n.jpg",
-            // "name-product": "2kuHLjEZJzj5KeK",
-            // "intro-product": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.",
-            // "category-product": "1",
-            // "brand-product": "1",
-            // "country-product": "1",
-            // "number-product": "36",
-            // "vol-product": "1446",
-            // "tone-product": "6",
-            // "year-product": "2022",
-            // "price-product": "702929"
             [
-                "name" => $request->input('name-product'),
-                "description" => $request->input('intro-product'),
-                "images" => $request->input('iptIMG'),
-                "quantity" => $request->input('number-product'),
-                "vol" => $request->input('vol-product'),
-                "c" => $request->input('tone-product'),
-                "brand_id" => $request->input('brand-product'),
-                "category_id" => $request->input('category-product'),
-                "origin_id" => $request->input('country-product'),
-                "price" => $request->input('price-product'),
-                "year" => $request->input('year-product'),
+                "name" => $request->input('name-product-modal'),
+                "description" => $request->input('desc-product-modal'),
+                "images" =>  $filePath,
+                "quantity" => $request->input('quantity-product-modal'),
+                "vol" => $request->input('vol-product-modal'),
+                "c" => $request->input('tone-product-modal'),
+                "brand_id" => $request->input('brand-product-modal'),
+                "category_id" => $request->input('category-product-modal'),
+                "origin_id" => $request->input('country-product-modal'),
+                "price" => $request->input('price-product-modal'),
+                "year" => $request->input('year-product-modal'),
             ]
-            // $request->all()
         );
-        return response($respon['message']);
+        // return $respon;
+        if ($respon['status']) {
+            return response()->json(['message' => $respon['message'], 'status' => 1, 'response' => $this->productView($url)]);
+        } else {
+            return response()->json(['message' => 'Thêm sản phẩm thất bại', 'status' => 0]);
+        }
     }
 
-    public function update(Request $request, $id)
+    //tìm kiếm theo mã, tên hoăc cả hai
+    public function searchProduct(Request $request)
     {
+        //  return $request->all();
+        if ($request->input('nameqr') == NULL && $request->input('id') == NULL) {
+            $url = '?page=' . $request->input('page');
+        } else if ($request->input('nameqr') != NULL && $request->input('id') == NULL) {
+            $url = '?name[like]=' . $request->input('nameqr') . '&page=' . $request->input('page');
+        } else if ($request->input('nameqr') == NULL && $request->input('id') != NULL) {
+            $url = '?id[eq]=' . $request->input('id') . '&page=' . $request->input('page');
+        } else {
+            $url = '?name[like]=' . $request->input('nameqr') . '&id[eq]=' . $request->input('id') . '&page=' . $request->input('page');
+        }
+        // return $url;
+        return $this->productView($url);
+    }
 
-        $respon = Http::withToken($request->header('X-CSRF-TOKEN'))->put(
+    // sửa sản phẩm
+    public function modifyProduct(Request $request, $id)
+    {
+        // return response($request, 200);
+        if ($file =  $request->file('image-product-modal')) {
+            $filePath = 'uploads/' . time() . '_' .   $request->file('image-product-modal')->getClientOriginalName();
+            $file->move('uploads/', $filePath);
+        }
+        // return $filePath;
+        if ($request->input('nameqr') == NULL && $request->input('id') == NULL) {
+            $url = '?page=' . $request->input('page');
+        } else if ($request->input('nameqr') != NULL && $request->input('id') == NULL) {
+            $url = '?name[like]=' . $request->input('nameqr') . '&page=' . $request->input('page');
+        } else if ($request->input('nameqr') == NULL && $request->input('id') != NULL) {
+            $url = '?id[eq]=' . $request->input('id') . '&page=' . $request->input('page');
+        } else {
+            $url = '?name[like]=' . $request->input('nameqr') . '&id[eq]=' . $request->input('id') . '&page=' . $request->input('page');
+        }
+        // return $url;
+        $respon = Http::withToken(session('tokenAdmin'))->put(
             'http://127.0.0.1:8001/api/v1/products/' . $id,
-            // để theo thứ tự
-            // [
-            //     "name" => $request->input('name'),
-            //     "description" => $request->input('description'),
-            //     "images" => $request->input('image'),
-            //     "quantity" => 2,
-            //     "vol" => 700,
-            //     "c" => 15,
-            //     "brand_id" => 1,
-            //     "category_id" => 2,
-            //     "origin_id" => 3,
-            //     "price" => 1500000,
-            //     "year" => 1912
-            // ]
-            $request->all()
+            [
+                "name" => $request->input('name-product-modal'),
+                "description" => $request->input('desc-product-modal'),
+                "images" =>  $filePath,
+                "quantity" => $request->input('quantity-product-modal'),
+                "vol" => $request->input('vol-product-modal'),
+                "c" => $request->input('tone-product-modal'),
+                "brand_id" => $request->input('brand-product-modal'),
+                "category_id" => $request->input('category-product-modal'),
+                "origin_id" => $request->input('country-product-modal'),
+                "price" => $request->input('price-product-modal'),
+                "year" => $request->input('year-product-modal'),
+            ]
         );
-        return response($respon['message']);
+        // return $respon;
+        if ($respon['status']) {
+            return response()->json(['message' => $respon['message'], 'status' => 1, 'response' => $this->productView($url)]);
+        } else {
+            return response()->json(['message' => 'Chỉnh sửa sản phẩm thất bại', 'status' => 0]);
+        }
     }
 
-    public function delete(Request $request, $id)
+    // phân trang
+    public function pagination(Request $request)
     {
-
-        $respon = Http::withToken($request->header('X-CSRF-TOKEN'))->delete('http://127.0.0.1:8001/api/v1/products/' . $id);
-        return $this->index($request->input('page'));
+        if ($request->input('nameqr') == NULL && $request->input('id') == NULL) {
+            $url = '?page=' . $request->input('page');
+        } else if ($request->input('nameqr') != NULL && $request->input('id') == NULL) {
+            $url = '?name[like]=' . $request->input('nameqr') . '&page=' . $request->input('page');
+        } else if ($request->input('nameqr') == NULL && $request->input('id') != NULL) {
+            $url = '?id[eq]=' . $request->input('id') . '&page=' . $request->input('page');
+        } else {
+            $url = '?name[like]=' . $request->input('nameqr') . '&id[eq]=' . $request->input('id') . '&page=' . $request->input('page');
+        }
+        return $this->productView($url);
     }
 
-    public function pagination($page)
-    {
-        return $this->index($page);
-    }
-
-    //lấy dữ liệu từ wines cu the
+    // chi tiết 1 sản phẩm
     public function getWines($id)
     {
         $wineDetail = Http::get('http://127.0.0.1:8001/api/v1/products/' . $id)['data'];
-
-        // $wineDetail = Product::select(
-        //     'products.*',
-        //     'categories.name as category',
-        //     'countries.name as country',
-        //     'brands.name as brand'
-        // )
-        //     ->join('categories', 'categories.id', 'products.category')
-        //     ->join('brands', 'brands.id', 'products.brand')
-        //     ->join('countries', 'countries.id', 'products.country')
-        //     ->where('products.id', $id)
-        //     ->first();
-        // return $respon;
         return view('page/product_details', compact('wineDetail'));
     }
 }
+
+    //lấy dữ liệu từ wines cu the
+    // $wineDetail = Product::select(
+    //     'products.*',
+    //     'categories.name as category',
+    //     'countries.name as country',
+    //     'brands.name as brand'
+    // )
+    //     ->join('categories', 'categories.id', 'products.category')
+    //     ->join('brands', 'brands.id', 'products.brand')
+    //     ->join('countries', 'countries.id', 'products.country')
+    //     ->where('products.id', $id)
+    //     ->first();
+    // return $respon;

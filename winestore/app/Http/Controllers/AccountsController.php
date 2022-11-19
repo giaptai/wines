@@ -6,105 +6,54 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Account;
 
+use Illuminate\Support\Facades\Cookie;
+
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 
 class AccountsController extends Controller
 {
-    public function index($page)
+    //trả về view
+    public function accountView($url)
     {
-        $respon = Http::get('http://127.0.0.1:8001/api/v1/customers?page=' . $page);
-        $customerArr = $respon['data'];
-        $pagin = $respon['meta']['total'];
-        $currentpage = $respon['meta']['current_page'];
-        return response(view('dynamic_layout.tableclient', compact('customerArr', 'pagin', 'currentpage')), 200);
+        // return 'http://127.0.0.1:8001/api/v1/customers' . $url;
+        $linkAPI = Http::withToken(session('tokenAdmin'))->get('http://127.0.0.1:8001/api/v1/customers' . $url);
+        return (view('dynamic_layout.tableaccount', ['Customers' => $linkAPI])->render());
     }
 
-    public function show(Request $request)
+    //tìm kiếm theo email, số điện thoại
+    public function searchAccount(Request $request)
     {
+        // return $request->all();
         if ($request->input('email') == NULL && $request->input('phone') == NULL) {
-            return $this->index(1);
+            $url = '?page=' . $request->input('page');
         } else if ($request->input('email') != NULL && $request->input('phone') == NULL) {
-            $respon = Http::get('http://127.0.0.1:8001/api/v1/customers?email[like]=' . $request->input('email'));
+            $url = '?email[eq]=' . $request->input('email') . '&page=' . $request->input('page');
         } else if ($request->input('email') == NULL && $request->input('phone') != NULL) {
-            $respon = Http::get('http://127.0.0.1:8001/api/v1/customers?phone[eq]=' . $request->input('phone'));
+            $url = '?phone[eq]=' . $request->input('phone') . '&page=' . $request->input('page');
         } else {
-            $respon = Http::get('http://127.0.0.1:8001/api/v1/customers?email[like]=' . $request->input('email') . '&phone[eq]=' . $request->input('phone'));
+            $url = '?email[eq]=' . $request->input('email') . '&phone[eq]=' . $request->input('phone') . '&page=' . $request->input('page');
         }
-        $customerArr = $respon['data'];
-        $pagin = $respon['meta']['total'];
-        $currentpage = $respon['meta']['current_page'];
-        return response(view('dynamic_layout.tableclient', compact('customerArr', 'pagin', 'currentpage')), 200);
+        // return $url;
+        return $this->accountView($url);
     }
 
-    // đăng ký tài khoản
-    public function store(Request $request)
+    //phân trang
+    public function pagination(Request $request)
     {
-        $respon = Http::withToken($request->input('_token'))
-            ->post(
-                'http://127.0.0.1:8001/api/v1/register',
-                [
-                    "firstname" => $request->input('firstname'),
-                    "lastname" => $request->input('lastname'),
-                    "email" => $request->input('email'),
-                    "password" => $request->input('password'),
-                    "c_password" => $request->input('password'),
-                ]
-            );
-        $emailok = $request->input('email'); //email cần gửi
-        // return ($respon);
-        // {
-        //     "status":true,
-        //     "message":"Create user successfully!",
-        //     "data":
-        //     {
-        //         "token":"6|1vZDGm1N24jDVYqVfnozuP1mTwA3FissXrWONqnZ",
-        //         "user":
-        //         {
-        //             "firstname":"Th\u01b0",
-        //             "lastname":"Nguy\u00ea\u0303n Thi\u0323 Hoa\u0300ng",
-        //             "email":"thucute@gmail.com",
-        //             "updated_at":"2022-10-29T15:06:01.000000Z",
-        //             "created_at":"2022-10-29T15:06:01.000000Z",
-        //             "id":7
-        //         }
-        //     }
-        // }
-        // return ve view dang nhap 
-        Mail::send(
-            "email.template",
-            [
-                'token' => Str::random(42),
-                'email' => $request->input('email'),
-                'name' => $request->input('lastname') . ' ' . $request->input('firstname')
-            ],
-            function ($email) use ($emailok) {
-                $email->subject('ĐĂNG KÝ THÀNH CÔNG');
-                $email->to($emailok, "xxxx");
-            }
-        );
-        return $respon;
-    }
-
-    public function update(Request $request, $id)
-    {
-        $Account = Account::findOrFail($id);
-        $Account->update($request->all());
-
-        return $Account;
-    }
-
-    public function delete(Request $request, $id)
-    {
-        $Account = Account::findOrFail($id);
-        $Account->delete();
-
-        return 204;
-    }
-
-    public function pagination($page)
-    {
-        return $this->index($page);
+        // return $request->all();
+        if ($request->input('email') == NULL && $request->input('phone') == NULL) {
+            $url = '?page=' . $request->input('page');
+        } else if ($request->input('email') != NULL && $request->input('phone') == NULL) {
+            $url = '?email[eq]=' . $request->input('email') . '&page=' . $request->input('page');
+        } else if ($request->input('email') == NULL && $request->input('phone') != NULL) {
+            $url = '?phone[eq]=' . $request->input('phone') . '&page=' . $request->input('page');
+        } else {
+            $url = '?email[eq]=' . $request->input('email') . '&phone[eq]=' . $request->input('phone') . '&page=' . $request->input('page');
+        }
+        // return $url;
+        return $this->accountView($url);
     }
 }

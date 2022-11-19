@@ -5,53 +5,83 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Country;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class CountriesController extends Controller
 {
-    public function index($page)
+    public function countryView($url)
     {
-        $respon = Http::get('http://127.0.0.1:8001/api/v1/origins?page=' . $page);
-
-        $countryArray = $respon['data'];
-        $pagin = $respon['meta']['total'];
-        $currentpage = $respon['meta']['current_page'];
-        return response(view('dynamic_layout.tablecountry', compact('countryArray', 'pagin', 'currentpage')), 200);
+        // return 'http://127.0.0.1:8001/api/v1/origins' . $url;
+        $linkAPI = Http::withToken(session('tokenAdmin'))->get('http://127.0.0.1:8001/api/v1/origins' . $url);
+        return (view('dynamic_layout.tablecountry', ['Countries' => $linkAPI])->render());
     }
 
-    public function show(Request $request)
+    //thêm 1 quốc gia
+    public function addCountry(Request $request)
     {
-        $respon = Http::get('http://127.0.0.1:8001/api/v1/origins?name[like]='.$request->input('name'));
-        $countryArray = $respon['data'];
-        $pagin = $respon['meta']['total'];
-        $currentpage = $respon['meta']['current_page'];
-        return response(view('dynamic_layout.tablecountry', compact('countryArray', 'pagin', 'currentpage')), 200);
+        // return $request->all();
+        $url =  $request->input('name') != NULL ? '?name[like]=' . $request->input('name') . '&page=' . $request->input('page') : '?page=' . $request->input('page');
+        // return $url;
+        $respon = Http::withToken(session('tokenAdmin'))->post('http://127.0.0.1:8001/api/v1/origins', [
+            'name' => $request->input('namep'),
+            'description' => $request->input('desc'),
+        ]);
+        // return $respon;
+        if ($respon['status']) {
+            return response()->json(['message' => $respon['message'], 'status' => 1, 'response' => $this->countryView($url)]);
+        } else {
+            return response()->json(['message' => 'Thêm quốc gia thất bại', 'status' => 0]);
+        }
     }
 
-    public function store(Request $request)
+    // sửa 1 quốc gia
+    public function modifyCountry(Request $request, $id)
     {
-        $respon = Http::withToken($request->header('X-CSRF-TOKEN'))->post('http://127.0.0.1:8001/api/v1/origins', $request->all()
-        // [
-        //     'name' => $request->input('name'),
-        //     'description' => $request->input('description'),
-        // ]
-    );
-        return $this->index($request->input('page'));
+        // return $request->all();
+        $url =  $request->input('name') != NULL ? '?name[like]=' . $request->input('name') . '&page=' . $request->input('page') : '?page=' . $request->input('page');
+        // return $url;
+        $respon = Http::withToken(session('tokenAdmin'))->put('http://127.0.0.1:8001/api/v1/origins/' . $id, [
+            'name' => $request->input('namep'),
+            'description' => $request->input('desc'),
+        ]);
+        // return $respon; 
+        if (!$respon['status']) {
+            return response()->json(['message' => 'Xóa quốc gia thất bại', 'status' => 0]);
+        } else {
+            return response()->json(['message' => $respon['message'], 'status' => 1, 'response' => $this->countryView($url)]);
+        }
     }
 
-    public function update(Request $request, $id)
+    //xóa quốc gia
+    public function deleteCountry(Request $request, $id)
     {
-        $respon = Http::withToken($request->header('X-CSRF-TOKEN'))->put('http://127.0.0.1:8001/api/v1/origins/' . $id, $request->all());
-        return response($respon, 200);
+        // return $request->all();
+        $url =  $request->input('name') != NULL ? '?name[like]=' . $request->input('name') . '&page=' . $request->input('page') : '?page=' . $request->input('page');
+        // return $url;
+        $respon = Http::withToken(session('tokenAdmin'))->delete('http://127.0.0.1:8001/api/v1/origins/' . $id);
+        // return $respon; 
+        if (!$respon['status']) {
+            return response()->json(['message' => 'Xóa quốc gia thất bại', 'status' => 0]);
+        } else {
+            return response()->json(['message' => $respon['message'], 'status' => 1, 'response' => $this->countryView($url)]);
+        }
     }
 
-    public function delete(Request $request, $id)
+    //phân trang
+    public function pagination(Request $request)
     {
-        $respon = Http::withToken($request->header('X-CSRF-TOKEN'))->delete('http://127.0.0.1:8001/api/v1/origins/' . $id);
-        return $this->index($request->input('page'));
+        // return $request->all();
+        $url =  $request->input('name') != NULL ? '?name[like]=' . $request->input('name') . '&page=' . $request->input('page') : '?page=' . $request->input('page');
+        return $this->countryView($url);
     }
 
-    public function pagination($page)
+    //tìm kiếm
+    public function searchCountry(Request $request)
     {
-        return $this->index($page);
+        // return $request->all();
+        $url =  $request->input('name') != NULL ? '?name[like]=' . $request->input('name') . '&page=' . $request->input('page') : '?page=' . $request->input('page');
+        // return $url;
+        return $this->countryView($url);
     }
 }

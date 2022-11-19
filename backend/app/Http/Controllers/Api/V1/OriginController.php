@@ -11,6 +11,7 @@ use App\Http\Resources\V1\OriginCollection;
 use App\Http\Resources\V1\OriginResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class OriginController extends Controller
 {

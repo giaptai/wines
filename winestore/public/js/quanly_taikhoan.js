@@ -1,90 +1,36 @@
-function deleted(ele, page) {
-    console.log(ele);
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById('quanlyquocgia').innerHTML = this.responseText;
+document.getElementById('email_id').addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        searched();
+    }
+});
 
-            const toastLiveExample = document.getElementById('liveToast')
-            toastLiveExample.innerHTML =
-                '<div class="d-flex">' +
-                '<div class="toast-body">Xóa thành công</div>' +
-                '<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>' +
-                '</div>'
-            const toast = new bootstrap.Toast(toastLiveExample)
-            toast.show()
-        }
-    };
+document.getElementById('phone_id').addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        searched();
+    }
+});
 
-    xhttp.open("DELETE", '/admin/countries/' + ele + '?page=' + page, true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
-    xhttp.send();
-}
-
-function edit(ele) {
-    var name = document.getElementById('name-country-modal-' + ele).value;
-    var desc = document.getElementById('desc-country-modal-' + ele).value;
-
-    var ss1 = document.getElementById(ele).parentElement.parentElement;
-    console.log(ele, name, desc, ss1);
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            ss1.children[1].innerHTML = name;
-            ss1.children[2].innerHTML = desc;
-
-            const toastLiveExample = document.getElementById('liveToast')
-            toastLiveExample.innerHTML =
-                '<div class="d-flex">' +
-                '<div class="toast-body">Sửa thành công</div>' +
-                '<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>' +
-                '</div>'
-            const toast = new bootstrap.Toast(toastLiveExample)
-            toast.show()
-        }
-    };
-    xhttp.open("PUT", '/admin/countries/' + ele + '?name=' + name + '&description=' + desc, true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
-    xhttp.send();
-}
-
-function add(page) {
-    var name = document.getElementById('name-country-add').value;
-    var desc = document.getElementById('desc-country-add').value;
-    console.log(name, desc);
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            document.getElementById('quanlyquocgia').innerHTML = this.responseText;
-
-            const toastLiveExample = document.getElementById('liveToast')
-            toastLiveExample.innerHTML =
-                '<div class="d-flex">' +
-                '<div class="toast-body">Thêm thành công</div>' +
-                '<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>' +
-                '</div>'
-            const toast = new bootstrap.Toast(toastLiveExample)
-            toast.show()
-        }
-    };
-    xhttp.open("POST", '/admin/add-country', true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
-    xhttp.send(
-        'name=' + name +
-        '&description=' + desc +
-        '&page=' + page
-    );
+function QueryAll(page) {
+    var email = document.getElementById('email_id').value;
+    var phone = document.getElementById('phone_id').value;
+    var query;
+    if (email != '' && phone != '') {
+        query = 'email=' + email + '&phone=' + phone + '&page=' + page;
+    } else if (email == '' && phone != '') {
+        query = 'phone=' + phone + '&page=' + page;
+    } else if (email != '' && phone == '') {
+        query = 'email=' + email + '&page=' + page;
+    } else {
+        query = 'page=' + page;
+    }
+    return query;
 }
 
 function phantrang(page) {
-    console.log(page);
+    query = QueryAll(page);
+    console.log(query);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -92,18 +38,15 @@ function phantrang(page) {
             document.getElementById('quanlytaikhoan').innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", '/admin/accounts/' + page, true);
+    xhttp.open("GET", '/admin/paginate-account?' + query, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();
 }
 
-function searched(ele) {
-    var emailqr = document.getElementById('email').value;
-    var phoneqr = document.getElementById('phone').value;
-
-    console.log(emailqr, phoneqr);
-
+function searched() {
+    query = QueryAll(1);
+    console.log(query);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -111,7 +54,7 @@ function searched(ele) {
             document.getElementById('quanlytaikhoan').innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", '/admin/search-accounts?email=' + emailqr + '&phone=' + phoneqr, true);
+    xhttp.open("GET", '/admin/search-accounts?' + query, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();

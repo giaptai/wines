@@ -10,54 +10,81 @@ use Illuminate\Support\Facades\Http;
 
 class BrandsController extends Controller
 {
-    public function index($page)
-    {
-        $respon = Http::get('http://127.0.0.1:8001/api/v1/brands?page=' . $page);
 
-        $brandArray = $respon['data'];
-        $pagin = $respon['meta']['total'];
-        $currentpage = $page;
-        return response(view('dynamic_layout.tablebrand', compact('brandArray', 'pagin', 'currentpage')), 200);
+    public function brandView($url)
+    {
+        // return 'http://127.0.0.1:8001/api/v1/categories' . $url;
+        $linkAPI = Http::withToken('tokenAdmin')->get('http://127.0.0.1:8001/api/v1/brands' . $url);
+        return (view('dynamic_layout.tablebrand', ['Brands' => $linkAPI])->render());
     }
 
-    public function show(Request $request)
+    //thêm 1 thương hiệu
+    public function addBrand(Request $request)
     {
-        $respon = Http::get('http://127.0.0.1:8001/api/v1/brands?name[like]='.$request->input('name'));
-
-        $brandArray = $respon['data'];
-        $pagin = $respon['meta']['total'];
-        $currentpage = 1;
-        return response(view('dynamic_layout.tablebrand', compact('brandArray', 'pagin', 'currentpage')), 200);
-    }
-
-    public function store(Request $request)
-    {
-        $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->post('http://127.0.0.1:8001/api/v1/brands', [
-            'name' => $request->input('name'),
-            'images'=>'https://chevalier.vn/wp-content/uploads/2021/09/Ruou-Vang-Chateau-Gruaud-Larose.jpg',
-            'description' => $request->input('description'),
+        // return $request->all();
+        $url =  $request->input('name') != NULL ? '?name[like]=' . $request->input('name') . '&page=' . $request->input('page'):'?page=' . $request->input('page');
+        // return $url;
+        $respon = Http::withToken(session('tokenAdmin'))->post('http://127.0.0.1:8001/api/v1/brands', [
+            'name' => $request->input('namep'),
+            'images' => 'https://chevalier.vn/wp-content/uploads/2021/09/Ruou-Vang-Chateau-Gruaud-Larose.jpg',
+            'description' => $request->input('desc'),
         ]);
-        return $this->index($request->input('page'));
+        // return $respon;
+        if ($respon['status']) {
+            return response()->json(['message' => $respon['message'], 'status' => 1, 'response' => $this->brandView($url)]);
+        } else {
+            return response()->json(['message' => 'Thêm thương hiệu thất bại', 'status' => 0]);
+        }
     }
 
-    public function update(Request $request, $id)
+    // sửa 1 thương hiệu
+    public function modifyBrand(Request $request, $id)
     {
-        $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->put('http://127.0.0.1:8001/api/v1/brands/'.$id, [
-            'name' => $request->input('name'),
-            'images'=>'https://chevalier.vn/wp-content/uploads/2021/09/Ruou-Vang-Chateau-Gruaud-Larose.jpg',
-            'description' => $request->input('description'),
+        // return $request->all();
+        $url =  $request->input('name') != NULL ? '?name[like]=' . $request->input('name') . '&page=' . $request->input('page'):'?page=' . $request->input('page');
+        // return $url;
+        $respon = Http::withToken(session('tokenAdmin'))->put('http://127.0.0.1:8001/api/v1/brands/' . $id, [
+            'name' => $request->input('namep'),
+            'images' => 'https://chevalier.vn/wp-content/uploads/2021/09/Ruou-Vang-Chateau-Gruaud-Larose.jpg',
+            'description' => $request->input('desc'),
         ]);
-        return response($respon, 200);
+        // return $respon;
+        if (!$respon['status']) {
+            return response()->json(['message' => 'Xóa thương hiệu thất bại', 'status' => 0]);
+        } else {
+            return response()->json(['message' => $respon['message'], 'status' => 1, 'response' => $this->brandView($url)]);
+        }
     }
 
-    public function delete(Request $request, $id)
+    //xóa thương hiệu
+    public function deleteBrand(Request $request, $id)
     {
-        $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->delete('http://127.0.0.1:8001/api/v1/brands/'.$id);
-        return $this->index($request->input('page'));
+        // return $request->all();
+        $url =  $request->input('name') != NULL ? '?name[like]=' . $request->input('name') . '&page=' . $request->input('page'):'?page=' . $request->input('page');
+        // return $url;
+        $respon = Http::withToken(session('tokenAdmin'))->delete('http://127.0.0.1:8001/api/v1/brands/' . $id);
+        // return $respon;
+        if (!$respon['status']) {
+            return response()->json(['message' => 'Xóa thương hiệu thất bại', 'status' => 0]);
+        } else {
+            return response()->json(['message' => $respon['message'], 'status' => 1, 'response' => $this->brandView($url)]);
+        }
     }
 
-    public function pagination($page)
+    //phân trang
+    public function pagination(Request $request)
     {
-        return $this->index($page);
+        // return $request->all();
+        $url =  $request->input('name') != NULL ? '?name[like]=' . $request->input('name') . '&page=' . $request->input('page'):'?page=' . $request->input('page');
+        return $this->brandView($url);
+    }
+
+    //tìm kiếm
+    public function searchBrand(Request $request)
+    {
+        // return $request->all();
+        $url =  $request->input('name') != NULL ? '?name[like]=' . $request->input('name') . '&page=' . $request->input('page'):'?page=' . $request->input('page');
+        // return $url;
+        return $this->brandView($url);
     }
 }

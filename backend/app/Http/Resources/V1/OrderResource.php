@@ -22,6 +22,8 @@ class OrderResource extends JsonResource
             'total' => $this->total,
             'status' => $this->status,
             'email' => $this->email,
+            'phone'=>$this->phone,
+            'address' => $this->address,
             'fullname' => $this->fullname,
             'orderDetails' => new OrderDetailsCollection(OrderDetail::where('order_id', $this->id)->paginate()),
             'created_at' => $this->created_at,

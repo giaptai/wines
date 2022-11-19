@@ -36,9 +36,9 @@
         }
     </style>
     <div class="container bg-light">
-        
+
         <div class="p-1">
-            
+
             <div class="m-auto card p-4 rounded-0 shadow" style="width:35rem">
                 <div class="header clearfix">
                     <h2 class="text-muted">Thông tin giao dịch</h2>
@@ -53,7 +53,7 @@
                     <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Tổng số tiền:</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control-plaintext" readonly
-                            value="{{ number_format(session('orders')['total_price']) }}">
+                            value="{{ number_format($vnp_Amount / 100) }}">
                     </div>
                 </div>
                 <div class="mb-2 row">
@@ -83,25 +83,27 @@
                 <div class="mb-2 row">
                     <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Thời gian thanh toán:</label>
                     <div class="col-md-6">
-                        <input type="text" readonly class="form-control-plaintext" value="{{ date('d-m-Y h:i:s', strtotime($vnp_PayDate)) }}">
+                        <input type="text" readonly class="form-control-plaintext"
+                            value="{{ date('d-m-Y h:i:s', strtotime($vnp_PayDate)) }}">
                     </div>
                 </div>
                 <div class="mb-2 row">
                     <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Người thanh toán:</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control-plaintext" readonly
-                            value="{{ session('orders')['fullname'] }}">
+                            value="{{ $fullname }}">
                     </div>
                 </div>
                 <div class="mb-2 row">
                     <label for="staticEmail" class="col-md-6 col-form-label fw-semibold">Kết quả: </label>
                     <div class="col-md-6">
-                        <input type="text" readonly class="form-control-plaintext {!! $vnp_ResponseCode=='00' ? 'text-success fw-bold' : 'text-danger fw-bold' !!}" value="{{ $Result }}">
+                        <input type="text" readonly class="form-control-plaintext {!! $vnp_ResponseCode == '00' ? 'text-success fw-bold' : 'text-danger fw-bold' !!}"
+                            value="{{ $Result }}">
                     </div>
                 </div>
                 <a href="{{ route('home') }}" class="btn btn-primary rounded-0">Quay lại</a>
             </div>
-           
+
         </div>
         <footer class="footer mt-5">
             <p>&copy; Trang web bán rượu trực tuyến {!! date('Y') !!}</p>

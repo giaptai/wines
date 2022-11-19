@@ -37,8 +37,12 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1', 'm
     Route::apiResource('products', ProductController::class);
     Route::post('change-password', [AuthController::class, 'changePassword']);
     Route::post('logout', [AuthController::class, 'destroy']);
+    Route::get('statistic', [OrderController::class, 'statistic']);
+
     // Route::post('orderdetails/bulk', ['uses' => 'OrderDetailController@bulkStore']);
 });
+
+
 //api/v1/ 
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
     Route::get('brands', [BrandController::class, 'index']);

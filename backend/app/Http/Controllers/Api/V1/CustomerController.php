@@ -11,6 +11,7 @@ use App\Http\Resources\V1\CustomerResource;
 use App\Http\Resources\V1\CustomerCollection;
 use App\Filters\V1\CustomerFilter;
 use Illuminate\Http\Request;
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class CustomerController extends Controller
 {
@@ -102,13 +103,29 @@ class CustomerController extends Controller
     {
         $customer = $customer->update($request->all());
         return response()->json([
-            'stattus' => true,
-            'message' => 'create customer successfully !',
+            'status' => true,
+            'message' => 'Update customer successfully !',
             'data' => [
                 $customer
             ]
         ]);
     }
+
+    // public function update(UpdateCustomerRequest $request)
+    // {
+    //     // return request()->user();
+    //     $customer = Customer::where('user_id', request()->user()->id)->first();
+    //     // return $customer;
+    //     $customer->update($request->all());
+    //     // $customer = $customer->update($request->all());
+    //     return response()->json([
+    //         'stattus' => true,
+    //         'message' => 'Update customer successfully !',
+    //         'data' => [
+    //             $customer
+    //         ]
+    //     ]);
+    // }
 
     /**
      * Remove the specified resource from storage.

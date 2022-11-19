@@ -11,6 +11,7 @@ use App\Http\Resources\V1\ProductCollection;
 use App\Http\Resources\V1\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class ProductController extends Controller
 {
@@ -89,12 +90,15 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $data = $request->all();
-        if ($file = $request->file('images')) {
-            $filePath = 'uploads/' . time() . '_' . $request->images->getClientOriginalName();
-            $file->move('uploads/', $filePath);
-            $data['images'] = $filePath;
-        }
-
+        // return response()->json([$data],200);
+        // $file = $request->images;
+        // if ($file = $request->file('images')) {
+        // $filePath = 'uploads/' . time() . '_' . $request->images->getClientOriginalName();
+        // return $filePath;
+        // die();
+        // $file->move('uploads/', $filePath);
+        // $data['images'] = $filePath;
+        
         // return $request->all();
         // $product = new ProductResource(Product::create([
         //     'name' => $request->name,

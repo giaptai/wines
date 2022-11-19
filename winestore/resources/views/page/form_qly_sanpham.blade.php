@@ -1,47 +1,55 @@
-<?php
-$currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
-$respon = Http::get('http://127.0.0.1:8001/api/v1/products?page='.$currentpage);
-$productArray = $respon['data'];
-$pagin = $respon['meta']['total'];
-$countryArray = Http::get('http://127.0.0.1:8001/api/v1/origins')['data'];
-$categoryArray = Http::get('http://127.0.0.1:8001/api/v1/categories')['data'];
-$brandArray = Http::get('http://127.0.0.1:8001/api/v1/brands')['data'];
-?>
+@if (session()->has('tokenAdmin'))
+    @if (app('request')->all() == null)
+        <?php
+        $Products = Http::get('http://127.0.0.1:8001/api/v1/products');
+        ?>
+    @else
+        @php
+            if (app('request')->input('nameqr') == null && app('request')->input('id') == null) {
+                $url = '?page=' . app('request')->input('page');
+            } elseif (app('request')->input('nameqr') != null && app('request')->input('id') == null) {
+                $url = '?name[like]=' . app('request')->input('nameqr') . '&page=' . app('request')->input('page');
+            } elseif (app('request')->input('nameqr') == null && app('request')->input('id') != null) {
+                $url = '?id[eq]=' . app('request')->input('id') . '&page=' . app('request')->input('page');
+            } else {
+                $url = '?name[like]=' . app('request')->input('nameqr') . '&id[eq]=' . app('request')->input('id') . '&page=' . app('request')->input('page');
+            }
+            $Products = Http::get('http://127.0.0.1:8001/api/v1/products' . $url);
+        @endphp
+    @endif
+    <?php
+    $categoryArray = Http::get('http://127.0.0.1:8001/api/v1/categories')['data'];
+    $brandArray = Http::get('http://127.0.0.1:8001/api/v1/brands')['data'];
+    $countryArray = Http::get('http://127.0.0.1:8001/api/v1/origins')['data'];
+    ?>
+    <div class="p-3 row row-cols-1 row-cols-md-3 sticky-top bg-light justify-content-between">
+        <div class="row col-md-auto">
+            <div class="col-md-auto">
+                {{-- <a class="btn btn-primary btn-sm" href="{{ route('productspage') }}">Thêm sản phẩm </a> --}}
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#minhthu">Thêm
+                    sản phẩm</button>
+            </div>
+        </div>
 
-<div class="p-3 row row-cols-1 row-cols-md-3 sticky-top bg-light justify-content-between">
-    <div class="row col-md-auto">
         <div class="col-md-auto">
-            <input type="radio" class="btn-check" autocomplete="off" value="Tổng đơn">
-            <label class="btn btn-outline-primary btn-sm" for="btnradio1">Tổng sản phẩm
-                <span class="badge bg-danger" id="badge_tongdon"> <?php echo $pagin; ?></span>
-            </label>
-        </div>
-        <div class="col-md-auto">
-            <a class="btn btn-primary btn-sm" href="{{ route('productspage') }}">Thêm sản phẩm </a>
+            <div class="input-group">
+                <input type="text" class="form-control form-control-sm" value="" placeholder="Mã"
+                    id="search_id">
+                <input type="text" class="form-control form-control-sm" value="" placeholder="Tên"
+                    id="search_name">
+                <button class="btn btn-sm btn-primary fa-solid fa-magnifying-glass" onclick="searched()"
+                    type="button"></button>
+            </div>
         </div>
     </div>
 
-    <div class="col-md-auto">
-        <div class="input-group">
-            <input type="text" class="form-control form-control-sm" value="" placeholder="Mã" id="search_id">
-            <input type="text" class="form-control form-control-sm" value="" placeholder="Tên"
-                id="search_name">
-            <button class="btn btn-sm btn-primary" onclick="searched()" type="button">Search</button>
-        </div>
+    <div class="table-responsive" id="quanlysanpham">
+        @include('dynamic_layout.tableproduct')
     </div>
-</div>
-
-<div class="table-responsive" id="quanlysanpham">
-    @include('dynamic_layout.tableproduct')
-</div>
-
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="liveToast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">Thêm sản phẩm thành công</div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                aria-label="Close"></button>
-        </div>
+@else
+    <div class="d-flex flex-column border p-3 justify-content-center align-items-center vh-100">
+        <i class="fa-solid fa-face-flushed display-4"></i>
+        <p class="fw-semibold mt-3 mb-3 fs-4">Cần đăng nhập với quyền admin</p>
     </div>
-</div>
+@endif
 <script src="{{ url('./js/quanly_sanpham.js') }}"></script>

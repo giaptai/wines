@@ -12,6 +12,7 @@ use App\Http\Resources\V1\BrandCollection;
 use App\Http\Resources\V1\BrandResource;
 use App\Models\Category;
 use App\Models\Product;
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class BrandController extends Controller
 {

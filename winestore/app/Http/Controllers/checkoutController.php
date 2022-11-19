@@ -8,6 +8,10 @@ use Illuminate\Database\DeadlockException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Psy\TabCompletion\Matcher\FunctionsMatcher;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class CheckoutController extends Controller
 {
@@ -16,22 +20,83 @@ class CheckoutController extends Controller
 
     public function vnpayPayment(Request $request)
     {
-        $respon1 = Http::get('https://provinces.open-api.vn/api/p/' . $request->input('thanhpho') . '?depth=1');
-        $respon2 = Http::get('https://provinces.open-api.vn/api/d/' . $request->input('quan-huyen') . '?depth=1');
-        $respon3 = Http::get('https://provinces.open-api.vn/api/w/' . $request->input('phuong-xa') . '?depth=1');
+        $thanhpho = explode("_", $request->input('thanhpho'))[1];
+        $quanhuyen = explode("_", $request->input('quan-huyen'))[1];
+        $phuongxa = explode("_", $request->input('phuong-xa'))[1];
 
         session()->put('orders', [
             'fullname' => $request->input('pay-name'),
             'phonenumber' => $request->input('pay-phone'),
             'email' => $request->input('pay-email'),
-            'address' =>  $request->input('pay-address') . ', ' . $respon3['name'] . ', ' . $respon2['name'] . ', ' . $respon1['name'],
+            'address' =>  $request->input('pay-address') . ', ' . $phuongxa . ', ' . $quanhuyen . ', ' . $thanhpho,
             'total_price' => $request->input('pay-sum2'),
             // 'quantity' => $request->input('quantity')
         ]);
-        session()->save();
+
+        if ($request->input('pay-options') == 'COD') {
+            // return response()->json([$request->all(), session('cart')], 200);
+            if (session()->has('tokenUser') && session()->has('UserID')) {
+                $respon = Http::withToken(session('tokenUser'))->post(
+                    'http://127.0.0.1:8001/api/v1/orders',
+                    [
+                        "customer_id" => session('UserID'),
+                        "total" => session('orders')['total_price'],
+                        "address" => session('orders')['address'],
+                        "phone" => session('orders')['phonenumber'],
+                        "fullname" => session('orders')['fullname'],
+                        "email" => session('orders')['email'],
+                    ]
+                );
+                $arrayIten = [];
+                foreach (session('cart') as $item) {
+                    Http::withToken(session('tokenUser'))->post(
+                        'http://127.0.0.1:8001/api/v1/orderdetails',
+                        [
+                            array(
+                                'productId' => $item['id'],
+                                'price' => $item['price'],
+                                'productName' => $item['name'],
+                                'quantity' => $item['quantity'],
+                                'orderId' => $respon['data'][0]['id'],
+                            )
+                        ]
+                    );
+                    array_push($arrayIten,  array(
+                        'productId' => $item['id'],
+                        'image' => $item['images'],
+                        'price' => $item['price'],
+                        'productName' => $item['name'],
+                        'quantity' => $item['quantity'],
+                        'orderId' => $respon['data'][0]['id'],
+                    ));
+                }
+
+                $emailok = $request->input('pay-email'); //email cần gửi
+                Mail::send(
+                    "email.receipt",
+                    [
+                        'orderId' => $respon['data'][0]['id'],
+                        'email' => $emailok,
+                        'name' => $request->input('pay-name'),
+                        'Items' => $arrayIten,
+                        'Address' => $request->input('pay-address') . ', ' . $phuongxa . ', ' . $quanhuyen . ', ' . $thanhpho,
+                        'Phone' => $request->input('pay-phone'),
+                        'Total_price' => $request->input('pay-sum2')
+                    ],
+                    function ($email) use ($emailok) {
+                        $email->subject('ĐẶT HÀNG THÀNH CÔNG');
+                        $email->to($emailok, "xxxx");
+                    }
+                );
+                session()->forget('cart');
+                session()->forget('orders');
+                return redirect('/cart?message=success');
+            } else return 'Không có token và email user';
+        }
+        // session()->save();
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = "http://127.0.0.1:8000/vnpay/vnpay_return";
-        $vnp_TxnRef = random_int(PHP_INT_MIN, PHP_INT_MAX);
+        $vnp_TxnRef = random_int(1000000000, 9999999999);
         // $_POST['order_id']; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
         $vnp_OrderInfo = "Thanh toán hóa đơn";
         // $_POST['order_desc'];
@@ -40,7 +105,7 @@ class CheckoutController extends Controller
         $vnp_Amount = $request->input('pay-sum2') * 100;
         $vnp_Locale = 'vn';
         // $_POST['language'];
-        $vnp_BankCode = 'NCB';
+        $vnp_BankCode = 'NCB'; // chọn củ thể ngân hàng, không thì bỏ rỗng
         // $_POST['bank_code'];
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         //Add Params of 2.0.1 Version
@@ -123,13 +188,13 @@ class CheckoutController extends Controller
 
     public function paymentsResult(Request $request)
     {
+        // return session('cart');
         $inputData = array();
         foreach ($_GET as $key => $value) {
             if (substr($key, 0, 4) == 'vnp_') {
                 $inputData[$key] = $value;
             }
         }
-
         $vnp_SecureHash = $inputData['vnp_SecureHash'];
         unset($inputData['vnp_SecureHashType']);
         unset($inputData['vnp_SecureHash']);
@@ -149,36 +214,71 @@ class CheckoutController extends Controller
         if ($secureHash == $vnp_SecureHash) {
             // lưu vô bảng đơn hàng và chi tiết đơn hàng
             if ($_GET['vnp_ResponseCode'] == '00') {
-                $respon = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->post(
-                    'http://127.0.0.1:8001/api/v1/orders',
-                    [
-                        "customer_id" => 2,
-                        "total" => session('orders')['total_price'],
-                        "address" => session('orders')['address'],
-                        "phone" => session('orders')['phonenumber'],
-                        "fullname" => session('orders')['fullname'],
-                        "email" => session('orders')['email'],
-                    ]
-                );
+                $getId = Http::withToken(session('tokenUser'))->get('http://127.0.0.1:8001/api/v1/customers/' . session('UserID'));
+                if (session()->has('tokenUser') && session()->has('UserID')) {
+                    $respon = Http::withToken(session('tokenUser'))->post(
+                        'http://127.0.0.1:8001/api/v1/orders',
+                        [
+                            "customer_id" => session('UserID'),
+                            "total" => session('orders')['total_price'],
+                            "address" => session('orders')['address'],
+                            "phone" => session('orders')['phonenumber'],
+                            "fullname" => session('orders')['fullname'],
+                            "email" => session('orders')['email'],
+                        ]
+                    );
+                } else return 'Không có token và email admin';
+                // return response($respon, 200);
                 // Ngân hàng: NCB
                 // Số thẻ: 9704198526191432198
                 // Tên chủ thẻ: NGUYEN VAN A
                 // Ngày phát hành: 07/15
                 // Mật khẩu OTP: 123456
-                foreach ($cart = session('cart') as $item) {
-                    $respon2 = Http::withToken('1|eSDkOlgFWKqgqfaulM7UBBClhWKm5CzsjgSvPlSc')->post(
-                        'http://127.0.0.1:8001/api/v1/orderdetails',
-                        [
-                            array(
-                                'productId' => $item['id'],
-                                'price' => $item['price'],
-                                'productName' => $item['name'],
-                                'quantity' => $item['quantity'],
-                                'orderId' => $respon['data']['id'],
-                            )
-                        ]
-                    );
-                }
+                $arrayIten = [];
+                if (session()->has('tokenUser') && session()->has('UserID')) {
+                    foreach (session('cart') as $item) {
+                        // return $item;
+                        $respon2 = Http::withToken(session('tokenUser'))->post(
+                            'http://127.0.0.1:8001/api/v1/orderdetails',
+                            [
+                                array(
+                                    'productId' => $item['id'],
+                                    'price' => $item['price'],
+                                    'productName' => $item['name'],
+                                    'quantity' => $item['quantity'],
+                                    'orderId' => $respon['data'][0]['id'],
+                                )
+                            ]
+                        );
+                        array_push($arrayIten,  array(
+                            'productId' => $item['id'],
+                            'price' => $item['price'],
+                            'productName' => $item['name'],
+                            'quantity' => $item['quantity'],
+                            'orderId' => $respon['data'][0]['id'],
+                        ));
+                    }
+                } else return 'Không có token và email admin';
+
+                $emailok = session('orders')['email']; //email cần gửi
+                Mail::send(
+                    "email.receipt",
+                    [
+                        'orderId' => $respon['data'][0]['id'],
+                        'email' => session('orders')['email'],
+                        'name' => session('orders')['fullname'],
+                        'Items' => $arrayIten,
+                        'Address' => session('orders')['address'],
+                        'Phone' => session('orders')['phonenumber'],
+                        'Total_price' => session('orders')['total_price'],
+                    ],
+                    function ($email) use ($emailok) {
+                        $email->subject('ĐẶT HÀNG THÀNH CÔNG');
+                        $email->to($emailok, "xxxx");
+                    }
+                );
+                session()->forget('cart');
+                session()->forget('orders');
                 $Result = 'Giao dịch thành công';
                 // }
             } else {
@@ -187,8 +287,7 @@ class CheckoutController extends Controller
         } else {
             $Result = 'Chu kỳ không hợp lệ';
         }
-        // return response($arr, 200);
-
+        // return response($respon2, 200);
         return view("vnpay.vnpay_return", [
             'vnp_TxnRef' => $request->input('vnp_TxnRef'),
             'vnp_OrderInfo' => $request->input('vnp_OrderInfo'),
@@ -196,6 +295,8 @@ class CheckoutController extends Controller
             'vnp_TransactionNo' => $request->input('vnp_TransactionNo'),
             'vnp_BankCode' => $request->input('vnp_BankCode'),
             'vnp_PayDate' => $request->input('vnp_PayDate'),
+            'vnp_Amount' => $request->input('vnp_Amount'),
+            'fullname' => $getId['data']['lastname'] . ' ' . $getId['data']['firstname'],
             'Result' => $Result
         ]);
     }

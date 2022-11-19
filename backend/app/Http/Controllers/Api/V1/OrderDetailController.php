@@ -12,6 +12,8 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 class OrderDetailController extends Controller
 {
     /**

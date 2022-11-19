@@ -1,5 +1,5 @@
 function getDistric(ele) {
-    console.log(ele);
+    let dis=ele.value.split("_")
     var newele = document.getElementById('quan-huyen');
     var newele2 = document.getElementById('phuong-xa');
     var xhttp = new XMLHttpRequest();
@@ -10,19 +10,19 @@ function getDistric(ele) {
             newele.length = 1;
             newele2.length = 1;
             for (var i = 0; i < arrcity.length; i++) {
-                newele.add(new Option(arrcity[i]['name'], arrcity[i]['code']));
+                newele.add(new Option(arrcity[i]['name'], arrcity[i]['code']+'_'+arrcity[i]['name']));
             }
         }
     };
 
-    xhttp.open("GET", "/cart/distric?id=" + ele.value, true);
+    xhttp.open("GET", "/cart/distric?id=" + dis[0], true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();
 }
 
 function getBlock(ele) {
-    console.log(ele);
+    let bloc=ele.value.split("_")
     var newele = document.getElementById('phuong-xa');
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -31,12 +31,12 @@ function getBlock(ele) {
             arrcity = JSON.parse(this.responseText);
             newele.length = 1;
             for (var i = 0; i < arrcity.length; i++) {
-                newele.add(new Option(arrcity[i]['name'], arrcity[i]['code']));
+                newele.add(new Option(arrcity[i]['name'], arrcity[i]['code']+'_'+arrcity[i]['name']));
             }
         }
     };
 
-    xhttp.open("GET", "/cart/block?id=" + ele.value, true);
+    xhttp.open("GET", "/cart/block?id=" + bloc[0], true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();
@@ -97,4 +97,8 @@ function removeItemCart(id) {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();
+}
+
+function Comfired(){
+    
 }

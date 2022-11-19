@@ -16,7 +16,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\CheckoutController;
-
+use App\Http\Controllers\statisticController;
 use Illuminate\Http\Request;
 
 
@@ -68,6 +68,9 @@ Route::prefix('/')->group(function () {
 
   //trang register
   Route::get('/register', [MenuBarController::class, 'register'])->name('register');
+
+  //trang lienhe
+  Route::get('/lienhe', [MenuBarController::class, 'contact'])->name('contact');
 });
 
 Route::post('/vnpay/vnpay_payment', [CheckoutController::class, 'vnpayPayment'])->name('checkout');
@@ -76,6 +79,8 @@ Route::get('/vnpay/vnpay_return', [CheckoutController::class, 'paymentsResult'])
 Route::prefix('admin')->group(function () {
   // Controller điều hương vô trang quản lý
   //trang quản lý thống kê
+  Route::get('/login', [ManageController::class, 'LoginPage'])->name('loginadmin');
+  //trang quản lý thống kê
   Route::get('/statistic', [ManageController::class, 'Statistic'])->name('statistic');
   //trang quản lý sản phẩm
   Route::get('/products', [ManageController::class, 'Products'])->name('products');
@@ -83,6 +88,7 @@ Route::prefix('admin')->group(function () {
   Route::get('/orders', [ManageController::class, 'Orders'])->name('orders');
   //trang quản lý tài khoản
   Route::get('/accounts', [ManageController::class, 'Accounts'])->name('accounts');
+  Route::get('/customers', [ManageController::class, 'Accounts'])->name('customers');
   //trang quản lý thể loại
   Route::get('/categories', [ManageController::class, 'Categories'])->name('categories');
   //trang quản lý thương hiệu
@@ -91,58 +97,79 @@ Route::prefix('admin')->group(function () {
   Route::get('/countries', [ManageController::class, 'Countries'])->name('countries');
   // Controller điều hương vô trang quản lý
 
+  //QUAN LY THONG KE
+  Route::get('/statistic-order', [statisticController::class, 'Statistic'])->name('statistic-order');
 
-
-  Route::get('/customers', [ManageController::class, 'Accounts'])->name('customers');
-
-
-  Route::put('/orders/{id}', [OrdersController::class, 'update'])->name('orders-edit');
+  //QUẢN LÝ ĐƠN HÀNG
+  Route::put('/orders/{id}', [OrdersController::class, 'modifyOrder'])->name('orders-edit');
   // Route::post('/product-add', [ProductsController::class, 'store'])->name('product-add');
-  Route::get('/orders/{page}', [OrdersController::class, 'pagination'])->name('paginate-order');
-  Route::get('/search-order', [OrdersController::class, 'show'])->name('search-order');
-  Route::get('/filter-order', [OrdersController::class, 'filter'])->name('filter-order');
+  Route::get('/paginate-order', [OrdersController::class, 'pagination'])->name('paginate-order');
+  Route::get('/search-order', [OrdersController::class, 'searchOrder'])->name('search-order');
+  Route::get('/filter-order', [OrdersController::class, 'filterOrder'])->name('filter-order');
+  Route::get('/order-details/{id}', [OrdersController::class, 'OrderDetails'])->name('order-details');
+
+  //QUẢN LÝ SẢN PHẨM
+  Route::delete('/products/{id}', [ProductsController::class, 'deleteProduct'])->name('products-delete');
+  Route::post('/products/{id}', [ProductsController::class, 'modifyProduct'])->name('products-edit');
+  // Route::post('/products-edit/{id}', [ProductsController::class, 'modifyProduct'])->name('products-edit');
+  Route::post('/add-product', [ProductsController::class, 'addProduct'])->name('add-product');
+  Route::get('/paginate-product', [ProductsController::class, 'pagination'])->name('paginate-product');
+  Route::get('/search-product', [ProductsController::class, 'searchProduct'])->name('search-product');
+
+  Route::post('/uploadfile-product', [ProductsController::class, 'UploadFile'])->name('uploadfile-product');
 
 
-  Route::post('/add-account', [AccountsController::class, 'store'])->name('add-account');
-  Route::get('/accounts/{page}', [AccountsController::class, 'pagination'])->name('paginate-account');
-  Route::get('/search-accounts', [AccountsController::class, 'show'])->name('search-account');
-
-  Route::delete('/products/{id}', [ProductsController::class, 'delete'])->name('products-delete');
-  Route::put('/products/{id}', [ProductsController::class, 'update'])->name('products-edit');
-  Route::post('/add-product', [ProductsController::class, 'store'])->name('add-product');
-  Route::get('/products/{page}', [ProductsController::class, 'pagination'])->name('paginate-product');
-  Route::get('/search-product', [ProductsController::class, 'show'])->name('search-product');
   //trang thêm sản phẩm
   Route::get('/productspage', [ManageController::class, 'manage_product_add'])->name('productspage');
 
-  Route::delete('/categories/{id}', [CategoriesController::class, 'delete'])->name('categories-delete');
-  Route::put('/categories/{id}', [CategoriesController::class, 'update'])->name('categories-edit');
-  Route::post('/add-category', [CategoriesController::class, 'store'])->name('add-category');
-  Route::get('/categories/{page}', [CategoriesController::class, 'pagination'])->name('paginate-category');
-  Route::get('/search-category', [CategoriesController::class, 'show'])->name('search-category');
+  //QUẢN LÝ TÀI KHOẢN
+  // Route::put('/accounts/{id}', [AccountsController::class, 'update'])->name('accounts-edit');
+  Route::get('/paginate-account', [AccountsController::class, 'pagination'])->name('paginate-account');
+  Route::get('/search-accounts', [AccountsController::class, 'searchAccount'])->name('search-account');
 
-  Route::delete('/brands/{id}', [BrandsController::class, 'delete'])->name('brands-delete');
-  Route::put('/brands/{id}', [BrandsController::class, 'update'])->name('brands-edit');
-  Route::post('/add-brand', [BrandsController::class, 'store'])->name('add-brand');
-  Route::get('/brands/{page}', [BrandsController::class, 'pagination'])->name('paginate-brand');
-  Route::get('/search-brand', [BrandsController::class, 'show'])->name('search-brand');
+  //QUẢN LÝ THỂ LOẠI
+  Route::delete('/categories/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories-delete');
+  Route::put('/categories/{id}', [CategoriesController::class, 'modifyCategory'])->name('categories-edit');
+  Route::post('/add-category', [CategoriesController::class, 'addCategory'])->name('add-category');
+  Route::get('/paginate-category', [CategoriesController::class, 'pagination'])->name('paginate-category');
+  Route::get('/search-category', [CategoriesController::class, 'searchCategory'])->name('search-category');
 
-  Route::delete('/countries/{id}', [CountriesController::class, 'delete'])->name('countries-delete');
-  Route::put('/countries/{id}', [CountriesController::class, 'update'])->name('countries-edit');
-  Route::post('/add-country', [CountriesController::class, 'store'])->name('add-country');
-  Route::get('/countries/{page}', [CountriesController::class, 'pagination'])->name('paginate-country');
-  Route::get('/search-country', [CountriesController::class, 'show'])->name('search-country');
+  //QUẢN LÝ THƯƠNG HIỆU
+  Route::delete('/brands/{id}', [BrandsController::class, 'deleteBrand'])->name('brands-delete');
+  Route::put('/brands/{id}', [BrandsController::class, 'modifyBrand'])->name('brands-edit');
+  Route::post('/add-brand', [BrandsController::class, 'addBrand'])->name('add-brand');
+  Route::get('/paginate-brand', [BrandsController::class, 'pagination'])->name('paginate-brand');
+  Route::get('/search-brand', [BrandsController::class, 'searchBrand'])->name('search-brand');
 
+  //QUẢN LÝ XUẤT XỨ
+  Route::delete('/countries/{id}', [CountriesController::class, 'deleteCountry'])->name('countries-delete');
+  Route::put('/countries/{id}', [CountriesController::class, 'modifyCountry'])->name('countries-edit');
+  Route::post('/add-country', [CountriesController::class, 'addCountry'])->name('add-country');
+  Route::get('/paginate-country', [CountriesController::class, 'pagination'])->name('paginate-country');
+  Route::get('/search-country', [CountriesController::class, 'searchCountry'])->name('search-country');
 });
 
-
+//QUẢN LÝ TÀI KHOẢN CÁ NHÂN
 Route::prefix('account')->group(function () {
-
+  // VÔ GIAO DIỆN TRANG CÁ NHÂN
   Route::get('/my-account', [ClientController::class, 'MyInfor'])->name('my-account');
-
   Route::get('/my-address', [ClientController::class, 'MyAddress'])->name('my-address');
-
   Route::get('/my-order', [ClientController::class, 'MyOrder'])->name('my-order');
+  Route::get('/my-password', [ClientController::class, 'MyPassword'])->name('my-password');
+  Route::get('/my-order-details/{id}', [ClientController::class, 'MyOrderDetails'])->name('my-order-details');
+  // VÔ GIAO DIỆN TRANG CÁ NHÂN
 
-  Route::post('/my-account/update', [ClientController::class, 'updateInfo'])->name('my-infor-update');
+  //THAO TÁC THÔNG TIN CÁ NHÂN
+  Route::post('/my-account/login', [ClientController::class, 'loginAcc'])->name('client-login');
+  Route::get('/my-account/logout', [ClientController::class, 'logoutAcc'])->name('client-logout');
+  Route::post('/my-account/signup', [ClientController::class, 'signUpAcc'])->name('client-signup');
+  Route::post('/add-address', [ClientController::class, 'addAddress'])->name('add-address');
+  Route::post('/change-password', [ClientController::class, 'changePassword'])->name('change-password');
+
+
+  Route::put('/my-account/{id}', [ClientController::class, 'updateClient'])->name('my-infor-update');
+  Route::post('/my-account', [ClientController::class, 'store'])->name('my-infor-store');
+  Route::get('/filter-order', [ClientController::class, 'filterOrderClient'])->name('filter-order');
+  Route::get('/paginate-order-client', [ClientController::class, 'pagination'])->name('paginate-order-client');
+  Route::get('/search-order-client', [ClientController::class, 'searchOrderClient'])->name('search-order-client');
 });

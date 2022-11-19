@@ -24,27 +24,18 @@ class MenuBarController extends Controller
     }
 
     //trang sản phẩm
-    public function shop()
+    public function shop(Request $request)
     {
-        $respon=Http::get('http://127.0.0.1:8001/api/v1/products?page=1');
-
-        $paginate = $respon['meta']['total'];
-        $wineArray = $respon['data'];
-        $countryArray = Http::get('http://127.0.0.1:8001/api/v1/origins')['data'];
-        $categoryArray = Http::get('http://127.0.0.1:8001/api/v1/categories')['data'];
-        $brandArray = Http::get('http://127.0.0.1:8001/api/v1/brands')['data'];
-        $currentpage=1;
-        // return response($categoryArray, 200);
-        return view('page.cuahang',  compact('wineArray', 'countryArray', 'categoryArray', 'brandArray', 'paginate','currentpage'));
+        return view('page.cuahang');
     }
 
-    //trang quản lý sản phẩm
+    //trang quản lý giỏ hàng
     public function cart()
     {
-        $respon = Http::get('https://provinces.open-api.vn/api/p');
-        $apiOk = $respon->json();
-
-        return view('page.giohang',compact('apiOk'));
+        // $respon = Http::get('https://provinces.open-api.vn/api/p');
+        // $apiOk = $respon->json();
+        // return view('page.giohang',compact('apiOk'));
+        return view('page.giohang');
     }
 
     //trang quản lý khách hàng
@@ -57,4 +48,8 @@ class MenuBarController extends Controller
         return view('page/logger');
     }
 
+     //trang lienhe
+     public function contact(){
+        return view('page/user_address');
+    }
 }

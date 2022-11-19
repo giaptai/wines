@@ -31,70 +31,35 @@
     <div class="container-md" style="width: 80%">
 
         <div class="suggetsforu border-top">
-            <div class="align-items-center justify-content-evenly row row-cols-md-1 row-cols-1 pt-3">
-                {{-- <h2 class="col-md-auto text-center">Thể loại rượu</h2> --}}
-                <div class="d-flex align-items-center justify-content-center text-center mt-3 mb-3">
-                    <hr class="col-md-5" />
-                    <span class="border border-dark p-1 col-md-2 fs-3 fw-semibold">Thể loại rượu</span>
-                    <hr class="col-md-5" />
+            <div class="row row-cols-1 row-cols-lg-3 align-items-stretch justify-content-evenly mt-4">
+                <div class="col-md-auto">
+                    <div class="card h-100 text-bg-dark rounded-5"
+                        style="background-image: url('https://ruouvang24h.vn/wp-content/uploads/2020/07/Top-10-Chai-R%C6%B0%E1%BB%A3u-Vang-%C4%90%E1%BB%8F.jpg');background-size: 100% 100%; background-repeat: no-repeat; background-position: center; min-height: 234px;">
+                        <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
+                            <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[0]['name'] !!}</h3>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="row row-cols-1 row-cols-lg-3 gy-2 align-items-stretch">
-                    <div class="col">
-                        <div class="card h-100  text-bg-dark rounded-4 shadow-lg"
-                            style="background-image: url('https://ruouvang24h.vn/wp-content/uploads/2020/07/Top-10-Chai-R%C6%B0%E1%BB%A3u-Vang-%C4%90%E1%BB%8F.jpg');background-size: 100% 100%; background-repeat: no-repeat; background-position: center; min-height: 234px;">
-                            <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
-                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[0]['name'] !!}</h3>
-                            </div>
+                <div class="col-md-auto">
+                    <div class="card h-100 text-bg-dark rounded-5"
+                        style="background-image: url('https://besthqwallpapers.com/Uploads/17-5-2020/133048/thumb2-glass-of-white-wine-wine-concepts-white-wine-black-background-wine.jpg'); background-size: 100% 100%; background-position: center; min-height: 234px;">
+                        <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
+                            <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[1]['name'] !!}</h3>
                         </div>
                     </div>
-
-                    <div class="col">
-                        <div class="card h-100  text-bg-dark rounded-4 shadow-lg"
-                            style="background-image: url('https://besthqwallpapers.com/Uploads/17-5-2020/133048/thumb2-glass-of-white-wine-wine-concepts-white-wine-black-background-wine.jpg'); background-size: 100% 100%; background-position: center; min-height: 234px;">
-                            <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
-                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[1]['name'] !!}</h3>
-                            </div>
+                </div>
+                <div class="col-md-auto">
+                    <div class="card h-100 text-bg-dark rounded-5"
+                        style="background-image: url('https://img.freepik.com/premium-photo/top-view-wine-bottle-with-slate-background_23-2148243150.jpg'); background-size: 100% 100%; background-position: center;min-height: 234px;">
+                        <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
+                            <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[2]['name'] !!}</h3>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="card h-100  text-bg-dark rounded-4 shadow-lg"
-                            style="background-image: url('https://img.freepik.com/premium-photo/top-view-wine-bottle-with-slate-background_23-2148243150.jpg'); background-size: 100% 100%; background-position: center;min-height: 234px;">
-                            <div class="d-flex h-100 p-5  text-white text-shadow-1 align-items-center align-self-center">
-                                <h3 class="display-6 lh-1 fw-bold"> {!! $categoryArray[2]['name'] !!}</h3>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-
-            <div class="mt-4 mb-4">
-                <div class="d-flex align-items-center justify-content-center text-center p-0">
-                    <hr class="col-5" />
-                    <span class="border border-dark p-1 col-md-2 fs-3 fw-semibold">Tìm hiểu</span>
-                    <hr class="col-5" />
-                </div>
-            </div>
+            <hr>
             <div class="g-0 row row-cols-md-2 row-cols-sm-1 row-cols-1 gy-2">
-                {{-- @php
-                for ($i = 0; $i < 8; $i++) {
-                    echo '<div class="col">
-                    <div class="p-2 card m-3 border-0 h-90">
-                        <img class="card-img mx-auto d-block"
-                            src="https://tmwine.vn/wp-content/uploads/2020/10/TMWine-San-pham-34-300x300.jpg"
-                            style="object-fit: cover; width: 12rem; height: 13rem;">
-                        <div class="card-body">
-                            <div class="card-title h6">Wine Quinta das Arcas, Conde Villar Rose, 2019</div>
-                            <small class="mb-2 card-text text-muted">Ý, Vang đỏ, Papale Primitivo di Manduria</small>
-                            <p class="card-text fw-bold">12, 000, 000 đ</p>
-                            <span class="btn btn-outline-primary btn-sm rounded-0 m-0">Thêm vào giỏ</span>                
-                        </div>
-                    </div>
-                </div>';
-                }
-            @endphp --}}
-
                 <div class="col col-md-6 bg-dark pt-3 pt-md-5 px-md-5 text-center text-white"
                     style="background-size: cover;
 background-image: url('https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/red-wine-on-a-dark-background-maryana-kankulova.jpg');
@@ -117,7 +82,6 @@ background-image: url('https://images.unsplash.com/photo-1606767208159-1a5fb0a87
                     </div>
                     <div class="shadow-sm mx-auto" style="width: 80%; height: 8rem;">
                         <button class="btn btn-outline-light">Tìm hiểu thêm</button>
-
                     </div>
                 </div>
                 <div class="col col-md-12 bg-dark pt-3 pt-md-5 px-md-5 text-center text-white "
@@ -130,13 +94,12 @@ background-image: url('https://images.unsplash.com/photo-1606767208159-1a5fb0a87
                             <button class="btn btn-light">Tìm hiểu thêm</button>
                         </div>
                     </div>
-
                 </div>
             </div>
 
             <div class="mt-4 mb-4">
                 <div class=" mb-3 bg-white">
-                    <div class="d-flex justify-content-center text-center p-0">    
+                    <div class="d-flex justify-content-center text-center p-0">
                         <span class="fs-3 fw-semibold">Gợi ý</span>
                     </div>
                     <hr>
@@ -154,11 +117,12 @@ background-image: url('https://images.unsplash.com/photo-1606767208159-1a5fb0a87
                                         </div>
                                         <div class="card-body">
                                             <p class="fw-semibold">{!! $productArray[$i]['name'] !!}</p>
-                                            <p class="fw-semibold">{!! number_format($productArray[$i]['price']) !!}</p>
+                                            <p class="fw-semibold">{!! number_format($productArray[$i]['price']) !!} đ</p>
                                         </div>
                                         <div class="card-footer bg-white rounded-0 border-0">
                                             <a class="btn btn-sm btn-outline-primary"
-                                            href="{{ route('product_details', ['id' => $productArray[$i]['id']]) }}">Xem sản phẩm</a>
+                                                href="{{ route('product_details', ['id' => $productArray[$i]['id']]) }}">Xem
+                                                sản phẩm</a>
                                         </div>
                                     </div>
                                 @endfor
@@ -175,14 +139,15 @@ background-image: url('https://images.unsplash.com/photo-1606767208159-1a5fb0a87
                                         </div>
                                         <div class="card-body">
                                             <p class="fw-semibold">{!! $productArray[$i]['name'] !!}</p>
-                                            <p class="fw-semibold">{!! number_format($productArray[$i]['price']) !!}</p>
+                                            <p class="fw-semibold">{!! number_format($productArray[$i]['price']) !!} đ</p>
                                         </div>
                                         <div class="card-footer bg-white rounded-0 border-0">
                                             <a class="btn btn-sm btn-outline-primary"
-                                            href="{{ route('product_details', ['id' => $productArray[$i]['id']]) }}">Xem sản phẩm</a>
+                                                href="{{ route('product_details', ['id' => $productArray[$i]['id']]) }}">Xem
+                                                sản phẩm</a>
                                         </div>
                                     </div>
-                                @endfor                            
+                                @endfor
                             </div>
                         </div>
                     </div>
@@ -198,18 +163,12 @@ background-image: url('https://images.unsplash.com/photo-1606767208159-1a5fb0a87
                     </button>
                 </div>
             </div>
-
+            <hr>
 
             <div class="introduces row row-cols-md-1 row-cols-1 justify-content-between p-3 mt-3">
-                <div class=" mb-3 bg-white">
-                    <div class="d-flex align-items-center justify-content-center text-center p-0">
-                        <hr class="col-md-4" />
-                        <span class="border border-dark p-1 col-md-4 fs-3 fw-semibold">Về LuxuryWine Flix</span>
-                        <hr class="col-md-4" />
-                    </div>
-                </div>
                 <div class="introducesText col-md-7 mb-2">
-                    <span class="lh-lg lead">Thương hiệu Winemart được thành lập vào năm
+                    <p class="fs-3 fw-bold">Về LuxuryWine Flix</p>
+                    <span class="lh-lg fw-semibold lead">Thương hiệu Winemart được thành lập vào năm
                         2015 với mục tiêu đem lại cho người tiêu dùng những dịch vụ và sản phẩm tốt nhất. Winemart
                         chuyên cung cấp các loại rượu vang, rượu mạnh, bia nhập khẩu cùng với các loại thực phẩm cao
                         cấp khác như Chocolate, trà, cà phê, mứt, trái cây sấy khô,… từ các nhãn hiệu cao cấp, thiết

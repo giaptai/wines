@@ -13,6 +13,8 @@ use App\Http\Requests\BulkStoreOrderRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 class OrderController extends Controller
 {
     /**
@@ -40,6 +42,28 @@ class OrderController extends Controller
         $fillerItems = $filler->transform($request);
         $order = Order::where($fillerItems);
         return $order->paginate();
+    }
+
+    public function statistic(Request $request)
+    {
+        $data = array();
+        if ($request->query('year')) {
+            for ($i = 1; $i <= 12; $i++) {
+                $order = Order::whereYear('created_at', $request->year)->where('status', 2)->whereMonth('created_at', $i);
+                // $data[$i]['receipts'] = $order->count();
+                // $data[$i]['rhino'] = $order->sum('total');
+                array_push(
+                    $data,
+                    [
+                        "receipts" => $order->count(),
+                        "rhino" => $order->sum('total')
+                    ]
+                );
+            }
+        }
+        return response()->json($data,200);
+        // return $data;
+
     }
 
     /**

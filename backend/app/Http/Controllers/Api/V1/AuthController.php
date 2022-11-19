@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class AuthController extends Controller
 {
@@ -49,13 +50,30 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->first();
             if ($user->role_as == 1) {
                 $token = $user->createToken("ADMIN TOKEN", ['admin:create', 'admin:update', 'admin:delete'])->plainTextToken;
+                return response()->json([
+                    'status' => true,
+                    'message' => 'User Logged In Successfully',
+                    'token' => $token,
+                ], 200);
             } else {
+                $customer=Customer::where('user_id',$user->id)->first();
                 $token = $user->createToken("USER TOKEN", ['user:create', 'user:update', 'user:delete'])->plainTextToken;
+                // return response()->json([
+                //     'status' => true,
+                //     'message' => 'User Logged In Successfully',
+                //     'token' => $token,
+                //     'data'=>[
+                //         $customer
+                //     ]
+                // ], 200);
             }
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $token
+                'token' => $token,
+                'data'=>[
+                    $customer
+                ]
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -93,6 +111,7 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'firstname' => $request->firstname,
                 'lastname' => $request->lastname,
+                'phone' => $request->phone,
                 'email' => $request->email
             ]);
             return response()->json(

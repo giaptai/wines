@@ -7,6 +7,7 @@ use App\Models\File;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class FileUploadController extends Controller
 {

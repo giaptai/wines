@@ -11,6 +11,7 @@ use App\Http\Resources\V1\CategoryResource;
 use Illuminate\Http\Request;
 use App\Filters\V1\CategoryFilter;
 use App\Models\Product;
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class CategoryController extends Controller
 {
@@ -103,7 +104,7 @@ class CategoryController extends Controller
         $category = $category->update($request->all());
         return response()->json([
             'status' => true,
-            'message' => 'Thêm mới thể loại thành công!',
+            'message' => 'Chỉnh sửa thể loại thành công!',
             'data' => [
                 $category
             ]
