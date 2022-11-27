@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\V1\OriginController;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\FileUploadController;
+use App\Http\Controllers\Api\V1\OrderDetailController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,7 +40,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1', 'm
     Route::post('change-password', [AuthController::class, 'changePassword']);
     Route::post('logout', [AuthController::class, 'destroy']);
     Route::get('statistic', [OrderController::class, 'statistic']);
-
+    Route::get('countProductDetail', [OrderDetailController::class, 'countProduct']);
     // Route::post('orderdetails/bulk', ['uses' => 'OrderDetailController@bulkStore']);
 });
 
@@ -55,7 +57,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], f
     Route::get('products/{product}', [ProductController::class, 'show']);
     Route::post('register', [AuthController::class, 'store']);
     Route::post('login', [AuthController::class, 'index']);
-
     // Route::get('/email/verify', function () {
     //     return view('auth.verify-email');
     // })->middleware('auth')->name('verification.notice');

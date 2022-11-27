@@ -12,10 +12,11 @@
     <tbody id="show-order">
         @if (isset($Orders['data']) && $Orders['total'] > 0)
             <?php $stt = ($Orders['current_page'] - 1) * 15; ?>
-
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-sm btn-primary">
                 Tổng đơn: <span class="badge text-bg-light">{!! $Orders['total'] !!} </span>
             </button>
+            <button id="xuatexcel"
+                class="mx-2 btn btn-sm btn-secondary" data-page="{!! $Orders['current_page'] !!}"  onclick="xuatExcel()">Xuất Excel</button>
             @foreach ($Orders['data'] as $item)
                 <tr>
                     <th scope="row">{!! ++$stt !!}</th>
@@ -27,8 +28,8 @@
                             <span class="text-warning fw-semibold">Chờ xác nhận</span>
                         @elseif($item['status'] == 1)
                             <span class="text-primary fw-semibold">Đã xác nhận</span>
-                        @elseif($item['status'] == 2)
-                            <span class="text-success fw-semibold">Đã giao</span>
+                        {{-- @elseif($item['status'] == 2) --}}
+                            {{-- <span class="text-success fw-semibold">Đã giao</span> --}}
                         @else
                             <span class="text-danger fw-semibold"> Đã hủy</span>
                         @endif
@@ -44,9 +45,9 @@
                             <a class="btn btn-sm fa-solid fa-receipt text-primary"
                                 href="{{ route('order-details', ['id' => $item['id']]) }}"></a>
                         @elseif($item['status'] == 1)
-                            <button class="btn btn-sm fa-solid fa-circle-check text-primary" data-status="1"
+                            {{-- <button class="btn btn-sm fa-solid fa-circle-check text-primary" data-status="1"
                                 onclick="updateOrder(<?php echo $item['id']; ?>, 2, {!! $Orders['current_page'] !!})">
-                            </button>
+                            </button> --}}
                             <a class="btn btn-sm fa-solid fa-receipt text-primary"
                                 href="{{ route('order-details', ['id' => $item['id']]) }}"></a>
                         @else

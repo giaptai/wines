@@ -71,6 +71,14 @@ class OrderDetailController extends Controller
         return response()->json(['status' => true, 'message' => 'Add orderdetails successfully !', 'data' => [$bulk]]);
     }
 
+    public function countProduct(OrderDetail $orderDetail)
+    {
+        return
+            response()->json(
+                OrderDetail::select('product_name', OrderDetail::raw('count(*) as total'))->groupBy('product_name')->orderBy('total', 'DESC')->limit(5)->get(),
+                200
+            );
+    }
     /**
      * Insert mutiple Order
      */

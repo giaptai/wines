@@ -19,6 +19,18 @@ class ManageController extends Controller
     //trang quản đăng nhập
     public function LoginPage()
     {
+        if (session()->has('tokenAdmin')) {
+            return view('page/quanly_thongke');
+        } else
+            return view('page/login_admin');
+    }
+
+    public function LogoutPage()
+    {
+        if (session()->has('tokenAdmin')) {
+            Http::withToken(session('tokenAdmin'))->post('http://127.0.0.1:8001/api/v1/logout');
+            session()->forget(['AdminID', 'tokenAdmin',]);
+        }
         return view('page/login_admin');
     }
 

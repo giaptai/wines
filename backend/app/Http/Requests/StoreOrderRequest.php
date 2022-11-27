@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class StoreOrderRequest extends FormRequest
 {

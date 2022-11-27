@@ -33,7 +33,6 @@ function ToastMess(mess) {
 }
 
 
-
 document.getElementById('search_id').addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();

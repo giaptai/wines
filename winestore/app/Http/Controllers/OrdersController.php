@@ -9,6 +9,15 @@ use Mockery\Undefined;
 
 class OrdersController extends Controller
 {
+    //trả về order
+    public function orderAll(Request $request)
+    {
+        // return $request->page;
+        // return 'http://127.0.0.1:8001/api/v1/orders' . $url;
+        $linkAPI = Http::withToken(session('tokenAdmin'))->get('http://127.0.0.1:8001/api/v1/orders?page=' . $request->page);
+        return $linkAPI['data'];
+    }
+
     //trả về view
     public function orderView($url)
     {
@@ -52,22 +61,28 @@ class OrdersController extends Controller
     public function modifyOrder(Request $request, $id)
     {
         // return $request->all();
-        if($request->input('plight') == -1){
-            $url = '?page=' . $request->input('page');
-        }else {
-            $url ='?status[eq]=' . $request->input('plight') . '&page=' . $request->input('page');
+        if ($request->input('search') != null) {
+            $url = '?id[eq]=' . app('request')->input('search');
+        } else {
+            if ($request->input('status') == -1) {
+                $url = '?page=' . $request->input('page');
+            } else {
+                $url = '?status[eq]=' . $request->input('status') . '&page=' . $request->input('page');
+            }
         }
-        // $url = $request->input('plight') != -1 ? '?status[eq]=' . $request->input('plight') . '&page=' . $request->input('page') : '?page=' . $request->input('page');
+        // $url = $request->input('status') != -1 ? '?status[eq]=' . $request->input('status') . '&page=' . $request->input('page') : '?page=' . $request->input('page');
         // return 'http://127.0.0.1:8001/api/v1/orders' . $url;
         $res = Http::withToken(session('tokenAdmin'))->patch(
             'http://127.0.0.1:8001/api/v1/orders/' . $id,
             [
                 'status' => $request->input('action')
             ]
-
         );
         // return $res;
-        return $this->orderView($url);
+        if ($res['status']) {
+            return response()->json(['status' => true, 'message' => $res['message'], 'respone' => $this->orderView($url)]);
+        } else return response()->json(['status' => false, 'message' => $res['message']]);
+        // return $this->orderView($url);
     }
 
     //trang quản lý chi tiết đơn hàng

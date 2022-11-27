@@ -28,7 +28,7 @@
         </li>
     </ul>
     <hr>
-    <div class="col-md-auto">
+    {{-- <div class="col-md-auto">
         <div class="d-flex">
             <span class="fs-3 p-2">16</span>
             <p class="card-text">Đơn chờ xác nhận</p>
@@ -43,5 +43,5 @@
             <span class="fs-3 p-2">1</span>
             <p class="card-text">Đơn đã xác nhận</p>
         </div>
-    </div>
+    </div> --}}
 </div>

@@ -13,7 +13,7 @@ function QueryAll(page) {
     let arr2 = [];
     let arr3 = [];
     let arr4 = [];
-
+    let query = '';
     var chbox = document.querySelectorAll('.input-checkbox');
     var country = document.querySelectorAll('.input-country');
     var brand = document.querySelectorAll('.input-brand');
@@ -24,10 +24,8 @@ function QueryAll(page) {
     // var dispose = 'ASC';
     var dispose = document.getElementById('dispose').value;
 
-
     for (var i = 0; i < chbox.length; i++) {
         if (chbox[i].checked) {
-            // arr.push(chbox[i].id.replace('wine', ''));
             arr.push(chbox[i].value);
         }
     }
@@ -42,7 +40,6 @@ function QueryAll(page) {
     for (var i = 0; i < brand.length; i++) {
         if (brand[i].checked) {
             arr3.push(brand[i].value);
-
         }
     }
 
@@ -52,14 +49,23 @@ function QueryAll(page) {
 
         }
     }
-    let query = 'arr=' + arr +
+    // console.log(arr, arr2, arr3, arr4)
+    query = 'arr=' + arr +
         '&arr2=' + arr2 +
         '&arr3=' + arr3 +
         '&arr4=' + arr4 +
         '&firstprice=' + firstprice +
         '&lastprice=' + lastprice +
-        '&page=' + (page == null ? 1 : page) +
-        '&dispose=' + dispose;
+        '&dispose=' + dispose +
+        '&page=' + (page == null ? 1 : page);
+    // query = (arr == '' ? '' : 'arr=' + arr) +
+    //     (arr2 == '' ? '' : '&arr2=' + arr2) +
+    //     (arr3 == '' ? '' : '&arr3=' + arr3) +
+    //     (arr4 == '' ? '' : '&arr4=' + arr4)
+    // '&firstprice=' + firstprice +
+    //     '&lastprice=' + lastprice +
+    //     '&dispose=' + dispose +
+    //     '&page=' + (page == null ? 1 : page);
     changeUrl(query);
     return query;
 }
@@ -85,16 +91,15 @@ function addtocart(id) {
     xhttp.send();
 }
 
-function filter(id) {
-    console.log(QueryAll());
+function filter() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
+            // console.log(this.responseText);
             document.getElementById('show-product').innerHTML = this.responseText;
         }
     };
-    xhttp.open('GET', '/shop/filter?' + QueryAll(), true);
+    xhttp.open('GET', '/shop/filter?' + QueryAll(1), true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();
@@ -109,7 +114,7 @@ function phantrang(page) {
             document.getElementById('show-product').innerHTML = this.responseText;
         }
     };
-    xhttp.open(formOk.method, '/shop/filter?' + QueryAll(page), true);
+    xhttp.open('GET', '/shop/filter?' + QueryAll(page), true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
     xhttp.send();

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class AuthController extends Controller
@@ -49,14 +50,18 @@ class AuthController extends Controller
 
             $user = User::where('email', $request->email)->first();
             if ($user->role_as == 1) {
+                $admin = Customer::where('user_id', $user->id)->first();
                 $token = $user->createToken("ADMIN TOKEN", ['admin:create', 'admin:update', 'admin:delete'])->plainTextToken;
                 return response()->json([
                     'status' => true,
-                    'message' => 'User Logged In Successfully',
+                    'message' => 'Admin Logged In Successfully',
                     'token' => $token,
+                    'data' => [
+                        $admin
+                    ]
                 ], 200);
             } else {
-                $customer=Customer::where('user_id',$user->id)->first();
+                $customer = Customer::where('user_id', $user->id)->first();
                 $token = $user->createToken("USER TOKEN", ['user:create', 'user:update', 'user:delete'])->plainTextToken;
                 // return response()->json([
                 //     'status' => true,
@@ -71,7 +76,7 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'User Logged In Successfully',
                 'token' => $token,
-                'data'=>[
+                'data' => [
                     $customer
                 ]
             ], 200);

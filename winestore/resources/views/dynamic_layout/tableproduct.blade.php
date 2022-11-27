@@ -159,7 +159,7 @@
                         </div>
                     </td>
                     <td>{!! $value['quantity'] !!}</td>
-                    <td>{!! number_format($value['price']) !!}</td>
+                    <td>{!! number_format($value['price']) !!} đ</td>
                     <td>{!! number_format($value['price'] * $value['quantity']) !!}</td>
                     <td>
                         <button type="button" class="btn" data-bs-toggle="modal"

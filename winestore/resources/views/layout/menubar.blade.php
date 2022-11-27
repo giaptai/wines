@@ -14,7 +14,7 @@
                 <div class="text-white">|</div>
             @endif
 
-            <li class="nav-item"><a class="nav-link text-light" href="{{ route('statistic') }}">Quản lý</a></li>
+            <li class="nav-item"><a class="nav-link text-light" href="{{ route('loginadmin') }}">Quản lý</a></li>
         </ul>
     </div>
     <nav class="navbar navbar-dark navbar-expand-lg nav-masthead shadow-sm pb-2 pt-0"

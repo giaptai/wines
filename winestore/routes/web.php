@@ -80,6 +80,9 @@ Route::prefix('admin')->group(function () {
   // Controller điều hương vô trang quản lý
   //trang quản lý thống kê
   Route::get('/login', [ManageController::class, 'LoginPage'])->name('loginadmin');
+
+  Route::get('/logout', [ManageController::class, 'LogoutPage'])->name('logoutadmin');
+
   //trang quản lý thống kê
   Route::get('/statistic', [ManageController::class, 'Statistic'])->name('statistic');
   //trang quản lý sản phẩm
@@ -107,6 +110,8 @@ Route::prefix('admin')->group(function () {
   Route::get('/search-order', [OrdersController::class, 'searchOrder'])->name('search-order');
   Route::get('/filter-order', [OrdersController::class, 'filterOrder'])->name('filter-order');
   Route::get('/order-details/{id}', [OrdersController::class, 'OrderDetails'])->name('order-details');
+  Route::get('/order-excel', [OrdersController::class, 'orderAll'])->name('order-excel');
+
 
   //QUẢN LÝ SẢN PHẨM
   Route::delete('/products/{id}', [ProductsController::class, 'deleteProduct'])->name('products-delete');
@@ -117,7 +122,6 @@ Route::prefix('admin')->group(function () {
   Route::get('/search-product', [ProductsController::class, 'searchProduct'])->name('search-product');
 
   Route::post('/uploadfile-product', [ProductsController::class, 'UploadFile'])->name('uploadfile-product');
-
 
   //trang thêm sản phẩm
   Route::get('/productspage', [ManageController::class, 'manage_product_add'])->name('productspage');
@@ -165,6 +169,8 @@ Route::prefix('account')->group(function () {
   Route::post('/my-account/signup', [ClientController::class, 'signUpAcc'])->name('client-signup');
   Route::post('/add-address', [ClientController::class, 'addAddress'])->name('add-address');
   Route::post('/change-password', [ClientController::class, 'changePassword'])->name('change-password');
+
+  Route::put('/cancel-order/{id}', [ClientController::class, 'cancelOrder'])->name('cancel-order');
 
 
   Route::put('/my-account/{id}', [ClientController::class, 'updateClient'])->name('my-infor-update');

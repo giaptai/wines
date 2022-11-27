@@ -29,7 +29,6 @@
         <div class="row vh-100">
             {{-- layout cứng không thay đổi --}}
             @include('layout.sidebar')
-
             {{-- layout cứng thay đổi --}}
             @yield('content_quanly')
         </div>

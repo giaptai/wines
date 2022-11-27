@@ -69,15 +69,16 @@ class ClientController extends Controller
         // return $respon;
         if ($respon['status']) {
             if ($request->input('loginadmin') == 'loginadmin') {
+                $request->session()->put('AdminID', $respon['data'][0]['id']);
                 $request->session()->put('tokenAdmin', $respon['token']);
-                return  redirect('admin/statistic');
+                return redirect('admin/statistic');
             } else {
                 // Cookie::queue('UserID', $respon['token'][0]['user_id'], 60);
                 $request->session()->put('UserID', $respon['data'][0]['id']);
                 $request->session()->put('tokenUser', $respon['token']);
-                return redirect('home');
+                return response()->json(['status' => true, 'message' => $respon['message']], 200);
             }
-        } else echo $respon['message'];
+        } else return response()->json(['status' => false, 'message' => $respon['message']], 200);
     }
 
     // đăng ký tài khoản
@@ -154,51 +155,12 @@ class ClientController extends Controller
         }
     }
 
-    // public function getClientView($action, $query, $page)
-    // {
-    //     if (session()->exists('UserEmail')) {
-    //         $getId = Http::get('http://127.0.0.1:8001/api/v1/customers?email[eq]=' . session('UserEmail'))['data'][0];
-    //         $strQuery = 'http://127.0.0.1:8001/api/v1/orders?customerId[eq]=' . $getId['user_id'] . ''; // lấy mặc định
-    //     }
-
-    //     $page = ($page == NULL ? 1 : $page);
-    //     switch ($action) {
-    //         case 'filter':
-    //             if ($query == -1) {
-    //                 $respon = Http::get($strQuery);
-    //             } else {
-    //                 $respon = Http::get($strQuery . '&status[eq]=' . $query . '&page=' . $page);
-    //             }
-    //             $orderclientArray = $respon['data'];
-    //             break;
-
-    //         case 'search':
-    //             if (isset($query)) {
-    //                 $respon = Http::get($strQuery . '/' . $query);
-    //                 if (isset($respon['data'])) {
-    //                     $orderclientArray = $respon['data'];
-    //                 } else $orderclientArray = $respon;
-    //             } else {
-    //                 $respon = Http::get($strQuery);
-    //                 $orderclientArray = $respon['data'];
-    //             }
-    //             break;
-
-    //         default:
-    //             $respon = Http::get($strQuery);
-    //             $orderclientArray = $respon['data'];
-    //             break;
-    //     }
-    //     $pagin = (!isset($respon['total']) ? 0 : $respon['total']);
-    //     $currentpage = $page;
-    //     return response(view('dynamic_layout.tableorderclient', compact('orderclientArray', 'pagin', 'currentpage')), 200);
-    // }
-
     public function getClientView($url)
     {
         $linkAPI = Http::withToken(session('tokenUser'))->get('http://127.0.0.1:8001/api/v1/orders?customerId[eq]=' . session('UserID') . $url);
         return (view('dynamic_layout.tableorderclient', ['OrderClient' => $linkAPI])->render());
     }
+
     // thêm 1 địa chỉ mới
     public function addAddress(Request $request)
     {
@@ -250,25 +212,24 @@ class ClientController extends Controller
         return $this->getClientView($url);
     }
 
-
     //cập nhật trạng thái thông tin cá nhân
     public function updateClient(Request $request, $id)
     {
         $respon = Http::withToken(session('tokenUser'))
             ->patch(
-                'http://127.0.0.1:8001/api/v1/customers/'.$id,
+                'http://127.0.0.1:8001/api/v1/customers/' . $id,
                 [
                     "firstname" => $request->input('firstname'),
                     "lastname" =>  $request->input('lastname'),
                     "phone" => $request->input('phone'),
                     "email" => $request->input('email'),
                     "city" => 'Không',
-                    "district"=>'Không',
-                    "wards"=>'Không',
+                    "district" => 'Không',
+                    "wards" => 'Không',
                     "address" => 'Không',
                 ]
             );
-            // return $respon;
+        // return $respon;
         if ($respon['status'] == true) {
             return response()->json([
                 'status' => true,
@@ -280,5 +241,32 @@ class ClientController extends Controller
                 'message' => 'Đổi thông tin cá nhân thất bại !'
             ], 200);
         }
+    }
+
+    //hủy đơn hàng
+    public function cancelOrder(Request $request, $id)
+    {
+        //  return $request->all();
+        if ($request->input('search') != null) {
+            $url = '&id[eq]=' . app('request')->input('search');
+        } else {
+            if ($request->input('status') == -1) {
+                $url = '&page=' . $request->input('page');
+            } else {
+                $url = '&status[eq]=' . $request->input('status') . '&page=' . $request->input('page');
+            }
+        }
+        // return 'http://127.0.0.1:8001/api/v1/orders?customerId[eq]=' . session('UserID') . $url;
+        $res = Http::withToken(session('tokenUser'))->patch(
+            'http://127.0.0.1:8001/api/v1/orders/' . $id,
+            [
+                'status' => $request->input('action')
+            ]
+        );
+        // return $res;
+        // return $this->getClientView($url);
+        if ($res['status']) {
+            return response()->json(['status' => true, 'message' => $res['message'], 'respone' => $this->getClientView($url)]);
+        } else return response()->json(['status' => false, 'message' => $res['message']]);
     }
 }

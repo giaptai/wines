@@ -5,10 +5,11 @@
             <th scope="col">Họ tên</th>
             <th scope="col">Email</th>
             <th scope="col">Điện thoại</th>
-            <th scope="col">Số nhà, đường</th>
+            {{-- <th scope="col">Chức vụ</th> --}}
+            {{-- <th scope="col">Số nhà, đường</th>
             <th scope="col">Quận/ huyện</th>
             <th scope="col">Phường/ xã</th>
-            <th scope="col">Thành phố/ tỉnh</th>
+            <th scope="col">Thành phố/ tỉnh</th> --}}
 
         </tr>
     </thead>
@@ -21,10 +22,11 @@
                 <td>{!!$item['lastname'].' '.$item['firstname']!!}</td>
                 <td>{!!$item['email']!!}</td>
                 <td>{!!$item['phone']!!}</td>
-                <td>{!!$item['address']!!}</td>
+                {{-- <td>{!! $item['type'] $item['phone']!!}</td> --}}
+                {{-- <td>{!!$item['address']!!}</td>
                 <td>{!!$item['district']!!}</td>
                 <td>{!!$item['wards']!!}</td>
-                <td>{!!$item['city']!!}</td>
+                <td>{!!$item['city']!!}</td> --}}
             </tr>
             @endforeach
         @else

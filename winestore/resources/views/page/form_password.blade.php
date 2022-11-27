@@ -1,15 +1,12 @@
 @if (session()->has('UserID') && session()->has('tokenUser'))
-    {!! session('tokenUser') !!}
     <?php
     $getUser = Http::withToken(session('tokenUser'))->get('http://127.0.0.1:8001/api/v1/customers/' . session('UserID'));
     ?>
-
     <form class="col-md-12 col-12 p-5 border" action="{{ route('change-password') }}" method="POST"
         enctype="multipart/form-data">
         @csrf
         <h2>Đổi mật khẩu</h2>
         <hr>
-
         {{-- {!! Request::get('token_change_pass') !!} --}}
         @if (Request::get('token_change_pass') != null)
             <div class="d-flex flex-column text-center border p-3 justify-content-center m-auto text-success"

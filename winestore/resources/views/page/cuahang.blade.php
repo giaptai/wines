@@ -5,19 +5,28 @@
         $Wines = Http::get('http://127.0.0.1:8001/api/v1/products');
         ?>
     @else
-        @php
-            $collection = app('request')->input('arr') == null ? '' : '[' . app('request')->input('arr') . ']'; // category
-            $collection2 = app('request')->input('arr2') == null ? '' : '[' . app('request')->input('arr2') . ']'; //country
-            $collection3 = app('request')->input('arr3') == null ? '' : '[' . app('request')->input('arr3') . ']'; //brand
-            $collection4 = '[' . str_replace('-', ',', app('request')->input('arr4')) . ']'; //tone
-            $firstprice = app('request')->input('firstprice') == null ? 0 : app('request')->input('firstprice'); //first-price
-            $lastprice = app('request')->input('lastprice') == null ? 9999999999 : app('request')->input('lastprice'); //first-price
-            $price = '[' . $firstprice . ',' . $lastprice . ']';
-            $page = app('request')->input('page') == null ? 1 : app('request')->input('page'); //page
-            $dispose = app('request')->input('dispose') == null ? 'ASC' : app('request')->input('dispose'); //ASC - DESC
-            $url = 'cateId[in]=' . $collection . '&originId[in]=' . $collection2 . '&brandId[in]=' . $collection3 . '&price[between]=' . $price . '&c[between]=' . $collection4 . '&price[sort]=' . $dispose . '&page=' . $page . '';
-            $Wines = Http::get('http://127.0.0.1:8001/api/v1/products?' . $url);
-        @endphp
+        @if (app('request')->input('qrname') != null)
+            @php
+                $url = 'name[like]=' . app('request')->input('qrname');
+                $Wines = Http::get('http://127.0.0.1:8001/api/v1/products?' . $url);
+            @endphp
+        @else
+            @php
+                // echo var_dump(app('request')->all());
+                $collection = app('request')->input('arr') == null ? '' : '[' . app('request')->input('arr') . ']'; // category
+                $collection2 = app('request')->input('arr2') == null ? '' : '[' . app('request')->input('arr2') . ']'; //country
+                $collection3 = app('request')->input('arr3') == null ? '' : '[' . app('request')->input('arr3') . ']'; //brand
+                $collection4 = '[' . str_replace('-', ',', app('request')->input('arr4')) . ']'; //tone
+                $firstprice = app('request')->input('firstprice') == null ? 0 : app('request')->input('firstprice'); //first-price
+                $lastprice = app('request')->input('lastprice') == null ? 9999999999 : app('request')->input('lastprice'); //first-price
+                $price = '[' . $firstprice . ',' . $lastprice . ']';
+                $page = app('request')->input('page') == null ? 1 : app('request')->input('page'); //page
+                $dispose = app('request')->input('dispose') == null ? 'ASC' : app('request')->input('dispose'); //ASC - DESC
+                $url = 'cateId[in]=' . $collection . '&originId[in]=' . $collection2 . '&brandId[in]=' . $collection3 . '&price[between]=' . $price . '&c[between]=' . $collection4 . '&price[sort]=' . $dispose . '&page=' . $page . '';
+                echo 'http://127.0.0.1:8001/api/v1/products?' . $url;
+                $Wines = Http::get('http://127.0.0.1:8001/api/v1/products?' . $url);
+            @endphp
+        @endif
     @endif
 
     <div class="container-md shadow my-4" style="width: 80%">
@@ -27,9 +36,9 @@
                     <button class="btn text-white fw-semibold rounded-0 w-100" type="button"
                         style="background-color: #bf0c2b">LỌC SẢN PHẨM </button>
                 </div>
-                <form action="{{ route('filter_shop') }}" method="GET" id="formOk">
+                {{-- <form action="{{ route('filter_shop') }}" method="GET" id="formOk"> --}}
                     <div class="card card-body rounded-0 border-0">
-                        <div class="mb-3">
+                        <div class="">
                             <label for="inputEmail3" class="col-sm-12 col-form-label fw-bold">Loại rượu</label>
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <ul class="list-group ">
@@ -50,8 +59,8 @@
                                 </ul>
                             </div>
                         </div>
-
-                        <div class="mb-3">
+                        <hr>
+                        <div class="">
                             <label for="inputEmail3" class="col-sm-12 col-form-label fw-bold">Quốc gia</label>
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-check">
@@ -69,8 +78,9 @@
                                 @endforeach
                             </div>
                         </div>
+                        <hr>
 
-                        <div class="mb-3">
+                        <div class="">
                             <label for="inputEmail3" class="col-sm-12 col-form-label fw-bold">Thương hiệu</label>
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-check">
@@ -88,8 +98,9 @@
                                 @endforeach
                             </div>
                         </div>
+                        <hr>
 
-                        <div class="mb-3">
+                        <div class="">
                             <label for="inputEmail3" class="col-sm-12 col-form-label fw-bold">Nồng độ</label>
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <ul class="list-group">
@@ -122,8 +133,9 @@
                                 </ul>
                             </div>
                         </div>
+                        <hr>
 
-                        <div class="mb-2">
+                        <div class="">
                             <label for="inputEmail3" class="col-sm-12 col-form-label fw-bold">Giá</label>
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="row">
@@ -149,7 +161,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                {{-- </form> --}}
             </div>
             {{-- Show sản phẩm --}}
             <div class="col-lg-9" id="show-product">

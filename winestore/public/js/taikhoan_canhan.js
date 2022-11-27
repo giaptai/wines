@@ -1,10 +1,28 @@
-// function QueryAll(page) {
-//     var search = document.getElementById('search_id').value;
-//     if (search != '') {
-//         query = 'name=' + search + '&page=' + page;
-//     } else query = 'page=' + page;
-//     return query;
-// }
+function changeUrl(url) {
+    const nextURL = '?' + url;
+    const nextTitle = 'My new page title';
+    const nextState = {
+        additionalInformation: 'Updated the URL with JS'
+    };
+    // window.history.pushState(nextState, nextTitle, nextURL);
+    window.history.replaceState(nextState, nextTitle, nextURL);
+}
+
+function QueryAll(page) {
+    var search = document.getElementById('search_id').value;
+    for (let i = 0; i < document.querySelectorAll('.btn-check').length; i++) {
+        if (document.querySelectorAll('.btn-check')[i].checked) {
+            statusOrder = document.querySelectorAll('.btn-check')[i].value;
+        }
+    }
+    if (search != '') {
+        // query = 'status=' + statusOrder + '&search=' + search + '&page=' + page;
+        query = 'search=' + search;
+    } else query = 'status=' + statusOrder + '&page=' + page;
+    changeUrl(query);
+    return query;
+}
+
 
 var input = document.getElementById('search_id');
 input.addEventListener("keypress", function (event) {
@@ -22,24 +40,36 @@ function ToastMess(mess) {
 }
 
 function phantrang(page) {
-    for (let i = 0; i < document.querySelectorAll('.btn-check').length; i++) {
-        if (document.querySelectorAll('.btn-check')[i].checked) {
-            let statusOrder = document.querySelectorAll('.btn-check')[i].value;
-            console.log(statusOrder);
-            // return;
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log(this.responseText);
-                    document.getElementById('donhangcanhan').innerHTML = this.responseText;
-                }
-            };
-            xhttp.open("GET", '/account/paginate-order-client?status=' + statusOrder + '&page=' + page, true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
-            xhttp.send();
+    // for (let i = 0; i < document.querySelectorAll('.btn-check').length; i++) {
+    //     if (document.querySelectorAll('.btn-check')[i].checked) {
+    //         let statusOrder = document.querySelectorAll('.btn-check')[i].value;
+    //         console.log(statusOrder);
+    //         // return;
+    //         var xhttp = new XMLHttpRequest();
+    //         xhttp.onreadystatechange = function () {
+    //             if (this.readyState == 4 && this.status == 200) {
+    //                 console.log(this.responseText);
+    //                 document.getElementById('donhangcanhan').innerHTML = this.responseText;
+    //             }
+    //         };
+    //         xhttp.open("GET", '/account/paginate-order-client?status=' + statusOrder + '&page=' + page, true);
+    //         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //         xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
+    //         xhttp.send();
+    //     }
+    // }
+    console.log(QueryAll(page))
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            document.getElementById('donhangcanhan').innerHTML = this.responseText;
         }
-    }
+    };
+    xhttp.open("GET", '/account/paginate-order-client?' + QueryAll(page), true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
+    xhttp.send();
 }
 
 function updateInfo(id) {
@@ -104,10 +134,11 @@ function addAddress() {
 // tìm kiếm mã đơn hàng
 function searched() {
     var search = document.getElementById('search_id').value;
-    if(search==''){
+    if (search == '') {
         phantrang(1);
         return;
     }
+    QueryAll(1)
     console.log(search);
     // return;
     var xhttp = new XMLHttpRequest();
@@ -128,11 +159,12 @@ for (let i = 0; i < document.querySelectorAll('.btn-check').length; i++) {
     document.querySelectorAll('.btn-check')[i].addEventListener('click', () => {
         console.log(document.querySelectorAll('.btn-check')[i].value);
         let statusOrder = document.querySelectorAll('.btn-check')[i].value;
-        // return;
+        document.getElementById('search_id').value = '';
+        QueryAll(1)
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
+                // console.log(this.responseText);
                 document.getElementById('donhangcanhan').innerHTML = this.responseText;
             }
         };
@@ -213,4 +245,36 @@ function changePassword() {
         '&oldpass=' + oldpass +
         '&newpass=' + newpass
     );
+}
+
+function ToastMessOrder(mess) {
+    const toastLiveExample = document.getElementById('liveToast');
+    document.getElementById('toast-order').innerHTML = mess;
+    const toast = new bootstrap.Toast(toastLiveExample)
+    toast.show()
+}
+
+function updateOrder(id, page) {
+    if (confirm('Bạn muốn hủy đơn hàng này ?')) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                let res = JSON.parse(this.responseText);
+                if (res.status == 1) {
+                    document.getElementById('donhangcanhan').innerHTML = res.respone;
+                    ToastMessOrder(res.message);
+                } else ToastMessOrder(res.message);
+            }
+        };
+        xhttp.open("PUT", '/account/cancel-order/' + id, true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector("[name=csrf-token]").content);
+        xhttp.send(
+            QueryAll(page) + '&action=3'
+        );
+    } else {
+        // Do nothing!
+        return;
+    }
 }

@@ -44,26 +44,24 @@ class OrderController extends Controller
         return $order->paginate();
     }
 
+    // hamf thoong ke
     public function statistic(Request $request)
     {
         $data = array();
+        $dataReceipts = array();
+        $dataRhino = array();
+        $ahihi = array('receipts' => [], 'rhino' => []);
         if ($request->query('year')) {
             for ($i = 1; $i <= 12; $i++) {
-                $order = Order::whereYear('created_at', $request->year)->where('status', 2)->whereMonth('created_at', $i);
-                // $data[$i]['receipts'] = $order->count();
-                // $data[$i]['rhino'] = $order->sum('total');
-                array_push(
-                    $data,
-                    [
-                        "receipts" => $order->count(),
-                        "rhino" => $order->sum('total')
-                    ]
-                );
+                $order = Order::whereYear('created_at', $request->year)->where('status', 1)->whereMonth('created_at', $i);
+                array_push($dataReceipts, $order->count(),);
+                array_push($dataRhino, $order->sum('total'));
             }
         }
-        return response()->json($data,200);
+        $ahihi['receipts'] = $dataReceipts;
+        $ahihi['rhino'] = $dataRhino;
+        return response()->json($ahihi, 200);
         // return $data;
-
     }
 
     /**

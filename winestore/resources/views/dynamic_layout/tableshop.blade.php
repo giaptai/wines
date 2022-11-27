@@ -4,8 +4,8 @@
             <select id="dispose" class="form-select form-select-sm rounded-0 text-center"
                 aria-label="Default select example" style="width: 11rem">
                 <option selected value="">------Xếp theo------</option>
-                <option {!! app('request')->input('dispose')!=null && $dispose == 'ASC' ? 'selected' : '' !!} value="ASC">Giá thấp đến cao</option>
-                <option {!! app('request')->input('dispose')!=null && $dispose == 'DESC' ? 'selected' : '' !!} value="DESC">Giá cao đến thấp</option>
+                <option {!! (app('request')->input('dispose')!=null && app('request')->input('dispose') == 'ASC')  ? 'selected' : '' !!} value="ASC">Giá thấp đến cao</option>
+                <option {!! (app('request')->input('dispose')!=null && app('request')->input('dispose') == 'DESC')  ? 'selected' : '' !!} value="DESC">Giá cao đến thấp</option>
             </select>
         </div>
         <div class="col-md-auto">

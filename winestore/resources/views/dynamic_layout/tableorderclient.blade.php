@@ -10,9 +10,12 @@
         </tr>
     </thead>
     <tbody>
+        <button type="button" class="btn btn-sm btn-primary my-3">
+            Tổng đơn cá nhân: <span class="badge text-bg-light">{!! $OrderClient['total']==null || $OrderClient['total']<=0 ? '0': $OrderClient['total'] !!} </span>
+        </button>
         @if (isset($OrderClient['data']) && $OrderClient['total'] > 0)
-            <?php $stt = ($OrderClient['current_page'] - 1) * 15;
-            echo 'Tổng đơn cá nhân: ' . $OrderClient['total']; ?>
+            <?php $stt = ($OrderClient['current_page'] - 1) * 15;?>
+            
             @foreach ($OrderClient['data'] as $item)
                 <tr>
                     <th scope="row">{!! ++$stt !!}</th>
@@ -33,11 +36,13 @@
                     <td>
                         @if ($item['status'] == 0)
                             <button class="btn btn-sm bi bi-x-lg text-danger"
-                                onclick="updateOrder(<?php echo $item['id']; ?>, 2, this.parentElement.parentElement)">
+                                onclick="updateOrder(<?php echo $item['id']; ?>, {!! $OrderClient['current_page'] !!})">
                             </button>
-                            <a class="btn btn-sm bi bi-exclamation-circle-fill text-primary" href="{{ route('my-order-details', ['id'=>$item['id']]) }}"></a>
+                            <a class="btn btn-sm bi bi-exclamation-circle-fill text-primary"
+                                href="{{ route('my-order-details', ['id' => $item['id']]) }}"></a>
                         @else
-                            <a class="btn btn-sm bi bi-exclamation-circle-fill text-primary" href="{{ route('my-order-details', ['id'=>$item['id']]) }}"></a>
+                            <a class="btn btn-sm bi bi-exclamation-circle-fill text-primary"
+                                href="{{ route('my-order-details', ['id' => $item['id']]) }}"></a>
                         @endif
                     </td>
                 </tr>
@@ -66,7 +71,7 @@
                     <li class="page-item"><a class="page-link"
                             onclick="phantrang({!! $i !!})">{!! $i !!}</a></li>
                 @endif
-            @endfor
+            @endfor 
         </ul>
     </nav>
 @endif

@@ -1,5 +1,4 @@
 @if (session()->has('UserID'))
-    {!! session('UserID') . '---' . session('tokenUser') !!}
     <?php
     $getUser = Http::withToken(session('tokenUser'))->get('http://127.0.0.1:8001/api/v1/customers/' . session('UserID'))['data'];
     ?>

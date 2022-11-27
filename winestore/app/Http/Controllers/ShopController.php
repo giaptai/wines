@@ -16,11 +16,11 @@ class ShopController extends Controller
 
     public function searchedShop(Request $request)
     {
-        $Wines = Http::get('http://localhost:8001/api/v1/products?name[like]=' . $request->input('qrname'));
+        // $Wines = Http::get('http://localhost:8001/api/v1/products?name[like]=' . $request->input('qrname'));
         // $url='name[like]=' . $request->input('qrname');
-        return view('dynamic_layout.tableshop', compact('Wines'));
-        // return $this->shopView($url);
-
+        // return view('dynamic_layout.tableshop', compact('Wines'));
+        // return view('page.cuahang', compact('Wines'));
+        return redirect('shop?qrname='.$request->input('qrname'));
     }
 
     public function FilterShop(Request $request)

@@ -1,4 +1,7 @@
 @if (session()->has('tokenAdmin'))
+    @php
+        $getAdmin = Http::withToken(session('tokenAdmin'))->get('http://127.0.0.1:8001/api/v1/customers/' . session('AdminID'))['data'];
+    @endphp
     @if (app('request')->all() == null)
         <?php
         $Brands = Http::get('http://127.0.0.1:8001/api/v1/brands?page=1');
@@ -9,6 +12,11 @@
             $Brands = Http::get('http://127.0.0.1:8001/api/v1/brands' . $url);
         @endphp
     @endif
+    <div style="background-color: #41484e" class="d-flex text-white justify-content-end p-3">
+        <span>{!! $getAdmin['lastname'] . ' ' . $getAdmin['firstname'] !!}</span>
+        <span class="mx-3">|</span>
+        <a class="text-danger fw-bold" href="{{ route('logoutadmin') }}">Đăng xuất</a>
+    </div>
     <div class="p-3 row row-cols-1 row-cols-md-3 bg-light justify-content-between">
         <div class="col-md-auto d-flex">
 

@@ -50,7 +50,7 @@
         </li>
         <li>
             <a class="nav-link @php echo Route::currentRouteName()=='accounts' ? 'link-light border border-white':'link-light' @endphp" href="{{ route('accounts') }}">
-                <i class="fa-solid fa-users"> </i> Khách hàng</a>
+                <i class="fa-solid fa-users"> </i> Tài khoản</a>
         </li>
         <li>
             <a class="nav-link @php echo Route::currentRouteName()=='categories' || Route::currentRouteName()=='add-category' ? 'link-light border border-white':'link-light' @endphp" href="{{ route('categories') }}">
